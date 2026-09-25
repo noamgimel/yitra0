@@ -6,12 +6,12 @@
 <title>מחשבון ההפסדים השקט לרואי חשבון | כמה המשרד שלך מפסיד על ניירת ורדיפה אחרי לקוחות?</title>
 <meta name="description" content="רואה חשבון? גלה תוך 60 שניות כמה שכר טרחה תקוע אצל הלקוחות שלך וכמה שעות המשרד שורף על רדיפה אחריהם. 5 לחיצות, בלי אינטגרציה.">
 <meta name="theme-color" content="#0B2E24">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Rubik:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts.css?v=3">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 <style>
   /* ---------- Hero ---------- */
   .hero { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 72px; }
@@ -19,30 +19,15 @@
   .hero .preview-wrap { margin-top: 178px; }
   .hero h1 { font-size: clamp(32px, 4.4vw, 52px); line-height: 1.1; margin-top: 18px; }
   .hero h1 .kicker { display: block; font-size: .46em; font-weight: 700; margin-bottom: 12px; letter-spacing: 0; }
-  .hero h2 { margin-top: 18px; font-size: clamp(17px, 1.9vw, 21px); font-weight: 400; line-height: 1.7; color: rgba(248, 244, 234, .82); max-width: 590px; }
-  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-  .hero-pains { margin-top: 18px; max-width: 600px; padding: 20px 22px; border-radius: 20px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .1); border-inline-start: 3px solid var(--loss-light); }
-  .hp-title { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: var(--cream); }
-  .hero-pains ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 7px; }
-  .hero-pains li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; line-height: 1.55; color: rgba(248, 244, 234, .82); }
-  .hero-pains li strong { color: var(--cream); font-weight: 700; }
-  .hp-x { width: 22px; height: 22px; border-radius: 50%; flex: none; margin-top: 2px; display: grid; place-items: center; background: rgba(255, 155, 133, .16); color: var(--loss-light); }
-  .hp-x svg { width: 12px; height: 12px; }
-  .hero-ai { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(248, 244, 234, .16); display: flex; gap: 10px; align-items: flex-start; font-size: 16px; line-height: 1.55; color: rgba(248, 244, 234, .9); }
-  .hero-ai > .spark { width: 20px; height: 20px; color: var(--accent); margin-top: 2px; animation: twinkle 2.4s ease-in-out infinite; }
-  .hero-ai b { color: var(--accent); }
 
   .float-chat { position: absolute; z-index: 3; top: -178px; inset-inline-end: -40px; width: 250px; display: grid; gap: 7px; transform: rotate(3deg); animation: float2 6s ease-in-out infinite; }
   @keyframes float2 { 50% { transform: rotate(3deg) translateY(8px); } }
+  @media (max-width: 1200px) { .float-chat { inset-inline-end: 0; } }   /* שלא תיחתך בקצה המסך בדסקטופ קטן */
   .fc-msg { position: relative; padding: 8px 12px 18px; border-radius: 14px; font-size: 14px; line-height: 1.45; color: #111B21; box-shadow: 0 12px 26px -10px rgba(0, 0, 0, .55); max-width: 92%; }
   .fc-msg time { position: absolute; bottom: 3px; inset-inline-end: 10px; font-size: 10.5px; opacity: .55; }
   .fc-out { justify-self: end; background: #D9FDD3; border-start-end-radius: 4px; }
   .fc-in { justify-self: start; background: #fff; border-start-start-radius: 4px; }
   .fc-seen { justify-self: end; font-size: 12px; font-weight: 800; color: #fff; background: var(--loss); padding: 3px 10px; border-radius: 999px; box-shadow: 0 8px 20px -8px rgba(224, 88, 63, .8); }
-  .hero-body { margin-top: 18px; color: rgba(248, 244, 234, .78); max-width: 590px; display: grid; gap: 4px; font-size: 16px; }
-  .hero-body strong { color: var(--cream); }
-  .zero-int { margin-top: 4px; }
-  .zero-int b { color: var(--accent); font-weight: 700; }
   .hero-bullets { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 12px; }
   .hero-bullets li { display: flex; align-items: center; gap: 12px; font-size: clamp(17px, 1.7vw, 20px); color: rgba(248, 244, 234, .85); }
   .hero-bullets b { color: var(--cream); font-weight: 700; }
@@ -129,6 +114,7 @@
   .opt:active { transform: scale(.985); }
   .opt:hover { border-color: rgba(244, 183, 64, .6); background: rgba(248, 244, 234, .09); transform: translateX(-4px); }
   .opt.selected { border-color: var(--accent); background: rgba(244, 183, 64, .14); }
+  .opt:focus-visible { outline: 2px solid rgba(248, 244, 234, .75); outline-offset: 3px; }   /* פוקוס מקלדת נראה שונה מתשובה שנבחרה */
   .opt-key { width: 36px; height: 36px; border-radius: 50%; flex: none; display: grid; place-items: center; font-weight: 800; font-size: 15px; background: rgba(248, 244, 234, .1); transition: background .25s, color .25s; }
   .opt.selected .opt-key { background: var(--accent); color: var(--brand-900); }
   .opt-text { display: grid; gap: 2px; }
@@ -146,7 +132,6 @@
   .calc-logo::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 55%, var(--accent) 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); animation: spin 1.1s linear infinite; }
   .calc-logo img { border-radius: 22px; box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .6); animation: breathe 1.6s ease-in-out infinite; }
   @keyframes breathe { 50% { transform: scale(1.06); } }
-  .spinner { width: 80px; height: 80px; margin: 0 auto 28px; border-radius: 50%; border: 4px solid rgba(248, 244, 234, .1); border-top-color: var(--accent); animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .calc-list { list-style: none; margin: 30px auto 0; padding: 0; max-width: 440px; display: grid; gap: 12px; text-align: start; }
   .calc-list li { display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: 16px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .1); color: rgba(248, 244, 234, .55); transition: color .3s, border-color .3s; }
@@ -157,7 +142,9 @@
   .calc-list li.done .tick svg { opacity: 1; }
 
   /* מסך לכידת הליד */
-  .lead-card { padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--cream); color: var(--ink); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6); }
+  .lead-card { display: flex; flex-direction: column; padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--cream); color: var(--ink); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6); }
+  .lead-card > .pill { align-self: flex-start; }
+  .hp-field { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }   /* מלכודת לבוטים — לא נראה למשתמשים */
   .lead-card .q-hint { color: rgba(11, 46, 36, .72); }
   .lead-form { margin-top: 26px; display: grid; gap: 16px; }
   .field label { display: block; font-weight: 700; font-size: 15.5px; margin-bottom: 7px; }
@@ -192,6 +179,11 @@
     .float-chat { position: relative; top: auto; inset-inline-end: auto; width: auto; max-width: 300px; margin: 0 0 18px auto; transform: none; animation: none; }
     .discover { grid-template-columns: 1fr; }
   }
+  /* טאבלט: שתי עמודות, והכרטיס הכהה השלישי על כל הרוחב */
+  @media (min-width: 600px) and (max-width: 960px) {
+    .discover { grid-template-columns: 1fr 1fr; }
+    .discover .card:last-child { grid-column: 1 / -1; }
+  }
   @media (max-width: 760px) {
     .hero { padding-block: 100px 80px; min-height: auto; }
     .hero-ctas { flex-direction: column; align-items: stretch; }
@@ -200,6 +192,8 @@
     .t-step::before { top: 52px; inset-inline-start: 25px; }
     .opt { padding: 16px; }
     .kbd-hint { display: none; }
+    .lead-card .lead-form { order: 1; }                 /* במובייל: הטופס מעל קופסת ההבטחות, כדי שהשדות יהיו בקפל הראשון */
+    .lead-card .bribe { order: 2; margin-top: 18px; }
   }
 
   /* ============================================================
@@ -208,18 +202,8 @@
   @media (max-width: 760px) {
     .site-header .pill { display: none; }                 /* "לוקח פחות מ-60 שניות" — מופיע גם ליד הכפתור */
     .hero { padding-block: 88px 56px; }
-    .hero-pills .pill { font-size: 12.5px; padding: 6px 12px; }
     .hero h1 { font-size: 30px; margin-top: 14px; }
     .hero h1 .kicker { font-size: .5em; margin-bottom: 8px; }
-    .hero h2 { font-size: 16px; line-height: 1.6; margin-top: 14px; }
-    .hero-body { margin-top: 12px; font-size: 14.5px; }
-    .hero-pains { margin-top: 18px; padding: 16px; }
-    .hp-title { font-size: 16px; }
-    .hero-pains ul { gap: 8px; }
-    .hero-pains li { font-size: 14.5px; gap: 10px; }
-    .hp-x { width: 20px; height: 20px; }
-    .hero-ai { font-size: 14.5px; }
-    .hero-ctas .btn-ghost-light { display: none; }
     .hero-bullets { margin-top: 18px; gap: 10px; }
     .hero-bullets li { font-size: 16px; }
     .hb-ck { width: 24px; height: 24px; }       /* משני — יש כפתור דביק למטה */
@@ -430,14 +414,15 @@
         <form class="lead-form" id="leadForm" novalidate>
           <div class="field">
             <label for="fName">שם מלא</label>
-            <input id="fName" name="name" type="text" autocomplete="name" placeholder="איך קוראים לך?" required>
-            <span class="err">נא להזין שם</span>
+            <input id="fName" name="name" type="text" autocomplete="name" placeholder="איך קוראים לך?" required aria-describedby="fNameErr">
+            <span class="err" id="fNameErr" role="alert">נא להזין שם</span>
           </div>
           <div class="field">
             <label for="fPhone">טלפון <small>(כדי שנוכל לשלוח לך את התוצאות גם לוואטסאפ)</small></label>
-            <input id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000" required>
-            <span class="err">נא להזין מספר טלפון תקין</span>
+            <input id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000" required aria-describedby="fPhoneErr">
+            <span class="err" id="fPhoneErr" role="alert">נא להזין מספר טלפון תקין</span>
           </div>
+          <div class="hp-field" aria-hidden="true"><label>אתר <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
           <button type="submit" class="btn btn-primary shine btn-block" id="leadSubmit">
             <span id="leadSubmitText">שלחו לי את דוח ההפסדים ומפת הדרכים</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
@@ -450,11 +435,12 @@
   </div>
 </div>
 
-<script src="config.js?v=2"></script>
+<script src="config.js?v=3"></script>
 <script>
 (function () {
   "use strict";
   var CFG = window.FUNNEL_CONFIG || {};
+  var fmt = function (n) { return Math.round(n).toLocaleString("he-IL"); };
 
   /* ---------- שם המותג ---------- */
   document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
@@ -519,7 +505,7 @@
   var TOTAL = QUESTIONS.length;
   var answers = {};      // id -> index של התשובה
   var current = 0;
-  var KEYS = ["א", "ב", "ג", "ד"];
+  var KEYS = ["1", "2", "3", "4"];   // תואם לרמז "1-4 במקלדת"
 
   var quiz = document.getElementById("quiz");
   var screensWrap = document.getElementById("qScreens");
@@ -575,17 +561,30 @@
     setTimeout(function () { sel.focus({ preventScroll: true }); }, 60);
   }
 
+  /* נעילת גלילה שעובדת גם באייפון (overflow:hidden לבד לא מספיק שם) */
+  var lockedY = 0;
+  function lockScroll() {
+    lockedY = window.scrollY;
+    document.body.style.position = "fixed"; document.body.style.top = -lockedY + "px";
+    document.body.style.width = "100%"; document.body.style.overflow = "hidden";
+  }
+  function unlockScroll() {
+    document.body.style.position = ""; document.body.style.top = "";
+    document.body.style.width = ""; document.body.style.overflow = "";
+    window.scrollTo(0, lockedY);
+  }
+
   function openQuiz() {
     lastFocus = document.activeElement;
     quiz.classList.add("open");
-    document.body.style.overflow = "hidden";
+    lockScroll();
     track("QuizStart");
     goTo(0);
   }
 
   function closeQuiz() {
     quiz.classList.remove("open");
-    document.body.style.overflow = "";
+    unlockScroll();
     if (lastFocus) lastFocus.focus();
   }
 
@@ -627,6 +626,20 @@
     if (!active) return;
     var n = parseInt(e.key, 10);
     if (n >= 1 && n <= 4) choose(+active.dataset.index, n - 1);
+  });
+
+  /* לכידת פוקוס בתוך הדיאלוג: Tab לא בורח לדף שמאחור */
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Tab" || !quiz.classList.contains("open")) return;
+    var els = Array.prototype.filter.call(
+      quiz.querySelectorAll('button:not([hidden]):not([disabled]), input:not([disabled]), a[href]'),
+      function (el) { return el.offsetParent !== null; }
+    );
+    if (!els.length) return;
+    var first = els[0], last = els[els.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    else if (!quiz.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
   });
 
   /* ---------- מסך החישוב ---------- */
@@ -685,7 +698,16 @@
 
   /* ---------- טופס הליד ---------- */
   var form = document.getElementById("leadForm");
+  var SUBMIT_TEXT = document.getElementById("leadSubmitText").textContent;
   function setErr(input, bad) { input.setAttribute("aria-invalid", bad ? "true" : "false"); return !bad; }
+  // הודעת השגיאה נעלמת ברגע שמתחילים לתקן
+  ["name", "phone"].forEach(function (f) { form[f].addEventListener("input", function () { setErr(form[f], false); }); });
+  // אם הדפדפן שחזר את הדף מהמטמון אחרי "חזור" — הכפתור לא נשאר נעול
+  addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    document.getElementById("leadSubmit").disabled = false;
+    document.getElementById("leadSubmitText").textContent = SUBMIT_TEXT;
+  });
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -704,7 +726,7 @@
     var result = { name: name.split(" ")[0], fullName: name, result: r, at: Date.now() };
     try { sessionStorage.setItem("qf_result", JSON.stringify(result)); } catch (err) {}
 
-    /* Payload שטוח וברור למיפוי ב-Make (FixDigital CRM + רצפי וואטסאפ) */
+    /* Payload שטוח — נקלט ב-LeadSync (receiveWebsiteLead) וגם ב-Google Apps Script */
     var utm = utmParams();
     var payload = {
       event: "quiz_lead",
@@ -712,7 +734,7 @@
       submitted_at: new Date().toISOString(),
       name: name,
       first_name: name.split(" ")[0],
-      email: "",            /* הטופס לא אוסף אימייל; המפתח נשאר כדי שהמיפוי ב-Make לא יישבר */
+      email: "",            /* הטופס לא אוסף אימייל; המפתח נשאר כדי שהמיפוי בצד המקבל לא יישבר */
       phone: form.phone.value.trim(),
       phone_intl: phoneIntl(form.phone.value),
       q1_question: "שכר טרחה פתוח שעבר את מועד התשלום",
@@ -739,10 +761,29 @@
       utm_term: utm.utm_term,
       page_url: location.href.split("?")[0]
     };
+    if (CFG.leadFormId) payload.form_id = CFG.leadFormId;          /* אימות מול LeadSync */
+    if (CFG.leadSecretKey) payload.secret_key = CFG.leadSecretKey;
+    payload.notes = leadNotes(payload);                              /* סיכום קריא לשדה ההערות של הליד */
 
-    track("Lead");
-    sendLead(payload).then(function () { location.href = "results.html"; });
+    var isBot = !!(form.website && form.website.value.trim());       /* מלכודת: בני אדם לא רואים את השדה */
+    if (!isBot) track("Lead");
+    (isBot ? Promise.resolve() : sendLead(payload)).then(function () { location.href = "results.html"; });
   });
+
+  /* סיכום השאלון בעברית — נכנס לשדה ההערות של הליד ב-LeadSync */
+  function leadNotes(p) {
+    return [
+      "ליד ממחשבון ההפסדים (יתרה 0)",
+      "הפסד חודשי מוערך: ₪" + fmt(p.estimated_loss) + " · שעות בחודש: " + p.hours_per_month + " · שכר טרחה פתוח: ₪" + fmt(p.outstanding_fees),
+      "הדליפה הגדולה: " + p.biggest_leak_label,
+      "1. " + p.q1_question + ": " + p.q1_answer,
+      "2. " + p.q2_question + ": " + p.q2_answer,
+      "3. " + p.q3_question + ": " + p.q3_answer,
+      "4. " + p.q4_question + ": " + p.q4_answer,
+      "5. " + p.q5_question + ": " + p.q5_answer,
+      "מקור: " + p.utm_source + (p.utm_campaign ? " / " + p.utm_campaign : "")
+    ].join("\n");
+  }
 
   var LEAK_LABELS = {
     chase: "רדיפה אחרי לקוחות",
@@ -759,25 +800,29 @@
   }
 
   /**
-   * שליחה ל-Webhook (Make / Apps Script).
-   * ניסיון ראשון: JSON נקי (application/json) — Make ממפה את השדות אוטומטית.
-   * אם הדפדפן חוסם (CORS), נשלח שוב כ-form-urlencoded — גם אותו Make מפרק לשדות.
+   * שליחה ל-Webhook (LeadSync / Apps Script) — בלי לאבד לידים בשקט:
+   * ניסיון 1: JSON רגיל. אם השרת תומך ב-CORS מקבלים תשובה אמיתית ובודקים שהיא תקינה.
+   * ניסיון 2 (אם הראשון נכשל או החזיר שגיאה): text/plain במצב no-cors — עובר בלי preflight,
+   *   ושני הצדדים (LeadSync ו-Apps Script) יודעים לפרסר JSON מגוף טקסט. התשובה אטומה, אז מניחים שהגיע.
+   * אם גם זה נכשל (אין רשת), הליד נשמר ב-localStorage ונשלח שוב מדף התוצאות או דף התודה.
    */
+  var PENDING_KEY = "qf_pending_lead";
+  function postLead(payload) {
+    var url = CFG.leadWebhookUrl, body = JSON.stringify(payload);
+    return fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true })
+      .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return true; })
+      .catch(function () {
+        return fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body, keepalive: true })
+          .then(function () { return true; });
+      });
+  }
   function sendLead(payload) {
     if (!CFG.leadWebhookUrl) return Promise.resolve();
-    var req = fetch(CFG.leadWebhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true
-    }).catch(function () {
-      return fetch(CFG.leadWebhookUrl, {
-        method: "POST", mode: "no-cors",
-        body: new URLSearchParams(payload),
-        keepalive: true
-      }).catch(function () {});
-    });
-    // לא מחכים יותר מ-2.5 שניות — הלקוח חייב לראות תוצאות
+    try { localStorage.setItem(PENDING_KEY, JSON.stringify({ payload: payload, attempts: 0 })); } catch (e) {}
+    var req = postLead(payload)
+      .then(function () { try { localStorage.removeItem(PENDING_KEY); } catch (e) {} })
+      .catch(function () {});
+    // לא מחכים יותר מ-2.5 שניות — הלקוח חייב לראות תוצאות (keepalive ממשיך את השליחה ברקע)
     return Promise.race([req, new Promise(function (res) { setTimeout(res, 2500); })]);
   }
 

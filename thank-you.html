@@ -6,12 +6,12 @@
 <title>הפגישה נקבעה | מחשבון ההפסדים השקט לרואי חשבון</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0B2E24">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Rubik:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts.css?v=3">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 <style>
   .ty-hero { padding-block: 130px 90px; text-align: center; }
   .ty-hero .container { position: relative; z-index: 2; }
@@ -134,7 +134,7 @@
   </div>
 </section>
 
-<!-- המלצה: להחליף בהמלצה אמיתית של לקוח, או למחוק את כל הסקשן -->
+<!-- סקשן ההמלצה מוסתר עד שתהיה המלצה אמיתית של לקוח. כדי להחזיר אותו: להסיר את סימני ההערה ולהחליף את הטקסט שבסוגריים.
 <section class="section mesh-cream-warm" id="testimonial">
   <div class="container">
     <div class="testi reveal">
@@ -144,6 +144,7 @@
     </div>
   </div>
 </section>
+-->
 
 <section class="section mesh-deep noise">
   <div class="container" style="position:relative;z-index:2">
@@ -166,19 +167,21 @@
   </div>
 </footer>
 
-<script src="config.js?v=2"></script>
+<script src="config.js?v=3"></script>
 <script>
 (function () {
   "use strict";
   var CFG = window.FUNNEL_CONFIG || {};
   var fmt = function (n) { return Math.round(n).toLocaleString("he-IL"); };
+  var money = function (n) { return "\u2066₪" + fmt(n) + "\u2069"; };
+  retryPendingLead();
   document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
   document.getElementById("year").textContent = new Date().getFullYear();
 
   var data = null;
   try { data = JSON.parse(sessionStorage.getItem("qf_result") || "null"); } catch (e) {}
   if (data && data.name) document.getElementById("tyTitle").textContent = "מעולה, " + data.name + "! פגישת ההדגמה שלנו נקבעה.";
-  if (data && data.result) document.getElementById("agendaNums").textContent = " (לפי השאלון: כ-" + fmt(data.result.hours) + " שעות ו-₪" + fmt(data.result.monthly) + " בחודש)";
+  if (data && data.result) document.getElementById("agendaNums").textContent = " (לפי השאלון: כ-" + fmt(data.result.hours) + " שעות ו-" + money(data.result.monthly) + " בחודש)";
 
   document.getElementById("waBtn").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, קבעתי פגישת הדגמה ויש לי שאלה");
 
@@ -189,6 +192,20 @@
 
   var header = document.getElementById("siteHeader");
   addEventListener("scroll", function () { header.classList.toggle("scrolled", scrollY > 30); }, { passive: true });
+
+  /* ליד שלא הצליח להישלח מהשאלון נשלח שוב מכאן (עד 3 ניסיונות; LeadSync מאחד כפילויות לפי טלפון) */
+  function retryPendingLead() {
+    var url = CFG.leadWebhookUrl; if (!url) return;
+    var rec = null;
+    try { rec = JSON.parse(localStorage.getItem("qf_pending_lead") || "null"); } catch (e) {}
+    if (!rec || !rec.payload) return;
+    if ((rec.attempts || 0) >= 3) { try { localStorage.removeItem("qf_pending_lead"); } catch (e) {} return; }
+    rec.attempts = (rec.attempts || 0) + 1; rec.payload.retry = rec.attempts;
+    try { localStorage.setItem("qf_pending_lead", JSON.stringify(rec)); } catch (e) {}
+    fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(rec.payload), keepalive: true })
+      .then(function () { try { localStorage.removeItem("qf_pending_lead"); } catch (e) {} })
+      .catch(function () {});
+  }
 })();
 </script>
 </body>

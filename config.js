@@ -5,9 +5,16 @@ window.FUNNEL_CONFIG = {
   /** שם המערכת / העסק — מופיע בלוגו ובכותרות */
   brand: "יתרה 0",
 
-  /** כתובת Web App של Google Apps Script (או Webhook של Make) לקליטת הלידים.
-      ריק = הלידים לא נשלחים לשום מקום (רק לבדיקות). ראו google-apps-script.gs */
+  /** כתובת ה-Webhook לקליטת הלידים. ההחלטה (ספטמבר 2026): LeadSync —
+      "https://leadsync.co.il/api/functions/receiveWebsiteLead"
+      (חלופה לבדיקות או לגיבוי: Web App של Google Apps Script, ראו google-apps-script.gs).
+      ריק = הלידים לא נשלחים לשום מקום. */
   leadWebhookUrl: "",
+
+  /** מזהה הטופס והמפתח הסודי מחיבור הטופס ב-LeadSync (מסך האינטגרציות ← טפסים).
+      נשלחים עם כל ליד כ-form_id / secret_key. ריק = לא נשלחים (Apps Script לא צריך אותם). */
+  leadFormId: "",
+  leadSecretKey: "",
 
   /** קישור ה-Calendly להטמעה בדף התוצאות, למשל:
       "https://calendly.com/your-name/30min"

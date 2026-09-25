@@ -6,12 +6,12 @@
 <title>התוצאות שלך | מחשבון ההפסדים השקט לרואי חשבון</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0B2E24">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Rubik:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts.css?v=3">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -20,7 +20,7 @@
   .gut b { color: var(--loss-light); }
   .r-hero h1 { font-size: clamp(30px, 4.6vw, 54px); line-height: 1.15; margin-top: 22px; max-width: 980px; }
   .num-hl { color: var(--accent); white-space: nowrap; }
-  .num-loss { color: var(--loss-light); white-space: nowrap; }
+  .num-loss { color: var(--loss-light); white-space: nowrap; direction: ltr; unicode-bidi: isolate; }
   .stats { margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .stat { position: relative; padding: 24px; border-radius: 22px; background: var(--cream); color: var(--ink); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); overflow: hidden; }
   .stat::after { content: ""; position: absolute; inset-inline: 0; top: 0; height: 4px; background: var(--c, var(--accent)); }
@@ -61,7 +61,7 @@
   .dash-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(11, 46, 36, .08); }
   .dash-top img { height: 26px; width: auto; }
   .dash-live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--brand-600); }
-  .dash-live i { width: 8px; height: 8px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 0 4px rgba(34, 197, 94, .18); animation: blink 2s infinite; }
+  .dash-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 0 4px rgba(14, 159, 110, .18); animation: blink 2s infinite; }
   .dash-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
   .kpi { padding: 14px 16px; border-radius: 16px; background: #fff; border: 1px solid rgba(11, 46, 36, .07); }
   .kpi span { display: block; font-size: 13px; font-weight: 600; color: rgba(11, 46, 36, .6); }
@@ -71,7 +71,7 @@
   .kpi.auto { background: linear-gradient(160deg, var(--accent-bright), var(--accent)); border-color: transparent; }
   .kpi.auto span { color: rgba(11, 46, 36, .75); }
   .dash-bar { margin-top: 14px; height: 8px; border-radius: 8px; background: rgba(224, 88, 63, .18); overflow: hidden; }
-  .dash-bar span { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--brand-600), #34D399); }
+  .dash-bar span { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--brand-600), var(--aqua)); }
   .dash-table { margin-top: 16px; border-radius: 16px; overflow: hidden; background: #fff; border: 1px solid rgba(11, 46, 36, .07); font-size: 14.5px; }
   .dr { display: grid; grid-template-columns: 1.6fr .8fr .8fr .8fr 1.3fr; gap: 10px; align-items: center; padding: 12px 16px; border-top: 1px solid rgba(11, 46, 36, .06); }
   .dr:first-child { border-top: 0; }
@@ -91,14 +91,15 @@
   }
 
   /* ---------- AI ---------- */
-  .ai-insight { margin-top: 14px; display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: linear-gradient(90deg, rgba(244, 183, 64, .16), rgba(52, 211, 153, .12)); border: 1px solid rgba(244, 183, 64, .35); font-size: 14.5px; line-height: 1.6; }
+  .ai-insight { margin-top: 14px; display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: linear-gradient(90deg, rgba(244, 183, 64, .16), rgba(45, 212, 191, .12)); border: 1px solid rgba(244, 183, 64, .35); font-size: 14.5px; line-height: 1.6; }
   .ai-insight > .spark { width: 22px; height: 22px; color: var(--accent-deep); margin-top: 1px; animation: twinkle 2.4s ease-in-out infinite; }
   .ai-insight b { color: var(--brand-900); }
+  .section-head .brand-chip { display: flex; width: fit-content; margin-bottom: 22px; }
   .ai-block { margin-top: clamp(56px, 7vw, 88px); }
   .ai-head h3 { margin-top: 14px; font-size: clamp(26px, 3.4vw, 40px); }
   .ai-grid { margin-top: 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .ai-card { position: relative; padding: 24px; border-radius: 22px; background: rgba(248, 244, 234, .04); border: 1px solid rgba(248, 244, 234, .1); overflow: hidden; transition: transform .4s var(--ease), border-color .4s; }
-  .ai-card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(244, 183, 64, .6), transparent 40%, transparent 60%, rgba(52, 211, 153, .5)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .ai-card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(244, 183, 64, .6), transparent 40%, transparent 60%, rgba(45, 212, 191, .5)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
   .ai-card:hover { transform: translateY(-6px); }
   .ai-ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-bright), var(--accent)); color: var(--brand-900); box-shadow: 0 10px 24px -10px rgba(244, 183, 64, .6); }
   .ai-ic svg { width: 24px; height: 24px; }
@@ -156,7 +157,7 @@
   .vs-row b { display: block; font-size: 16.5px; }
   .vs-row div span { display: block; margin-top: 2px; font-size: 14px; color: rgba(248, 244, 234, .66); line-height: 1.5; }
   .vs-price { flex: none; text-align: end; font-family: var(--font-display); font-weight: 800; font-size: 19px; color: var(--accent); white-space: nowrap; }
-  .vs-price small { display: block; font-family: var(--font); font-size: 12px; font-weight: 600; color: rgba(248, 244, 234, .55); }
+  .vs-price small { display: block; font-family: var(--font); font-size: 13px; font-weight: 600; color: rgba(248, 244, 234, .55); }
   .vs-sub { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(248, 244, 234, .05); font-size: 15px; }
   .vs-sub b { color: var(--accent); font-family: var(--font-display); }
   .vs-bonus-title { margin-top: 26px; font-family: var(--font-display); font-weight: 800; font-size: 18px; }
@@ -195,6 +196,7 @@
   @keyframes bob { 50% { transform: translateY(6px); } }
   .calendar { margin-top: 28px; border-radius: 28px; background: var(--cream); padding: 10px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7); scroll-margin-top: 90px; }
   #calendlyBox { min-height: 700px; border-radius: 20px; overflow: hidden; }
+  #calendlyBox:has(.cal-placeholder) { min-height: 0; }
   .cal-placeholder { min-height: 520px; display: grid; place-items: center; text-align: center; color: rgba(11, 46, 36, .65); padding: 30px; border: 2px dashed rgba(11, 46, 36, .18); border-radius: 20px; }
   .cal-placeholder b { display: block; font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 6px; }
   .cal-placeholder code { direction: ltr; display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(11, 46, 36, .07); font-size: 14px; }
@@ -245,7 +247,6 @@
     #calendlyBox { min-height: 1000px; }
     .calendar { padding: 6px; border-radius: 22px; }
   }
-  @media (max-width: 380px) { .stats { grid-template-columns: 1fr; } }
 
   /* ============================================================
      מובייל: פחות מלל, בלי כפילויות
@@ -254,10 +255,10 @@
   @media (max-width: 760px) {
     .r-hero { padding-block: 92px 56px; }
     .r-hero h1 { font-size: 27px; }
-    .stats { grid-template-columns: 1fr 1fr !important; gap: 10px; margin-top: 28px; }
+    .stats { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
     .stat { padding: 14px; border-radius: 18px; }
     .stat-label { font-size: 12.5px; }
-    .stat-val { font-size: 24px; }
+    .stat-val { font-size: clamp(18px, 6.2vw, 24px); letter-spacing: -.01em; }   /* מתכווץ במסכים צרים כדי ש-₪212,400 לא ייחתך */
     .stat-note { display: none; }
     .r-text { font-size: 15.5px; margin-top: 24px; }
 
@@ -322,6 +323,8 @@
     .g-item { padding: 16px 18px; }
     .ps { gap: 16px; font-size: 16px; }
   }
+  /* מסכים צרים במיוחד (320-380): אחרי בלוק המובייל כדי שבאמת יגבר עליו */
+  @media (max-width: 380px) { .stats { gap: 8px; } .stat { padding: 12px 10px; } }
 </style>
 </head>
 <body>
@@ -332,7 +335,7 @@
     <a class="logo" href="index.html" aria-label="לדף הבית">
       <img class="logo-img" src="logo/logo-dark.svg" alt="יתרה 0" width="160" height="40"><span class="ai-tag"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span>
     </a>
-    <a class="btn btn-primary shine" href="#book" style="min-height:44px;padding:8px 20px;font-size:15px;width:auto">בחר שעה ביומן</a>
+    <a class="btn btn-primary shine" href="#calendar" style="min-height:44px;padding:8px 20px;font-size:15px;width:auto">בחר שעה ביומן</a>
   </div>
 </header>
 
@@ -355,7 +358,7 @@
       <div class="stat reveal" style="--c:var(--loss)">
         <div class="stat-label">הפסד חודשי מוערך</div>
         <div class="stat-val" data-count="monthly" data-prefix="₪">0</div>
-        <div class="stat-note">לפי ₪<span data-v="rate">300</span> לשעת רו״ח</div>
+        <div class="stat-note">לפי <span class="money">₪<span data-v="rate">300</span></span> לשעת רו״ח</div>
       </div>
       <div class="stat reveal" style="--c:var(--loss)">
         <div class="stat-label">שכר טרחה שלא נגבה</div>
@@ -369,10 +372,10 @@
       </div>
     </div>
 
-    <p class="r-text reveal">לפי הנתונים שהזנת, המשרד שלך שורף כרגע <strong><span data-v="hours">7</span> שעות בחודש</strong> על רדיפה אחרי לקוחות, מסמכים חסרים ותשלומים. במונחים של שעת רואה חשבון, זה שווה ערך להפסד של כ-<strong>₪<span data-v="monthly">2,100</span></strong> בחודש. קבע עכשיו פגישה ביומן למטה, ובוא נראה לך איך המערכת שלנו סוגרת את כל הפינות האלה באוטומציה מלאה – ומחזירה לך את הזמן והכסף האלה מיד.</p>
+    <p class="r-text reveal">לפי הנתונים שהזנת, המשרד שלך שורף כרגע <strong><span data-v="hours">7</span> שעות בחודש</strong> על רדיפה אחרי לקוחות, מסמכים חסרים ותשלומים. במונחים של שעת רואה חשבון, זה שווה ערך להפסד של כ-<strong class="money">₪<span data-v="monthly">2,100</span></strong> בחודש. קבע עכשיו פגישה ביומן למטה, ובוא נראה לך איך המערכת שלנו סוגרת את כל הפינות האלה באוטומציה מלאה – ומחזירה לך את הזמן והכסף האלה מיד.</p>
 
     <div class="r-ctas reveal" id="heroCta">
-      <a class="btn btn-primary shine" href="#book">
+      <a class="btn btn-primary shine" href="#calendar">
         <span class="hide-m">אני רוצה להחזיר את <span data-v="hours">7</span> השעות האלה. </span>בחר שעה ביומן
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
       </a>
@@ -423,7 +426,7 @@
         <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הלקוח שהפסקת לתזכר על התשלום כי היה לך לא נעים, והכסף שלו פשוט ירד מהשולחן</li>
         <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הדוח שהוגש באיחור כי החומרים לא הגיעו בזמן, והלקוח עוד כועס דווקא עליך</li>
       </ul>
-      <p class="cost-line reveal">השאלון הראה לך שזה עולה <b>₪<span data-v="monthly">2,100</span> בחודש</b>. וזה עוד לפני שספרנו את השינה, את הלחץ ואת התחושה שהמשרד מנהל אותך. <strong style="color:var(--accent)">וכל חודש שזה נמשך, המספר הזה רק גדל.</strong></p>
+      <p class="cost-line reveal">השאלון הראה לך שזה עולה <b><span class="money">₪<span data-v="monthly">2,100</span></span> בחודש</b>. וזה עוד לפני שספרנו את השינה, את הלחץ ואת התחושה שהמשרד מנהל אותך. <strong style="color:var(--accent)">וכל חודש שזה נמשך, המספר הזה רק גדל.</strong></p>
     </div>
   </div>
 </section>
@@ -433,7 +436,7 @@
   <div class="dot-grid"></div>
   <div class="container" style="position:relative;z-index:2">
     <div class="section-head reveal">
-      <span class="brand-chip"><img src="logo/mark.svg" alt="" width="30" height="30"><span>הכירו את <b>יתרה 0</b>: סוכן הגבייה החכם</span><span class="ai-tag" style="margin-inline-start:4px"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span></span><br><br>
+      <span class="brand-chip"><img src="logo/mark.svg" alt="" width="30" height="30"><span>הכירו את <b>יתרה 0</b>: סוכן הגבייה החכם</span><span class="ai-tag" style="margin-inline-start:4px"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span></span>
       <span class="eyebrow">החדשות הטובות?</span>
       <h2 class="h-section">אתה במרחק פגישה אחת מלהעביר את כל הבלגן הזה <span class="text-grad">לאוטומציה מלאה.</span></h2>
       <p class="section-sub"><strong style="color:var(--accent)">סוכן ה-AI של יתרה 0 משווה אוטומטית בין כמה כסף שילמו לך לבין כמה חייבים לך, אומרת לך בדיוק מי חייב וכמה, ודואגת לגבות את זה אוטומטית.</strong> במקום שאתה והצוות תמשיכו לרדוף אחרי לקוחות, המערכת עושה את זה בשבילכם, אוטומטית ומהר, ונותנת לך שליטה מלאה ב-360 מעלות:</p>
@@ -450,7 +453,7 @@
         <div class="kpi auto"><span>נגבה אוטומטית החודש</span><b>₪21,850</b></div>
       </div>
       <div class="dash-bar" aria-hidden="true"><span style="width:82%"></span></div>
-      <div class="ai-insight"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><div><b>תובנת AI:</b> 3 לקוחות משלמים בדרך כלל רק אחרי תזכורת שנייה. שלחתי להם תזכורת אישית הבוקר. בנוסף שייכתי העברה בביט של ₪1,450 ללקוח "אבירם הנדסה".</div></div>
+      <div class="ai-insight"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><div><b>תובנת AI:</b> 3 לקוחות משלמים בדרך כלל רק אחרי תזכורת שנייה. שלחתי להם תזכורת אישית הבוקר. בנוסף שייכתי העברה בביט של <span class="money">₪1,450</span> ללקוח "אבירם הנדסה".</div></div>
       <div class="dash-table" role="table">
         <div class="dr dh" role="row"><span>לקוח</span><span>חויב</span><span>שולם</span><span>יתרה</span><span>סטטוס</span></div>
         <div class="dr" role="row"><span>כהן שיווק בע״מ</span><span>₪4,200</span><span>₪4,200</span><span class="zero">₪0</span><span><em class="st st-ok">יתרה 0 ✓</em></span></div>
@@ -566,7 +569,7 @@
   <div class="container" style="position:relative;z-index:2">
     <div class="section-head reveal">
       <span class="eyebrow">הצעת הסנדק</span>
-      <h2 class="h-section">כל מה שהמשרד צריך כדי להגיע ליתרה 0. <span class="text-grad">בשווי ₪96,100 בשנה הראשונה.</span></h2>
+      <h2 class="h-section">כל מה שהמשרד צריך כדי להגיע ליתרה 0. <span class="text-grad">בשווי <span class="money">₪96,100</span> בשנה הראשונה.</span></h2>
       <p class="section-sub">תסתכל על המספרים. אחרי זה תבין למה להגיד "לא" פשוט לא הגיוני.</p>
     </div>
 
@@ -578,7 +581,7 @@
         <div class="vs-row"><span class="vs-ic"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg></span><div><b>רודף וואטסאפ אוטומטי</b><span>תזכורות אישיות בוואטסאפ, במייל וב-SMS, עד שהלקוח משלם</span></div><span class="vs-price">₪1,500<small>לחודש</small></span></div>
         <div class="vs-row"><span class="vs-ic"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg></span><div><b>מבקש חומרים חכם</b><span>מבקש מסמכים חסרים ומסמן מה הגיע, לפני כל מועד דיווח</span></div><span class="vs-price">₪1,200<small>לחודש</small></span></div>
         <div class="vs-row"><span class="vs-ic"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg></span><div><b>דאשבורד יתרות בזמן אמת</b><span>מי חייב, כמה ועל איזה חודש, במבט אחד</span></div><span class="vs-price">₪800<small>לחודש</small></span></div>
-        <div class="vs-sub"><span>שווי הכלים</span><b>₪7,500 לחודש · ₪90,000 בשנה</b></div>
+        <div class="vs-sub"><span>שווי הכלים</span><b><span class="money">₪7,500</span> לחודש · <span class="money">₪90,000</span> בשנה</b></div>
 
         <p class="vs-bonus-title">ואם תצטרף תוך <span class="text-accent"><span data-v="bonusDays">7</span> ימים</span> מהשיחה, גם:</p>
         <div class="vs-row vs-bonus"><span class="vs-ic">🎁</span><div><b>הקמה והטמעה מלאה, "עושים בשבילך"</b><span>כל הלקוחות, יתרות שכר הטרחה והמסמכים עוברים בלי שתקליד שורה</span></div><span class="vs-price">₪2,500</span></div>
@@ -612,8 +615,8 @@
   <div class="container">
     <div class="guarantee">
       <div class="seal reveal" aria-hidden="true">
-        <svg class="ring" viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96" fill="none" stroke="#F4B740" stroke-width="2" stroke-dasharray="3 6"/><text font-family="Rubik, Heebo, sans-serif" font-size="14.5" font-weight="800" fill="#0B2E24" letter-spacing="1" text-anchor="middle"><textPath href="#circ" startOffset="50%">אחריות כפולה · בלי אותיות קטנות · כל הסיכון עלינו ·</textPath></text></svg>
-        <div class="seal-core"><img src="logo/mark.svg" alt="" width="44" height="44" style="border-radius:12px;margin-bottom:6px">x3<small>אחריות</small></div>
+        <svg class="ring" viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96" fill="none" stroke="#F4B740" stroke-width="2" stroke-dasharray="3 6"/><text font-family="Rubik, Heebo, sans-serif" font-size="14.5" font-weight="800" fill="#0B2E24" letter-spacing="1" text-anchor="middle"><textPath href="#circ" startOffset="50%">אחריות משולשת · בלי אותיות קטנות · כל הסיכון עלינו ·</textPath></text></svg>
+        <div class="seal-core"><img src="logo/mark.svg" alt="" width="44" height="44" style="border-radius:12px;margin-bottom:6px">×3<small>אחריות</small></div>
       </div>
       <div>
         <span class="eyebrow reveal">אחריות משולשת, בלי אותיות קטנות</span>
@@ -647,11 +650,11 @@
       <article class="card-glass u-item reveal">
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8S10 3 7.5 3a2.5 2.5 0 000 5M12 8s2-5 4.5-5a2.5 2.5 0 010 5"/></svg></span>
         <h3>הבונוסים בתוקף <span class="text-accent"><span data-v="bonusDays">7</span> ימים</span></h3>
-        <p>הבונוסים בשווי ₪6,100 תקפים רק <span data-v="bonusDays">7</span> ימים מהשיחה. אחר כך הם יורדים מהשולחן.</p>
+        <p>הבונוסים בשווי <span class="money">₪6,100</span> תקפים רק <span data-v="bonusDays">7</span> ימים מהשיחה. אחר כך הם יורדים מהשולחן.</p>
       </article>
       <article class="card-glass u-item reveal">
         <span class="icon-tile" style="background:rgba(255,155,133,.15);color:var(--loss-light)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <h3>כל חודש עולה לך <span class="text-loss">₪<span data-v="monthly">2,100</span></span></h3>
+        <h3>כל חודש עולה לך <span class="text-loss money">₪<span data-v="monthly">2,100</span></span></h3>
         <p>ההפסד לא מחכה שתהיה מוכן. כל חודש שעובר בלי מערכת הוא עוד <span data-v="hours">7</span> שעות ועוד כסף שלא חוזר.</p>
       </article>
     </div>
@@ -679,7 +682,7 @@
 <section class="section mesh-cream">
   <div class="container">
     <div class="ps">
-      <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: השאלון מצא שהמשרד שלך מפסיד <strong>₪<span data-v="monthly">2,100</span> בחודש</strong>. בשיחה של 30 דקות, שעולה לך ₪0 ומגובה באחריות על הזמן שלך, תקבל אבחון, הדגמה ותוכנית ל-30 יום. הסיכון היחיד הוא להמשיך כמו עכשיו.</p>
+      <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: השאלון מצא שהמשרד שלך מפסיד <strong><span class="money">₪<span data-v="monthly">2,100</span></span> בחודש</strong>. בשיחה של 30 דקות, שעולה לך <span class="money">₪0</span> ומגובה באחריות על הזמן שלך, תקבל אבחון, הדגמה ותוכנית ל-30 יום. הסיכון היחיד הוא להמשיך כמו עכשיו.</p>
       <p class="reveal" id="psSpots"><b class="tag">נ.ב.ב.</b>נשארו <strong><span data-v="spotsLeft">3</span> מקומות</strong> להטמעה החודש.</p>
       <div class="reveal"><a class="btn btn-dark" href="#calendar">אני רוצה לעצור את ההפסד. תנו לי לבחור שעה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
     </div>
@@ -705,12 +708,15 @@
   </div>
 </div>
 
-<script src="config.js?v=2"></script>
+<script src="config.js?v=3"></script>
 <script>
 (function () {
   "use strict";
   var CFG = window.FUNNEL_CONFIG || {};
   var fmt = function (n) { return Math.round(n).toLocaleString("he-IL"); };
+  var money = function (n) { return "\u2066₪" + fmt(n) + "\u2069"; };   /* ₪ משמאל לספרות, מבודד מכיוון המשפט */
+
+  retryPendingLead();
 
   document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -740,7 +746,7 @@
 
   /* ---------- אגרוף בבטן: הדליפה הגדולה + מה שענה בשאלה 5 ---------- */
   var GUT = {
-    cashflow: "<b>₪" + fmt(r.outstanding) + " שלך</b> יושבים עכשיו אצל לקוחות. כסף שהרווחת, על עבודה שכבר עשית. ואתה עוד שולח להם \"רק מזכיר בעדינות\".",
+    cashflow: "<b>" + money(r.outstanding) + " שלך</b> יושבים עכשיו אצל לקוחות. כסף שהרווחת, על עבודה שכבר עשית. ואתה עוד שולח להם \"רק מזכיר בעדינות\".",
     chase: "<b>" + fmt(r.chase) + " שעות בכל חודש</b> אתה עובד בחינם, כשליח הגבייה של הלקוחות שלך.",
     docs: "בכל מועד דיווח אתה הופך <b>לשליח שמחפש קבלות בוואטסאפ</b>, במקום לעבוד כרואה חשבון.",
     match: "אתה לא יודע כמה חייבים לך. <b>וכל שקל שאתה לא יודע עליו, לא ייגבה לעולם.</b>"
@@ -751,7 +757,9 @@
     family: " ובינתיים, המשפחה מחכה לך בבית.",
     rest: " ובינתיים, הלחץ הזה הולך איתך לישון."
   };
-  document.getElementById("gutPunch").innerHTML = (name ? name + ", " : "") + (GUT[r.biggest] || GUT.chase) + (GUT_GOAL[r.goal] || "");
+  var gutEl = document.getElementById("gutPunch");
+  gutEl.innerHTML = (GUT[r.biggest] || GUT.chase) + (GUT_GOAL[r.goal] || "");
+  if (name) gutEl.insertAdjacentText("afterbegin", name + ", ");   /* השם כטקסט בלבד, לא כ-HTML */
 
   /* ---------- הדליפה הגדולה ביותר ---------- */
   var LEAKS = {
@@ -769,7 +777,7 @@
     },
     cashflow: {
       title: "שכר טרחה שתקוע אצל לקוחות",
-      text: "כ-₪" + fmt(r.outstanding) + " שכר טרחה יושבים כרגע אצל לקוחות שעברו את מועד התשלום. זה כסף שכבר הרווחת, על עבודה שכבר עשית, ואינו נמצא בחשבון שלך. כל חודש שהוא לא נגבה מקטין את הסיכוי שהוא ייכנס בכלל."
+      text: "כ-" + money(r.outstanding) + " שכר טרחה יושבים כרגע אצל לקוחות שעברו את מועד התשלום. זה כסף שכבר הרווחת, על עבודה שכבר עשית, ואינו נמצא בחשבון שלך. כל חודש שהוא לא נגבה מקטין את הסיכוי שהוא ייכנס בכלל."
     }
   };
   var leak = LEAKS[r.biggest] || LEAKS.chase;
@@ -872,6 +880,21 @@
   }
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+
+  /* ליד שלא הצליח להישלח מהשאלון (למשל נפילת רשת) נשלח שוב מכאן, עד 3 ניסיונות.
+     LeadSync מאחד כפילויות לפי טלפון, אז ניסיון חוזר לא יוצר ליד כפול. */
+  function retryPendingLead() {
+    var url = CFG.leadWebhookUrl; if (!url) return;
+    var rec = null;
+    try { rec = JSON.parse(localStorage.getItem("qf_pending_lead") || "null"); } catch (e) {}
+    if (!rec || !rec.payload) return;
+    if ((rec.attempts || 0) >= 3) { try { localStorage.removeItem("qf_pending_lead"); } catch (e) {} return; }
+    rec.attempts = (rec.attempts || 0) + 1; rec.payload.retry = rec.attempts;
+    try { localStorage.setItem("qf_pending_lead", JSON.stringify(rec)); } catch (e) {}
+    fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(rec.payload), keepalive: true })
+      .then(function () { try { localStorage.removeItem("qf_pending_lead"); } catch (e) {} })
+      .catch(function () {});
+  }
 })();
 </script>
 </body>
