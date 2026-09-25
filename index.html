@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מחשבון ההפסדים השקט לרואי חשבון | כמה המשרד שלך מפסיד על ניירת ורדיפה אחרי לקוחות?</title>
+<meta name="description" content="רואה חשבון? גלה תוך 60 שניות כמה שכר טרחה תקוע אצל הלקוחות שלך וכמה שעות המשרד שורף על רדיפה אחריהם. 5 לחיצות, בלי אינטגרציה.">
+<meta name="theme-color" content="#0B2E24">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Rubik:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="logo/mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="logo/mark-180.png">
+<link rel="stylesheet" href="styles.css?v=2">
+<style>
+  /* ---------- Hero ---------- */
+  .hero { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 72px; }
+  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: center; }
+  .hero .preview-wrap { margin-top: 178px; }
+  .hero h1 { font-size: clamp(32px, 4.4vw, 52px); line-height: 1.1; margin-top: 18px; }
+  .hero h1 .kicker { display: block; font-size: .46em; font-weight: 700; margin-bottom: 12px; letter-spacing: 0; }
+  .hero h2 { margin-top: 18px; font-size: clamp(17px, 1.9vw, 21px); font-weight: 400; line-height: 1.7; color: rgba(248, 244, 234, .82); max-width: 590px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-pains { margin-top: 18px; max-width: 600px; padding: 20px 22px; border-radius: 20px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .1); border-inline-start: 3px solid var(--loss-light); }
+  .hp-title { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: var(--cream); }
+  .hero-pains ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 7px; }
+  .hero-pains li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; line-height: 1.55; color: rgba(248, 244, 234, .82); }
+  .hero-pains li strong { color: var(--cream); font-weight: 700; }
+  .hp-x { width: 22px; height: 22px; border-radius: 50%; flex: none; margin-top: 2px; display: grid; place-items: center; background: rgba(255, 155, 133, .16); color: var(--loss-light); }
+  .hp-x svg { width: 12px; height: 12px; }
+  .hero-ai { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(248, 244, 234, .16); display: flex; gap: 10px; align-items: flex-start; font-size: 16px; line-height: 1.55; color: rgba(248, 244, 234, .9); }
+  .hero-ai > .spark { width: 20px; height: 20px; color: var(--accent); margin-top: 2px; animation: twinkle 2.4s ease-in-out infinite; }
+  .hero-ai b { color: var(--accent); }
+
+  .float-chat { position: absolute; z-index: 3; top: -178px; inset-inline-end: -40px; width: 250px; display: grid; gap: 7px; transform: rotate(3deg); animation: float2 6s ease-in-out infinite; }
+  @keyframes float2 { 50% { transform: rotate(3deg) translateY(8px); } }
+  .fc-msg { position: relative; padding: 8px 12px 18px; border-radius: 14px; font-size: 14px; line-height: 1.45; color: #111B21; box-shadow: 0 12px 26px -10px rgba(0, 0, 0, .55); max-width: 92%; }
+  .fc-msg time { position: absolute; bottom: 3px; inset-inline-end: 10px; font-size: 10.5px; opacity: .55; }
+  .fc-out { justify-self: end; background: #D9FDD3; border-start-end-radius: 4px; }
+  .fc-in { justify-self: start; background: #fff; border-start-start-radius: 4px; }
+  .fc-seen { justify-self: end; font-size: 12px; font-weight: 800; color: #fff; background: var(--loss); padding: 3px 10px; border-radius: 999px; box-shadow: 0 8px 20px -8px rgba(224, 88, 63, .8); }
+  .hero-body { margin-top: 18px; color: rgba(248, 244, 234, .78); max-width: 590px; display: grid; gap: 4px; font-size: 16px; }
+  .hero-body strong { color: var(--cream); }
+  .zero-int { margin-top: 4px; }
+  .zero-int b { color: var(--accent); font-weight: 700; }
+  .hero-bullets { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 12px; }
+  .hero-bullets li { display: flex; align-items: center; gap: 12px; font-size: clamp(17px, 1.7vw, 20px); color: rgba(248, 244, 234, .85); }
+  .hero-bullets b { color: var(--cream); font-weight: 700; }
+  .hb-ck { width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-bright), var(--accent)); color: var(--brand-900); }
+  .hb-ck svg { width: 15px; height: 15px; }
+  .hero-ctas { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+  /* כרטיס תצוגה מקדימה נעול */
+  .preview-wrap { position: relative; }
+  .preview-wrap::before { content: ""; position: absolute; inset: 8% 6%; background: radial-gradient(circle, rgba(244, 183, 64, .28), transparent 70%); filter: blur(40px); }
+  .preview { position: relative; padding: 28px; border-radius: 28px; background: var(--cream); color: var(--ink); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6); transform: rotate(-2deg); animation: float 7s ease-in-out infinite; }
+  @keyframes float { 50% { transform: rotate(-2deg) translateY(-10px); } }
+  .preview-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px dashed rgba(11, 46, 36, .15); }
+  .preview-head b { font-family: var(--font-display); font-size: 18px; }
+  .tag-ai { display: inline-flex; align-items: center; gap: 4px; background: var(--brand-900) !important; color: var(--accent) !important; }
+  .preview-head .tag { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: rgba(224, 88, 63, .12); color: var(--loss); }
+  .p-row { margin-top: 12px; padding: 14px 16px; border-radius: 14px; background: #fff; border: 1px solid rgba(11, 46, 36, .08); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .p-label { font-size: 14.5px; color: rgba(11, 46, 36, .7); font-weight: 500; }
+  .p-val { font-family: var(--font-display); font-weight: 800; font-size: 24px; filter: blur(7px); user-select: none; }
+  .p-val.save { color: var(--brand-600); }
+  .p-val.loss { color: var(--loss); }
+  .lock {
+    position: absolute; inset-inline: 24px; bottom: -26px;
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 16px;
+    background: var(--brand-900); color: var(--cream); border: 1px solid rgba(244, 183, 64, .35);
+    box-shadow: 0 18px 40px -14px rgba(0, 0, 0, .7); font-size: 15px; font-weight: 700;
+  }
+  .lock svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+
+  /* ---------- מה תגלה ---------- */
+  .discover { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+  .discover .card { display: grid; gap: 14px; align-content: start; transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+  .discover .card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(11, 46, 36, .35); }
+  .discover .num { position: absolute; top: 18px; inset-inline-end: 24px; font-family: var(--font-display); font-weight: 900; font-size: 64px; line-height: 1; color: rgba(11, 46, 36, .05); }
+  .discover h3 { font-family: var(--font-display); font-size: 22px; font-weight: 800; }
+  .discover p { color: rgba(11, 46, 36, .7); font-size: 16px; }
+
+  /* ---------- איך זה עובד — ציר זמן ---------- */
+  .timeline { margin-top: 56px; display: grid; gap: 0; max-width: 820px; }
+  .t-step { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding-bottom: 36px; }
+  .t-step:last-child { padding-bottom: 0; }
+  .t-step::before { content: ""; position: absolute; top: 64px; bottom: 0; inset-inline-start: 31px; width: 2px; background: linear-gradient(rgba(23, 81, 63, .25), rgba(23, 81, 63, .05)); }
+  .t-step:last-child::before { display: none; }
+  .t-num { width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 900; font-size: 24px; background: var(--brand-900); color: var(--accent); box-shadow: 0 14px 30px -14px rgba(11, 46, 36, .7); }
+  .t-step h3 { font-family: var(--font-display); font-size: clamp(21px, 2.4vw, 26px); font-weight: 800; padding-top: 6px; }
+  .t-step .t-sub { color: var(--brand-600); font-weight: 700; font-size: 15px; margin-top: 4px; }
+  .t-step p:last-child { margin-top: 8px; color: rgba(11, 46, 36, .72); }
+
+  .final { text-align: center; }
+  .final p { margin: 18px auto 34px; opacity: .8; max-width: 560px; font-size: 19px; }
+
+  /* ============================================================
+     שאלון — מסך מלא, שאלה אחת בכל מסך
+     ============================================================ */
+  .quiz { position: fixed; inset: 0; z-index: 100; display: none; flex-direction: column; overflow-y: auto; }
+  .quiz.open { display: flex; }
+  .quiz-top { position: sticky; top: 0; z-index: 3; background: rgba(11, 46, 36, .85); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(244, 183, 64, .15); }
+  .quiz-top .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+  .q-count { font-size: 14.5px; font-weight: 600; color: rgba(248, 244, 234, .7); }
+  .q-count b { color: var(--accent); }
+  .icon-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(248, 244, 234, .18); background: transparent; display: grid; place-items: center; cursor: pointer; color: var(--cream); transition: background .2s; }
+  .icon-btn:hover { background: rgba(248, 244, 234, .1); }
+  .icon-btn svg { width: 20px; height: 20px; }
+  .icon-btn[hidden] { visibility: hidden; display: grid; }
+  .progress { height: 4px; background: rgba(248, 244, 234, .08); }
+  .progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-bright), var(--accent)); box-shadow: 0 0 12px rgba(244, 183, 64, .6); transition: width .7s var(--ease); }
+
+  .quiz-body { position: relative; z-index: 2; flex: 1; display: flex; align-items: center; padding-block: 44px 64px; }
+  .screen { width: 100%; max-width: 740px; margin-inline: auto; padding-inline: 20px; display: none; }
+  .screen.active { display: block; animation: screenIn .6s var(--ease) both; }
+  @keyframes screenIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
+  .screen.back-anim { animation-name: screenBack; }
+  @keyframes screenBack { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+
+  .q-title { font-family: var(--font-display); font-size: clamp(23px, 3.3vw, 33px); font-weight: 800; line-height: 1.3; text-wrap: balance; }
+  .q-hint { margin-top: 12px; color: rgba(248, 244, 234, .78); font-size: 17px; }
+  .options { margin-top: 30px; display: grid; gap: 12px; }
+  .opt {
+    display: flex; align-items: center; gap: 16px; width: 100%;
+    padding: 18px 20px; border-radius: 20px; cursor: pointer; text-align: start;
+    background: rgba(248, 244, 234, .05); border: 1.5px solid rgba(248, 244, 234, .12); color: var(--cream);
+    transition: border-color .25s, background .25s, transform .25s var(--ease);
+  }
+  .opt:active { transform: scale(.985); }
+  .opt:hover { border-color: rgba(244, 183, 64, .6); background: rgba(248, 244, 234, .09); transform: translateX(-4px); }
+  .opt.selected { border-color: var(--accent); background: rgba(244, 183, 64, .14); }
+  .opt-key { width: 36px; height: 36px; border-radius: 50%; flex: none; display: grid; place-items: center; font-weight: 800; font-size: 15px; background: rgba(248, 244, 234, .1); transition: background .25s, color .25s; }
+  .opt.selected .opt-key { background: var(--accent); color: var(--brand-900); }
+  .opt-text { display: grid; gap: 2px; }
+  .opt-main { font-weight: 700; font-size: 17.5px; }
+  .opt-sub { font-size: 14.5px; color: rgba(248, 244, 234, .62); }
+  .kbd-hint { margin-top: 22px; font-size: 13.5px; color: rgba(248, 244, 234, .5); text-align: center; }
+
+  /* מסך החישוב */
+  .calc { text-align: center; }
+  .ph-title { display: inline-flex; align-items: center; gap: 10px; }
+  .ph-title img { border-radius: 8px; }
+  .q-center { display: inline-flex; align-items: center; gap: 10px; }
+  .q-center img { border-radius: 8px; }
+  .calc-logo { position: relative; width: 116px; height: 116px; margin: 0 auto 28px; display: grid; place-items: center; }
+  .calc-logo::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 55%, var(--accent) 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); animation: spin 1.1s linear infinite; }
+  .calc-logo img { border-radius: 22px; box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .6); animation: breathe 1.6s ease-in-out infinite; }
+  @keyframes breathe { 50% { transform: scale(1.06); } }
+  .spinner { width: 80px; height: 80px; margin: 0 auto 28px; border-radius: 50%; border: 4px solid rgba(248, 244, 234, .1); border-top-color: var(--accent); animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .calc-list { list-style: none; margin: 30px auto 0; padding: 0; max-width: 440px; display: grid; gap: 12px; text-align: start; }
+  .calc-list li { display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: 16px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .1); color: rgba(248, 244, 234, .55); transition: color .3s, border-color .3s; }
+  .calc-list .tick { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 2px solid rgba(248, 244, 234, .25); flex: none; transition: all .3s; }
+  .calc-list .tick svg { width: 14px; height: 14px; opacity: 0; }
+  .calc-list li.done { color: var(--cream); border-color: rgba(244, 183, 64, .35); }
+  .calc-list li.done .tick { background: var(--accent); border-color: var(--accent); color: var(--brand-900); }
+  .calc-list li.done .tick svg { opacity: 1; }
+
+  /* מסך לכידת הליד */
+  .lead-card { padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--cream); color: var(--ink); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6); }
+  .lead-card .q-hint { color: rgba(11, 46, 36, .72); }
+  .lead-form { margin-top: 26px; display: grid; gap: 16px; }
+  .field label { display: block; font-weight: 700; font-size: 15.5px; margin-bottom: 7px; }
+  .field label small { font-weight: 500; font-size: 14px; color: rgba(11, 46, 36, .6); }
+  .field input {
+    width: 100%; min-height: 56px; padding: 14px 18px; border-radius: 16px;
+    background: #fff; border: 1.5px solid rgba(11, 46, 36, .15); color: var(--ink);
+    font: inherit; font-size: 17px; transition: border-color .2s, box-shadow .2s;
+  }
+  .field input::placeholder { color: rgba(11, 46, 36, .38); }
+  .field input:focus { outline: none; border-color: var(--brand-600); box-shadow: 0 0 0 4px rgba(31, 106, 82, .15); }
+  .field input[aria-invalid="true"] { border-color: var(--loss); }
+  .field .err { display: none; margin-top: 6px; color: var(--loss); font-size: 14px; font-weight: 600; }
+  .field input[aria-invalid="true"] + .err { display: block; }
+  .field input[type="tel"], .field input[type="email"] { direction: ltr; text-align: right; }
+  .consent { font-size: 12.5px; color: rgba(11, 46, 36, .55); text-align: center; line-height: 1.55; }
+  .form-trust { display: flex; justify-content: center; gap: 8px; align-items: center; color: rgba(11, 46, 36, .7); font-size: 14px; }
+  .form-trust svg { width: 16px; height: 16px; color: var(--brand-600); }
+  .bribe { margin-top: 20px; padding: 16px 18px; border-radius: 18px; background: #fff; border: 1px solid rgba(11, 46, 36, .1); border-inline-start: 4px solid var(--accent); }
+  .bribe-title { font-family: var(--font-display); font-weight: 800; font-size: 16px; }
+  .bribe ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 9px; }
+  .bribe li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.55; color: rgba(11, 46, 36, .8); }
+  .bribe li b { color: var(--ink); }
+  .bribe-ck { width: 22px; height: 22px; border-radius: 50%; flex: none; margin-top: 1px; display: grid; place-items: center; background: var(--brand-900); color: var(--accent); }
+  .bribe-ck svg { width: 12px; height: 12px; }
+  .done-pill { background: rgba(31, 106, 82, .1); color: var(--brand-600); border-color: rgba(31, 106, 82, .2); }
+
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 70px; }
+    .preview-wrap { max-width: 460px; margin-inline: auto; width: 100%; }
+    .hero .preview-wrap { margin-top: 0; }
+    .float-chat { position: relative; top: auto; inset-inline-end: auto; width: auto; max-width: 300px; margin: 0 0 18px auto; transform: none; animation: none; }
+    .discover { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .hero { padding-block: 100px 80px; min-height: auto; }
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .t-step { grid-template-columns: 52px 1fr; gap: 16px; }
+    .t-num { width: 52px; height: 52px; font-size: 20px; border-radius: 16px; }
+    .t-step::before { top: 52px; inset-inline-start: 25px; }
+    .opt { padding: 16px; }
+    .kbd-hint { display: none; }
+  }
+
+  /* ============================================================
+     מובייל: פחות מלל, יותר אוויר
+     ============================================================ */
+  @media (max-width: 760px) {
+    .site-header .pill { display: none; }                 /* "לוקח פחות מ-60 שניות" — מופיע גם ליד הכפתור */
+    .hero { padding-block: 88px 56px; }
+    .hero-pills .pill { font-size: 12.5px; padding: 6px 12px; }
+    .hero h1 { font-size: 30px; margin-top: 14px; }
+    .hero h1 .kicker { font-size: .5em; margin-bottom: 8px; }
+    .hero h2 { font-size: 16px; line-height: 1.6; margin-top: 14px; }
+    .hero-body { margin-top: 12px; font-size: 14.5px; }
+    .hero-pains { margin-top: 18px; padding: 16px; }
+    .hp-title { font-size: 16px; }
+    .hero-pains ul { gap: 8px; }
+    .hero-pains li { font-size: 14.5px; gap: 10px; }
+    .hp-x { width: 20px; height: 20px; }
+    .hero-ai { font-size: 14.5px; }
+    .hero-ctas .btn-ghost-light { display: none; }
+    .hero-bullets { margin-top: 18px; gap: 10px; }
+    .hero-bullets li { font-size: 16px; }
+    .hb-ck { width: 24px; height: 24px; }       /* משני — יש כפתור דביק למטה */
+    .hero-grid { gap: 40px; }
+    .float-chat { display: none; }                        /* הכאב כבר מופיע ברשימה */
+    .preview { padding: 18px; border-radius: 22px; transform: none; animation: none; }
+    .preview-head { gap: 10px; }
+    .preview-head b { font-size: 14.5px; }
+    .ph-title img { width: 24px; height: 24px; }
+    .preview-head .tag { white-space: nowrap; font-size: 11.5px; padding: 4px 9px; flex: none; }
+    .p-row { margin-top: 8px; padding: 10px 12px; }
+    .p-label { font-size: 13.5px; }
+    .p-val { font-size: 19px; }
+    .lock { font-size: 13.5px; padding: 11px 14px; bottom: -22px; }
+
+    .discover { margin-top: 32px; gap: 14px; }
+    .discover .card { gap: 10px; padding: 20px; }
+    .discover .num { font-size: 48px; }
+    .discover h3 { font-size: 19px; }
+    .discover p { font-size: 15px; }
+    .timeline { margin-top: 32px; }
+    .t-step { padding-bottom: 24px; }
+    .t-step .t-sub { display: none; }
+    .t-step p:last-child { font-size: 15px; margin-top: 4px; }
+    .final p { font-size: 16px; margin: 12px auto 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a class="logo" href="#" aria-label="לראש הדף">
+      <img class="logo-img" src="logo/logo-dark.svg" alt="יתרה 0" width="160" height="40"><span class="ai-tag"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span>
+    </a>
+    <span class="pill" style="font-size:13px"><span class="pill-dot"></span>לוקח פחות מ-60 שניות</span>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============================ HERO ============================ -->
+<section class="hero mesh-emerald noise">
+  <div class="dot-grid"></div>
+  <div class="container hero-grid">
+    <div>
+      <h1 class="h-display reveal"><span class="kicker text-accent">רואה חשבון? תפסיק לממן את הלקוחות שלך.</span>כמה שכר טרחה המשרד שלך <span class="text-loss">מדמם בכל חודש</span> על לקוחות שלא משלמים ושעות עבודה שחורה?</h1>
+
+      <ul class="hero-bullets reveal">
+        <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>גלה כמה <b>שכר טרחה תקוע</b> אצל הלקוחות שלך</span></li>
+        <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>גלה כמה <b>שעות המשרד שורף</b> על רדיפה אחריהם</span></li>
+        <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>ראה איך <b>AI גובה את הכסף הזה</b> במקומך</span></li>
+      </ul>
+
+      <div class="reveal" id="heroCta">
+        <div class="hero-ctas">
+          <button class="btn btn-primary shine" data-start-quiz>
+            גלה כמה המשרד שלך מדמם
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          </button>
+        </div>
+        <div class="cta-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>5 לחיצות</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>אפס אינטגרציה</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>תוצאה תוך 60 שניות</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- תצוגה מקדימה נעולה של דוח התוצאות -->
+    <div class="preview-wrap reveal" aria-hidden="true">
+      <div class="float-chat">
+        <div class="fc-msg fc-out">מזכיר לגבי שכר הטרחה של מרץ ואפריל 🙏<time>1 במאי</time></div>
+        <div class="fc-msg fc-in">בטח! אעביר מחר 👍<time>1 במאי</time></div>
+        <div class="fc-msg fc-out">רק מזכיר בעדינות 🙂<time>26 במאי</time></div>
+        <div class="fc-seen">✓✓ נקרא. לא נענה.</div>
+      </div>
+      <div class="preview">
+        <div class="preview-head"><b class="ph-title"><img src="logo/mark.svg" alt="" width="28" height="28">דוח ההפסדים של המשרד שלך</b><span class="tag tag-ai"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>ניתוח AI</span></div>
+        <div class="p-row"><span class="p-label">שעות שנשרפות בחודש</span><span class="p-val">14</span></div>
+        <div class="p-row"><span class="p-label">הפסד חודשי מוערך</span><span class="p-val loss">₪4,200</span></div>
+        <div class="p-row"><span class="p-label">שכר טרחה שלא נגבה</span><span class="p-val loss">₪35,000</span></div>
+        <div class="p-row"><span class="p-label">פוטנציאל חיסכון שנתי</span><span class="p-val save">₪50,400</span></div>
+        <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>המספרים שלך ייחשפו אחרי 5 שאלות</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ מה תגלה ============================ -->
+<section class="section mesh-cream" id="discover">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">מה השאלון חושף</span>
+      <h2 class="h-section">3 מספרים שאף דוח <span class="mark">לא מראה לך.</span></h2>
+    </div>
+    <div class="discover">
+      <article class="card reveal">
+        <span class="num" aria-hidden="true">01</span>
+        <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <h3>כמה שעות המשרד שורף</h3>
+        <p>על תזכורות, רדיפה אחרי חומרים חסרים וחיפוש קבלות בוואטסאפ. שעות שהיו יכולות ללכת לעבודה מקצועית, ללקוחות חדשים או הביתה.</p>
+      </article>
+      <article class="card reveal">
+        <span class="num" aria-hidden="true">02</span>
+        <span class="icon-tile tile-loss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 18l-9.5-9.5-5 5L1 6"/><path d="M17 18h6v-6"/></svg></span>
+        <h3>כמה כסף זה עולה לך</h3>
+        <p>ההפסד החודשי והשנתי של המשרד בשקלים, והפער בין שכר הטרחה שמגיע לך לבין מה ששילמו לך בפועל.</p>
+      </article>
+      <article class="card card-dark reveal">
+        <span class="num" aria-hidden="true" style="color:rgba(248,244,234,.06)">03</span>
+        <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span>
+        <h3>איפה הדליפה הכי גדולה</h3>
+        <p style="color:rgba(248,244,234,.8)">רדיפה אחרי מסמכים, איסוף חומרים לדיווח או גביית שכר טרחה? תדע בדיוק מה לתקן קודם, לפני עונת הדוחות הבאה.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ איך זה עובד ============================ -->
+<section class="section mesh-cream-warm">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">איך זה עובד</span>
+      <h2 class="h-section">פחות מדקה. בלי להתחבר לשום דבר.</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-step reveal"><span class="t-num">1</span><div><h3>עונים על 5 שאלות</h3><p class="t-sub">שאלה אחת בכל מסך, לחיצה אחת לכל תשובה</p><p>בלי להקליד מספרים ובלי לפתוח אקסל. רק לבחור את מה שהכי קרוב למצב שלך היום.</p></div></div>
+      <div class="t-step reveal"><span class="t-num">2</span><div><h3>ה-AI מנתח את התשובות</h3><p class="t-sub">לפי הנתונים של המשרד שלך</p><p>הזמן שנשרף, ההפסד הכספי ושכר הטרחה שתקוע אצל לקוחות, מתורגמים לשקלים ולשעות.</p></div></div>
+      <div class="t-step reveal"><span class="t-num">3</span><div><h3>מקבלים את התוצאות</h3><p class="t-sub">על המסך ובוואטסאפ</p><p>יחד עם הדליפה הכי גדולה שלך ומה אפשר לעשות איתה כבר השבוע.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CTA סופי ============================ -->
+<section class="section mesh-deep noise final">
+  <div class="container narrow reveal">
+    <span class="eyebrow">60 שניות</span>
+    <h2 class="h-display h-section" style="margin-top:14px">כל חודש שעובר בלי לדעת, <span class="text-grad">עולה לך כסף.</span></h2>
+    <p>60 שניות עכשיו יראו לך בדיוק כמה.</p>
+    <button class="btn btn-primary shine" data-start-quiz>
+      תראו לי כמה אני מפסיד בחודש
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    </button>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <span class="footer-brand"><img src="logo/logo-dark.svg" alt="יתרה 0" width="96" height="24"><span>© <span id="year"></span> <span data-brand>יתרה 0</span>. כל הזכויות שמורות.</span></span>
+    <span>התוצאות הן הערכה המבוססת על התשובות שלך.</span>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="sticky">
+  <button class="btn btn-primary shine btn-block" data-start-quiz>גלה כמה המשרד שלך מדמם</button>
+</div>
+
+<!-- ============================================================
+     השאלון
+     ============================================================ -->
+<div class="quiz mesh-emerald" id="quiz" role="dialog" aria-modal="true" aria-label="שאלון אבחון: מחשבון ההפסדים השקט">
+  <div class="quiz-top">
+    <div class="container">
+      <button class="icon-btn" id="qBack" aria-label="לשאלה הקודמת" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <span class="q-center"><img src="logo/mark.svg" alt="" width="28" height="28"><span class="q-count" id="qCount" aria-live="polite"></span></span>
+      <button class="icon-btn" id="qClose" aria-label="סגירת השאלון">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="qProgressWrap"><span id="qProgress"></span></div>
+  </div>
+
+  <div class="quiz-body">
+    <div id="qScreens" style="display:contents"></div>
+
+    <!-- מסך החישוב -->
+    <div class="screen calc" id="calcScreen">
+      <div class="calc-logo" aria-hidden="true"><img src="logo/mark.svg" alt="" width="84" height="84"></div>
+      <span class="ai-pill"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>ניתוח AI</span>
+      <h2 class="q-title" style="margin-top:14px">ה-AI מחשב את ההפסדים של המשרד שלך...</h2>
+      <ul class="calc-list">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>מנתח את הזמן שנשרף על רדיפה אחרי לקוחות</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>מנתח את תהליך איסוף החומרים לדיווח</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>מחשב את פוטנציאל החיסכון המיידי</li>
+      </ul>
+    </div>
+
+    <!-- מסך לכידת הליד -->
+    <div class="screen" id="leadScreen">
+      <div class="lead-card">
+        <span class="pill done-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>האבחון הושלם בהצלחה!</span>
+        <h2 class="q-title" style="margin-top:16px">התוצאות שלך מוכנות.</h2>
+        <p class="q-hint">המערכת חישבה כעת כמה שעות וכסף המשרד שלך מפסיד בכל חודש על רדיפה אחרי לקוחות, מסמכים חסרים וגבייה, ומה פוטנציאל החיסכון המיידי שלך עם אוטומציה.</p>
+
+        <div class="bribe">
+          <p class="bribe-title">ברגע שתלחץ, תקבל:</p>
+          <ul>
+            <li><span class="bribe-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>דוח הפסדים אישי למשרד שלך:</b> כמה שכר טרחה תקוע, כמה שעות נשרפות וכמה זה עולה לך בשנה, בשקלים.</span></li>
+            <li><span class="bribe-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>מפת דרכים מבוססת AI, מוכנה ליישום:</b> שלושת הצעדים הראשונים להחזיר את הכסף הזה, מותאמים לדליפה הכי גדולה שלך.</span></li>
+            <li><span class="bribe-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>הכול גם בוואטסאפ,</b> כדי שתוכל לחזור לזה ולהראות לשותפים.</span></li>
+          </ul>
+        </div>
+
+        <form class="lead-form" id="leadForm" novalidate>
+          <div class="field">
+            <label for="fName">שם מלא</label>
+            <input id="fName" name="name" type="text" autocomplete="name" placeholder="איך קוראים לך?" required>
+            <span class="err">נא להזין שם</span>
+          </div>
+          <div class="field">
+            <label for="fPhone">טלפון <small>(כדי שנוכל לשלוח לך את התוצאות גם לוואטסאפ)</small></label>
+            <input id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000" required>
+            <span class="err">נא להזין מספר טלפון תקין</span>
+          </div>
+          <button type="submit" class="btn btn-primary shine btn-block" id="leadSubmit">
+            <span id="leadSubmitText">שלחו לי את דוח ההפסדים ומפת הדרכים</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          </button>
+          <p class="form-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>הפרטים נשארים אצלנו. בלי ספאם, ולא נעביר אותם לאף אחד.</p>
+          <p class="consent">בלחיצה על הכפתור אני מאשר/ת לקבל את תוצאות האבחון ופנייה בנושא בטלפון ובוואטסאפ. אפשר להסיר את עצמך בכל עת.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="config.js?v=2"></script>
+<script>
+(function () {
+  "use strict";
+  var CFG = window.FUNNEL_CONFIG || {};
+
+  /* ---------- שם המותג ---------- */
+  document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ============================================================
+     השאלות — לכל תשובה יש משקל (value) שנכנס לחישוב
+     ============================================================ */
+  var QUESTIONS = [
+    {
+      id: "outstanding",
+      title: "כמה שכר טרחה יושב כרגע \"בחוץ\" אצל לקוחות שעברו את מועד התשלום?",
+      options: [
+        { main: "פחות מ-10,000 ₪", sub: "זה סביר, אבל עדיין דורש התעסקות", value: 5000 },
+        { main: "בין 10,000 ₪ ל-30,000 ₪", sub: "אני עובד חודשים בלי לקבל על זה כסף", value: 20000 },
+        { main: "בין 30,000 ₪ ל-80,000 ₪", sub: "זה חונק לי את התזרים. יש חודשים שאני משלם משכורות לפני שאני רואה שכר טרחה", value: 55000 },
+        { main: "מעל 80,000 ₪", sub: "אני בעצם מממן את הלקוחות שלי מהכיס. הם חייבים לי יותר ממה שיש לי בבנק", value: 100000 }
+      ]
+    },
+    {
+      id: "chaseHours",
+      title: "כמה שעות בחודש אתה והצוות מקדישים לרדיפה אחרי לקוחות, על חומרים חסרים ועל תשלום שכר הטרחה?",
+      options: [
+        { main: "עד 5 שעות בחודש", sub: "המצב יחסית בשליטה", value: 4 },
+        { main: "6 עד 15 שעות בחודש", sub: "כמה ימי עבודה שהולכים לפח", value: 10 },
+        { main: "16 עד 30 שעות בחודש", sub: "כמעט שבוע עבודה שלם של \"רק מזכיר בעדינות\"", value: 22 },
+        { main: "מעל 30 שעות בחודש", sub: "יש לי עובד שכל התפקיד שלו בפועל הוא לרדוף אחרי לקוחות. ואני משלם לו על זה", value: 35 }
+      ]
+    },
+    {
+      id: "docsHours",
+      title: "מתקרב מועד דיווח (מע\"מ, מקדמות, דוח שנתי). איך נראה איסוף החומרים מהלקוחות?",
+      options: [
+        { main: "הלקוחות מעלים הכל בזמן", sub: "התיקים מוכנים לטיפול תמיד", value: 1 },
+        { main: "צריך להזכיר לחלק מהלקוחות", sub: "כמה שעות של הודעות ומיילים לפני כל מועד", value: 4 },
+        { main: "סיוט", sub: "קבלות מטושטשות בוואטסאפ, \"שלחתי לך כבר\", ומיילים שאף אחד לא עונה עליהם", value: 10 },
+        { main: "עונת דוחות = לילות לבנים", sub: "אני עובד עד 2 בלילה, בזמן שהלקוחות מתעלמים מהוואטסאפים שלי, והדוחות נדחים", value: 16 }
+      ]
+    },
+    {
+      id: "matchHours",
+      title: "אם אשאל אותך עכשיו כמה כסף בדיוק חייבים לך הלקוחות, ומי – כמה זמן ייקח לך לענות?",
+      options: [
+        { main: "שנייה אחת", sub: "יש לי את זה מול העיניים בכל רגע", value: 0 },
+        { main: "כמה דקות", sub: "צריך לפתוח את האקסל ולעבור עליו", value: 2 },
+        { main: "חצי יום", sub: "צריך לשבת עם הנהלת החשבונות ולהצליב תשלומים", value: 5 },
+        { main: "אין לי מושג אמיתי", sub: "אני יודע שחייבים לי. לא כמה, לא מי ולא על איזה חודש. וזה מפחיד אותי", value: 8 }
+      ]
+    },
+    {
+      id: "goal",
+      title: "אם היית יכול לקחת את כל השעות שהמשרד שורף על ניירת ורדיפה אחרי לקוחות ולהשקיע אותן במקום אחר – מה היית עושה?",
+      options: [
+        { main: "לוקח עוד לקוחות למשרד", sub: "בלי לגייס עוד עובד", value: "scale" },
+        { main: "נותן ללקוחות ליווי וייעוץ", sub: "שירות שמביא יותר כסף ונאמנות", value: "service" },
+        { main: "מסיים מוקדם והולך הביתה", sub: "בלי לילות לבנים בעונת הדוחות", value: "family" },
+        { main: "מוריד מעצמי את הלחץ", sub: "של מועדים, חומרים חסרים ולקוחות שלא משלמים", value: "rest" }
+      ]
+    }
+  ];
+
+  var TOTAL = QUESTIONS.length;
+  var answers = {};      // id -> index של התשובה
+  var current = 0;
+  var KEYS = ["א", "ב", "ג", "ד"];
+
+  var quiz = document.getElementById("quiz");
+  var screensWrap = document.getElementById("qScreens");
+  var qCount = document.getElementById("qCount");
+  var qProgress = document.getElementById("qProgress");
+  var qProgressWrap = document.getElementById("qProgressWrap");
+  var qBack = document.getElementById("qBack");
+  var calcScreen = document.getElementById("calcScreen");
+  var leadScreen = document.getElementById("leadScreen");
+  var lastFocus = null;
+
+  /* ---------- בניית מסכי השאלות ---------- */
+  QUESTIONS.forEach(function (q, qi) {
+    var s = document.createElement("div");
+    s.className = "screen";
+    s.dataset.index = qi;
+    var html = '<h2 class="q-title" id="qt' + qi + '">' + q.title + '</h2>' +
+               '<div class="options" role="radiogroup" aria-labelledby="qt' + qi + '">';
+    q.options.forEach(function (o, oi) {
+      html += '<button type="button" class="opt" role="radio" aria-checked="false" data-q="' + qi + '" data-o="' + oi + '">' +
+                '<span class="opt-key" aria-hidden="true">' + KEYS[oi] + '</span>' +
+                '<span class="opt-text"><span class="opt-main">' + o.main.replace(/ ₪/g, "&nbsp;₪") + '</span>' +
+                (o.sub ? '<span class="opt-sub">' + o.sub + '</span>' : '') + '</span>' +
+              '</button>';
+    });
+    html += '</div><p class="kbd-hint">טיפ: אפשר ללחוץ 1-4 במקלדת</p>';
+    s.innerHTML = html;
+    screensWrap.appendChild(s);
+  });
+
+  function allScreens() { return quiz.querySelectorAll(".screen"); }
+
+  function show(el, backwards) {
+    allScreens().forEach(function (s) { s.classList.remove("active", "back-anim"); });
+    el.classList.add("active");
+    if (backwards) el.classList.add("back-anim");
+    quiz.scrollTop = 0;
+  }
+
+  function setProgress(pct, label) {
+    qProgress.style.width = pct + "%";
+    qProgressWrap.setAttribute("aria-valuenow", Math.round(pct));
+    qCount.innerHTML = label;
+  }
+
+  function goTo(i, backwards) {
+    current = i;
+    var screen = screensWrap.children[i];
+    show(screen, backwards);
+    setProgress((i / TOTAL) * 100 + 4, "שאלה <b>" + (i + 1) + "</b> מתוך " + TOTAL);
+    qBack.hidden = i === 0;
+    var sel = screen.querySelector(".opt.selected") || screen.querySelector(".opt");
+    setTimeout(function () { sel.focus({ preventScroll: true }); }, 60);
+  }
+
+  function openQuiz() {
+    lastFocus = document.activeElement;
+    quiz.classList.add("open");
+    document.body.style.overflow = "hidden";
+    track("QuizStart");
+    goTo(0);
+  }
+
+  function closeQuiz() {
+    quiz.classList.remove("open");
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+
+  document.querySelectorAll("[data-start-quiz]").forEach(function (b) { b.addEventListener("click", openQuiz); });
+  document.getElementById("qClose").addEventListener("click", closeQuiz);
+  qBack.addEventListener("click", function () {
+    if (leadScreen.classList.contains("active")) { goTo(TOTAL - 1, true); return; }
+    if (current > 0) goTo(current - 1, true);
+  });
+
+  /* ---------- בחירת תשובה ---------- */
+  screensWrap.addEventListener("click", function (e) {
+    var opt = e.target.closest(".opt");
+    if (!opt) return;
+    choose(+opt.dataset.q, +opt.dataset.o);
+  });
+
+  var advancing = false;
+  function choose(qi, oi) {
+    if (advancing) return;
+    answers[QUESTIONS[qi].id] = oi;
+    var screen = screensWrap.children[qi];
+    screen.querySelectorAll(".opt").forEach(function (o, i) {
+      o.classList.toggle("selected", i === oi);
+      o.setAttribute("aria-checked", i === oi ? "true" : "false");
+    });
+    advancing = true;
+    setTimeout(function () {
+      advancing = false;
+      if (qi < TOTAL - 1) goTo(qi + 1);
+      else runCalculation();
+    }, 340);
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (!quiz.classList.contains("open")) return;
+    if (e.key === "Escape") { closeQuiz(); return; }
+    var active = screensWrap.querySelector(".screen.active");
+    if (!active) return;
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 4) choose(+active.dataset.index, n - 1);
+  });
+
+  /* ---------- מסך החישוב ---------- */
+  function runCalculation() {
+    show(calcScreen);
+    qBack.hidden = true;
+    setProgress(96, "מחשב תוצאות...");
+    var items = calcScreen.querySelectorAll(".calc-list li");
+    items.forEach(function (li) { li.classList.remove("done"); });
+    items.forEach(function (li, i) { setTimeout(function () { li.classList.add("done"); }, 650 * (i + 1)); });
+    setTimeout(function () {
+      show(leadScreen);
+      qBack.hidden = false;
+      setProgress(100, "שלב אחרון");
+      track("QuizComplete");
+      setTimeout(function () { document.getElementById("fName").focus(); }, 80);
+    }, 650 * items.length + 600);
+  }
+
+  /* ============================================================
+     לוגיקת החישוב
+     שעות = רדיפה אחרי תשלומים (ש׳2) + איסוף מסמכים (ש׳3) + שיוך תשלומים (ש׳4)
+     הפסד חודשי = שעות × שווי שעה (config.js)
+     ============================================================ */
+  function val(id) { var q = QUESTIONS.filter(function (x) { return x.id === id; })[0]; return q.options[answers[id]].value; }
+  function txt(id) { var q = QUESTIONS.filter(function (x) { return x.id === id; })[0]; var o = q.options[answers[id]]; return o.main + (o.sub ? " (" + o.sub + ")" : ""); }
+
+  function compute() {
+    var chase = val("chaseHours"), docs = val("docsHours"), match = val("matchHours");
+    var hours = Math.max(1, Math.round(chase + docs + match));
+    var rate = CFG.hourlyRate || 300;
+    var monthly = hours * rate;
+
+    // הדליפה הגדולה ביותר
+    var leaks = [
+      { key: "chase", hours: chase },
+      { key: "docs", hours: docs },
+      { key: "match", hours: match }
+    ].sort(function (a, b) { return b.hours - a.hours; });
+    var biggest = answers.outstanding >= 2 ? "cashflow" : leaks[0].key;
+
+    return {
+      chase: chase, docs: docs, match: match,
+      hours: hours,
+      hoursYear: hours * 12,
+      monthly: monthly,
+      yearly: monthly * 12,
+      outstanding: val("outstanding"),
+      outstandingLabel: QUESTIONS[0].options[answers.outstanding].main,
+      biggest: biggest,
+      goal: val("goal"),
+      taxRisk: answers.docsHours === 3,
+      rate: rate
+    };
+  }
+
+  /* ---------- טופס הליד ---------- */
+  var form = document.getElementById("leadForm");
+  function setErr(input, bad) { input.setAttribute("aria-invalid", bad ? "true" : "false"); return !bad; }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var phoneDigits = form.phone.value.replace(/\D/g, "");
+    var ok = true;
+    ok = setErr(form.name, name.length < 2) && ok;
+    ok = setErr(form.phone, !/^(0\d{8,9}|972\d{8,9})$/.test(phoneDigits)) && ok;
+    if (!ok) { var bad = form.querySelector('[aria-invalid="true"]'); if (bad) bad.focus(); return; }
+
+    var btn = document.getElementById("leadSubmit");
+    btn.disabled = true;
+    document.getElementById("leadSubmitText").textContent = "מכין את התוצאות שלך...";
+
+    var r = compute();
+    var result = { name: name.split(" ")[0], fullName: name, result: r, at: Date.now() };
+    try { sessionStorage.setItem("qf_result", JSON.stringify(result)); } catch (err) {}
+
+    /* Payload שטוח וברור למיפוי ב-Make (FixDigital CRM + רצפי וואטסאפ) */
+    var utm = utmParams();
+    var payload = {
+      event: "quiz_lead",
+      source: "yitra0_loss_quiz",
+      submitted_at: new Date().toISOString(),
+      name: name,
+      first_name: name.split(" ")[0],
+      email: "",            /* הטופס לא אוסף אימייל; המפתח נשאר כדי שהמיפוי ב-Make לא יישבר */
+      phone: form.phone.value.trim(),
+      phone_intl: phoneIntl(form.phone.value),
+      q1_question: "שכר טרחה פתוח שעבר את מועד התשלום",
+      q1_answer: txt("outstanding"),
+      q2_question: "שעות בחודש על רדיפה אחרי לקוחות",
+      q2_answer: txt("chaseHours"),
+      q3_question: "איסוף חומרים לפני מועד דיווח",
+      q3_answer: txt("docsHours"),
+      q4_question: "כמה זמן לדעת כמה חייבים לך",
+      q4_answer: txt("matchHours"),
+      q5_question: "מה היה עושה עם הזמן",
+      q5_answer: txt("goal"),
+      estimated_loss: r.monthly,
+      estimated_loss_yearly: r.yearly,
+      hours_per_month: r.hours,
+      outstanding_fees: r.outstanding,
+      biggest_leak: r.biggest,
+      biggest_leak_label: LEAK_LABELS[r.biggest] || r.biggest,
+      goal: r.goal,
+      utm_source: utm.utm_source,
+      utm_medium: utm.utm_medium,
+      utm_campaign: utm.utm_campaign,
+      utm_content: utm.utm_content,
+      utm_term: utm.utm_term,
+      page_url: location.href.split("?")[0]
+    };
+
+    track("Lead");
+    sendLead(payload).then(function () { location.href = "results.html"; });
+  });
+
+  var LEAK_LABELS = {
+    chase: "רדיפה אחרי לקוחות",
+    docs: "איסוף חומרים לדיווח",
+    match: "לא יודע כמה חייבים לו",
+    cashflow: "שכר טרחה תקוע אצל לקוחות"
+  };
+
+  /* 972XXXXXXXXX — פורמט שמתאים לוואטסאפ ול-CRM */
+  function phoneIntl(raw) {
+    var d = String(raw || "").replace(/\D/g, "");
+    if (d.indexOf("972") === 0) return d;
+    return d.charAt(0) === "0" ? "972" + d.slice(1) : d;
+  }
+
+  /**
+   * שליחה ל-Webhook (Make / Apps Script).
+   * ניסיון ראשון: JSON נקי (application/json) — Make ממפה את השדות אוטומטית.
+   * אם הדפדפן חוסם (CORS), נשלח שוב כ-form-urlencoded — גם אותו Make מפרק לשדות.
+   */
+  function sendLead(payload) {
+    if (!CFG.leadWebhookUrl) return Promise.resolve();
+    var req = fetch(CFG.leadWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(function () {
+      return fetch(CFG.leadWebhookUrl, {
+        method: "POST", mode: "no-cors",
+        body: new URLSearchParams(payload),
+        keepalive: true
+      }).catch(function () {});
+    });
+    // לא מחכים יותר מ-2.5 שניות — הלקוח חייב לראות תוצאות
+    return Promise.race([req, new Promise(function (res) { setTimeout(res, 2500); })]);
+  }
+
+  function utmParams() {
+    var p = new URLSearchParams(location.search), out = {};
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) { out[k] = p.get(k) || ""; });
+    if (!out.utm_source) out.utm_source = "direct";
+    return out;
+  }
+
+  /* פיקסלים — אם מותקנים (Meta / GA) */
+  function track(ev) {
+    try { if (window.fbq) fbq(ev === "Lead" ? "track" : "trackCustom", ev); } catch (e) {}
+    try { if (window.gtag) gtag("event", ev); } catch (e) {}
+  }
+
+  /* ---------- אנימציות גלילה + CTA דביק ---------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: .12 });
+  document.querySelectorAll(".reveal").forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el); });
+
+  var sticky = document.getElementById("sticky");
+  var heroBtn = document.querySelector("#heroCta .btn");
+  // הכפתור הדביק מופיע ברגע שהכפתור הראשי לא נראה במלואו (גם כשהוא חתוך בתחתית המסך)
+  new IntersectionObserver(function (en) { sticky.classList.toggle("show", en[0].intersectionRatio < 0.95); }, { threshold: [0, 0.95, 1] }).observe(heroBtn);
+
+  /* כותרת עליונה + פס התקדמות גלילה */
+  var header = document.getElementById("siteHeader");
+  var bar = document.getElementById("scrollProgress");
+  function onScroll() {
+    var y = window.scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    header.classList.toggle("scrolled", y > 30);
+    bar.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>

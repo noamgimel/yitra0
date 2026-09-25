@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>יתרה 0 | לוגו</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&family=Rubik:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; font-family: Heebo, sans-serif; background: #F8F4EA; color: #0B2E24; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-family: Rubik, sans-serif; font-weight: 900; font-size: 34px; margin: 0; }
+  .sub { margin-top: 8px; opacity: .7; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .tile { border-radius: 24px; padding: 48px 24px; display: grid; place-items: center; min-height: 220px; position: relative; }
+  .tile .lbl { position: absolute; top: 14px; inset-inline-start: 18px; font-size: 13px; font-weight: 600; opacity: .6; }
+  .dark { background: radial-gradient(60% 60% at 80% 0%, #1F6A52, transparent 70%), #0B2E24; color: #F8F4EA; }
+  .light { background: #fff; border: 1px solid rgba(11,46,36,.1); }
+  .gold { background: linear-gradient(160deg, #F7C863, #F4B740); }
+  .wide { grid-column: 1 / -1; }
+  .icons { display: flex; gap: 28px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
+  .icons figure { margin: 0; text-align: center; font-size: 13px; opacity: .8; }
+  .icons figcaption { margin-top: 8px; }
+  .concept { margin-top: 36px; padding: 24px 28px; border-radius: 20px; background: #fff; border: 1px solid rgba(11,46,36,.1); line-height: 1.8; }
+  .concept b { font-family: Rubik, sans-serif; }
+  .sw { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
+  .sw span { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; direction: ltr; }
+  .sw i { width: 28px; height: 28px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>יתרה 0: לוגו</h1>
+  <p class="sub">אייקון, לוגו מלא לרקע כהה ולרקע בהיר, וגרסאות קטנות לפאביקון.</p>
+
+  <div class="grid">
+    <div class="tile dark wide"><span class="lbl">לוגו מלא, רקע כהה</span><img src="logo-dark.svg" alt="יתרה 0" style="height:110px"></div>
+    <div class="tile light wide"><span class="lbl">לוגו מלא, רקע בהיר</span><img src="logo-light.svg" alt="יתרה 0" style="height:110px"></div>
+    <div class="tile dark"><span class="lbl">אייקון</span><img src="mark.svg" alt="" style="height:150px"></div>
+    <div class="tile gold"><span class="lbl">חד-צבעי (על זהב או על תמונה)</span><img src="logo-mono.svg" alt="" style="height:80px"></div>
+    <div class="tile light wide"><span class="lbl">גדלים קטנים</span>
+      <div class="icons">
+        <figure><img src="mark.svg" alt="" width="128"><figcaption>128</figcaption></figure>
+        <figure><img src="mark.svg" alt="" width="64"><figcaption>64</figcaption></figure>
+        <figure><img src="mark.svg" alt="" width="32"><figcaption>32</figcaption></figure>
+        <figure><img src="mark.svg" alt="" width="16"><figcaption>16</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept">
+    <b>הרעיון:</b> ה-0 בלוגו הוא אפס מאורך, כמו הספרה אפס בדוחות, ו-✓ חוצה אותו במקום הקו האלכסוני של "אפס עם קו" שרואי חשבון מכירים. ביחד הם אומרים "היתרה סגורה, הכול שולם". זו בדיוק ההבטחה של המערכת.
+    <div class="sw">
+      <span><i style="background:#0B2E24"></i>#0B2E24 אמרלד</span>
+      <span><i style="background:#F4B740"></i>#F4B740 זהב</span>
+      <span><i style="background:#F8F4EA"></i>#F8F4EA קרם</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

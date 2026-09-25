@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="יתרה 0">
+  <defs>
+    <linearGradient id="y0-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1F6A52"/>
+      <stop offset="1" stop-color="#0B2E24"/>
+    </linearGradient>
+    <linearGradient id="y0-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9D27A"/>
+      <stop offset="1" stop-color="#E9A92C"/>
+    </linearGradient>
+    <!-- חיתוך סביב הווי, כדי שיעבור "דרך" האפס -->
+    <mask id="y0-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
+      <rect width="64" height="64" fill="#fff"/>
+      <path d="M20.5 33.5 L28 41 L46.5 19" fill="none" stroke="#000" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#y0-bg)"/>
+  <ellipse cx="32" cy="32" rx="11.5" ry="18" fill="none" stroke="url(#y0-gold)" stroke-width="6.5" mask="url(#y0-cut)"/>
+  <path d="M20.5 33.5 L28 41 L46.5 19" fill="none" stroke="#F8F4EA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

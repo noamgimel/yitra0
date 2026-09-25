@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>הפגישה נקבעה | מחשבון ההפסדים השקט לרואי חשבון</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B2E24">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Rubik:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="logo/mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="logo/mark-180.png">
+<link rel="stylesheet" href="styles.css?v=2">
+<style>
+  .ty-hero { padding-block: 130px 90px; text-align: center; }
+  .ty-hero .container { position: relative; z-index: 2; }
+  .check-badge { width: 96px; height: 96px; margin: 0 auto 26px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(160deg, var(--accent-bright), var(--accent)); color: var(--brand-900); box-shadow: 0 0 0 12px rgba(244, 183, 64, .12), 0 20px 50px -14px rgba(244, 183, 64, .6); animation: pop .7s var(--ease) both; }
+  .check-badge svg { width: 46px; height: 46px; stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw .6s .45s var(--ease) forwards; }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .ty-hero h1 { font-size: clamp(32px, 5vw, 56px); }
+  .ty-hero .sub { margin: 22px auto 0; max-width: 640px; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.7; color: rgba(248, 244, 234, .85); }
+  .warn-strip { margin: 34px auto 0; max-width: 640px; padding: 16px 22px; border-radius: 18px; background: rgba(244, 183, 64, .12); border: 1px solid rgba(244, 183, 64, .35); color: var(--cream); font-weight: 600; display: flex; gap: 12px; align-items: center; text-align: start; }
+  .warn-strip svg { width: 24px; height: 24px; color: var(--accent); flex: none; }
+
+  .steps-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 52px; }
+  .step-card { display: grid; gap: 14px; align-content: start; }
+  .step-card .step-no { font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: .08em; color: var(--brand-600); }
+  .step-card h3 { font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 27px); font-weight: 800; }
+  .step-card p { color: rgba(11, 46, 36, .75); line-height: 1.75; }
+  .prep { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; counter-reset: p; }
+  .prep li { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 14px; background: var(--cream); border: 1px solid rgba(11, 46, 36, .08); line-height: 1.6; }
+  .prep li::before { counter-increment: p; content: counter(p); width: 26px; height: 26px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--brand-900); color: var(--accent); font-weight: 800; font-size: 13px; margin-top: 1px; }
+  .mail-mock { padding: 18px; border-radius: 16px; background: var(--cream); border: 1px solid rgba(11, 46, 36, .08); display: grid; gap: 10px; }
+  .mail-row { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: #fff; border: 1px solid rgba(11, 46, 36, .06); font-size: 15px; }
+  .mail-row .av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--brand-900); color: var(--accent); }
+  .mail-row .av svg { width: 17px; height: 17px; }
+  .mail-row b { display: block; font-size: 14.5px; }
+  .mail-row span { color: rgba(11, 46, 36, .6); font-size: 13.5px; }
+  .mail-row .ok { margin-inline-start: auto; padding: 5px 12px; border-radius: 999px; background: var(--brand-900); color: var(--cream); font-size: 13px; font-weight: 700; flex: none; }
+
+  .agenda { margin-top: 52px; display: grid; gap: 0; max-width: 860px; }
+  .a-step { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding-bottom: 34px; }
+  .a-step:last-child { padding-bottom: 0; }
+  .a-step::before { content: ""; position: absolute; top: 64px; bottom: 0; inset-inline-start: 31px; width: 2px; background: linear-gradient(rgba(244, 183, 64, .5), rgba(244, 183, 64, .05)); }
+  .a-step:last-child::before { display: none; }
+  .a-num { width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 900; font-size: 24px; background: linear-gradient(160deg, var(--accent-bright), var(--accent)); color: var(--brand-900); box-shadow: 0 14px 30px -14px rgba(244, 183, 64, .7); }
+  .a-step h3 { font-family: var(--font-display); font-size: clamp(20px, 2.3vw, 25px); font-weight: 800; padding-top: 4px; }
+  .a-step p { margin-top: 8px; color: rgba(248, 244, 234, .8); line-height: 1.75; }
+
+  .testi { max-width: 780px; margin-inline: auto; text-align: center; }
+  .testi .q-mark { font-family: var(--font-display); font-size: 90px; line-height: .6; color: var(--accent); }
+  .testi blockquote { margin: 18px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(21px, 2.6vw, 30px); line-height: 1.5; }
+  .testi cite { display: block; margin-top: 18px; font-style: normal; color: rgba(11, 46, 36, .6); font-weight: 600; }
+
+  .wa-box { text-align: center; max-width: 680px; margin-inline: auto; }
+  .wa-box p { margin: 16px auto 30px; color: rgba(248, 244, 234, .82); font-size: 18px; line-height: 1.7; }
+
+  @media (max-width: 860px) { .steps-2 { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) {
+    .ty-hero { padding-block: 108px 72px; }
+    .a-step { grid-template-columns: 52px 1fr; gap: 16px; }
+    .a-num { width: 52px; height: 52px; font-size: 20px; border-radius: 16px; }
+    .a-step::before { top: 52px; inset-inline-start: 25px; }
+  }
+</style>
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a class="logo" href="index.html" aria-label="לדף הבית">
+      <img class="logo-img" src="logo/logo-dark.svg" alt="יתרה 0" width="160" height="40"><span class="ai-tag"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+<section class="ty-hero mesh-emerald noise">
+  <div class="dot-grid"></div>
+  <div class="container narrow">
+    <div class="check-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <h1 class="h-display" id="tyTitle">מעולה! פגישת ההדגמה שלנו נקבעה.</h1>
+    <p class="sub">שלחנו לך ברגע זה זימון למייל עם הקישור לשיחה (כדאי לוודא שהוא לא נפל לספאם).</p>
+    <div class="warn-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>עוד לא סיימת: 2 צעדים קטנים שיבטיחו שתצא מהשיחה עם תוכנית שעוצרת את ההפסד.</span></div>
+  </div>
+</section>
+
+<section class="section mesh-cream">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">לפני השיחה</span>
+      <h2 class="h-section">2 צעדים. <span class="mark">פחות מ-3 דקות.</span></h2>
+    </div>
+    <div class="steps-2">
+      <article class="card step-card reveal">
+        <span class="step-no">צעד 1</span>
+        <h3>אשר את הזימון במייל</h3>
+        <p>פתח את המייל ששלחנו ולחץ "אישור", כדי שהפגישה תישמר ביומן שלך ותקבל תזכורת לפני שהיא מתחילה. לא רואה אותו? חפש בתיקיית הספאם או בקידומי מכירות.</p>
+        <div class="mail-mock" aria-hidden="true">
+          <div class="mail-row">
+            <span class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+            <div><b>זימון: פגישת הדגמה ואבחון</b><span>30 דקות · הקישור לשיחה בפנים</span></div>
+            <span class="ok">אישור</span>
+          </div>
+        </div>
+      </article>
+      <article class="card step-card reveal">
+        <span class="step-no">צעד 2</span>
+        <h3>הכן 3 דברים קטנים</h3>
+        <p>לא צריך להכין מצגת. אבל אם יהיו לך את אלה מול העיניים, נוכל להראות לך את המערכת על המספרים האמיתיים שלך:</p>
+        <ol class="prep">
+          <li>רשימה או אקסל של לקוחות עם שכר טרחה פתוח (גם אם היא לא מסודרת, זה בסדר)</li>
+          <li>באיזו תוכנת הנהלת חשבונות המשרד עובד היום</li>
+          <li>המסמך שהכי קשה לך להוציא מהלקוחות, בכל שנה מחדש</li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section mesh-emerald noise">
+  <div class="dot-grid"></div>
+  <div class="container" style="position:relative;z-index:2">
+    <div class="section-head reveal">
+      <span class="eyebrow">בשיחה</span>
+      <h2 class="h-section">מה הולך לקרות בשיחה שלנו?</h2>
+    </div>
+    <div class="agenda">
+      <div class="a-step reveal"><span class="a-num">1</span><div><h3>נעבור על התוצאות של השאלון שלך</h3><p>ועל צווארי הבקבוק שעולים למשרד כסף היום<span id="agendaNums"></span>.</p></div></div>
+      <div class="a-step reveal"><span class="a-num">2</span><div><h3>נפתח את המערכת בלייב ונראה את סוכן ה-AI עובד</h3><p>ונדגים איך היא משווה בין כמה שילמו לך לבין כמה חייבים לך, גובה את ההפרש אוטומטית, ומטפלת בחומרים החסרים ובהכנה לדיווחים – בלי שתיגע בכלום.</p></div></div>
+      <div class="a-step reveal"><span class="a-num">3</span><div><h3>נבדוק אם יש התאמה</h3><p>ואיך אפשר להטמיע את זה במשרד שלך. אם אין התאמה, נגיד לך את זה ישר, ועדיין תצא עם תוכנית ל-30 יום.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- המלצה: להחליף בהמלצה אמיתית של לקוח, או למחוק את כל הסקשן -->
+<section class="section mesh-cream-warm" id="testimonial">
+  <div class="container">
+    <div class="testi reveal">
+      <div class="q-mark" aria-hidden="true">"</div>
+      <blockquote>[המלצה קצרה מרואה חשבון: כמה שעות או כמה שכר טרחה המערכת החזירה למשרד בחודש הראשון]</blockquote>
+      <cite>[שם, משרד רואי חשבון]</cite>
+    </div>
+  </div>
+</section>
+
+<section class="section mesh-deep noise">
+  <div class="container" style="position:relative;z-index:2">
+    <div class="wa-box reveal">
+      <span class="eyebrow">שאלות?</span>
+      <h2 class="h-section" style="margin-top:12px">אנחנו כאן בוואטסאפ.</h2>
+      <p>בינתיים, אם יש לך שאלות דחופות, אתה יכול לשלוח לנו הודעה מהירה בוואטסאפ. צריך לשנות מועד? עדיף לעדכן אותנו מראש, כדי שנוכל לתת את המקום למישהו אחר.</p>
+      <a class="btn btn-wa" id="waBtn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 012.2 12 9.8 9.8 0 0112 2.2 9.8 9.8 0 0121.8 12 9.8 9.8 0 0112 21.8zM20.5 3.5A11.8 11.8 0 0012 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.7a11.9 11.9 0 005.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4z"/></svg>
+        שלח הודעת וואטסאפ
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <span class="footer-brand"><img src="logo/logo-dark.svg" alt="יתרה 0" width="96" height="24"><span>© <span id="year"></span> <span data-brand>יתרה 0</span>. כל הזכויות שמורות.</span></span>
+  </div>
+</footer>
+
+<script src="config.js?v=2"></script>
+<script>
+(function () {
+  "use strict";
+  var CFG = window.FUNNEL_CONFIG || {};
+  var fmt = function (n) { return Math.round(n).toLocaleString("he-IL"); };
+  document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  var data = null;
+  try { data = JSON.parse(sessionStorage.getItem("qf_result") || "null"); } catch (e) {}
+  if (data && data.name) document.getElementById("tyTitle").textContent = "מעולה, " + data.name + "! פגישת ההדגמה שלנו נקבעה.";
+  if (data && data.result) document.getElementById("agendaNums").textContent = " (לפי השאלון: כ-" + fmt(data.result.hours) + " שעות ו-₪" + fmt(data.result.monthly) + " בחודש)";
+
+  document.getElementById("waBtn").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, קבעתי פגישת הדגמה ויש לי שאלה");
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: .12 });
+  document.querySelectorAll(".reveal").forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el); });
+
+  var header = document.getElementById("siteHeader");
+  addEventListener("scroll", function () { header.classList.toggle("scrolled", scrollY > 30); }, { passive: true });
+})();
+</script>
+</body>
+</html>
