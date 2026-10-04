@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>התוצאות שלך | מחשבון ההפסדים השקט לרואי חשבון</title>
+<title>התוצאות שלך | מחשבון המשרד לרואי חשבון</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0B2E24">
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=3">
+<link rel="stylesheet" href="fonts.css?v=4">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -201,6 +201,8 @@
   .cal-placeholder b { display: block; font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 6px; }
   .cal-placeholder code { direction: ltr; display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(11, 46, 36, .07); font-size: 14px; }
   .cal-meta { margin-top: 18px; justify-content: center; color: var(--cream); }
+  .cal-more { margin-top: 22px; text-align: center; font-size: 15px; }
+  .cal-more a { color: rgba(248, 244, 234, .8); text-decoration: underline; text-underline-offset: 4px; }
 
   /* ---------- איך זה עובד ---------- */
   .hw-flow { list-style: none; margin: 52px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; position: relative; }
@@ -344,65 +346,86 @@
 <section class="r-hero mesh-emerald noise">
   <div class="dot-grid"></div>
   <div class="container">
-    <span class="pill reveal"><span class="pill-dot"></span><span id="preHead">קרא את זה עד הסוף לפני שאתה סוגר את הדף</span></span>
+    <span class="pill reveal"><span class="pill-dot"></span><span id="preHead">התוצאות של המשרד שלך</span></span>
     <p class="gut reveal" id="gutPunch"></p>
 
-    <h1 class="h-display reveal">התוצאות שלך: המשרד שלך מפסיד כרגע בערך <span class="num-hl"><span data-v="hours">7</span> שעות</span> ויותר מ-<span class="num-loss">₪<span data-v="monthly">2,100</span></span> בחודש על עבודה שחורה שאפשר למחשב.</h1>
+    <h1 class="h-display reveal">המשרד שלך יכול להחזיר לעצמו <span id="savedPre">כ-</span><span class="num-hl" id="savedHl"><span data-v="saved">12</span> שעות</span> בכל חודש, <span id="savedVerb">ששוות</span> כ-<span class="num-hl money">₪<span data-v="yearly">36,000</span></span> בשנה.</h1>
 
     <div class="stats">
       <div class="stat reveal" style="--c:var(--accent-deep)">
-        <div class="stat-label">שעות שנשרפות בחודש</div>
-        <div class="stat-val" data-count="hours">0</div>
-        <div class="stat-note">כ-<span data-v="hoursYear">84</span> שעות בשנה</div>
-      </div>
-      <div class="stat reveal" style="--c:var(--loss)">
-        <div class="stat-label">הפסד חודשי מוערך</div>
-        <div class="stat-val" data-count="monthly" data-prefix="₪">0</div>
-        <div class="stat-note">לפי <span class="money">₪<span data-v="rate">300</span></span> לשעת רו״ח</div>
-      </div>
-      <div class="stat reveal" style="--c:var(--loss)">
-        <div class="stat-label">שכר טרחה שלא נגבה</div>
-        <div class="stat-val" data-count="outstanding" data-prefix="₪">0</div>
-        <div class="stat-note">יתרות פתוחות שעברו את המועד</div>
+        <div class="stat-label">שעות שחוזרות בחודש</div>
+        <div class="stat-val" data-count="saved">0</div>
+        <div class="stat-note">מתוך כ-<span data-v="hours">17</span> שעות של מעקב ותזכורות</div>
       </div>
       <div class="stat highlight reveal">
-        <div class="stat-label">ההפסד בשנה אחת</div>
+        <div class="stat-label">שווי הזמן הזה בשנה</div>
         <div class="stat-val" data-count="yearly" data-prefix="₪">0</div>
-        <div class="stat-note">וזה עוד לפני הכסף שתקוע</div>
+        <div class="stat-note" id="extraNote">כ-4 לקוחות נוספים, בלי לגייס עובד</div>
+      </div>
+      <div class="stat reveal" style="--c:var(--loss)">
+        <div class="stat-label">מועדי דיווח בחודש</div>
+        <div class="stat-val" data-count="deadlines">0</div>
+        <div class="stat-note">מע״מ, 102 ומקדמות, לכל לקוח בתדירות אחרת</div>
+      </div>
+      <div class="stat reveal" style="--c:var(--loss)">
+        <div class="stat-label">שכר טרחה תקוע</div>
+        <div class="stat-val" data-count="outstanding" data-prefix="₪">0</div>
+        <div class="stat-note">כסף שכבר הרווחת. לא נכלל בחישוב</div>
       </div>
     </div>
 
-    <p class="r-text reveal">לפי הנתונים שהזנת, המשרד שלך שורף כרגע <strong><span data-v="hours">7</span> שעות בחודש</strong> על רדיפה אחרי לקוחות, מסמכים חסרים ותשלומים. במונחים של שעת רואה חשבון, זה שווה ערך להפסד של כ-<strong class="money">₪<span data-v="monthly">2,100</span></strong> בחודש. קבע עכשיו פגישה ביומן למטה, ובוא נראה לך איך המערכת שלנו סוגרת את כל הפינות האלה באוטומציה מלאה – ומחזירה לך את הזמן והכסף האלה מיד.</p>
+    <p class="r-text reveal" id="calcText"></p>
 
     <div class="r-ctas reveal" id="heroCta">
       <a class="btn btn-primary shine" href="#calendar">
-        <span class="hide-m">אני רוצה להחזיר את <span data-v="hours">7</span> השעות האלה. </span>בחר שעה ביומן
+        <span class="hide-m">אני רוצה להחזיר את <span data-v="saved">12</span> השעות האלה. </span>בחר שעה ביומן
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
       </a>
     </div>
-    <p class="no-data" id="noData">המספרים שמוצגים כאן הם דוגמה. <a href="index.html">לחישוב המספרים של המשרד שלך, ענה על השאלון (60 שניות) ←</a></p>
+    <p class="no-data" id="noData">המספרים שמוצגים כאן הם דוגמה. <a href="index.html">לחישוב המספרים של המשרד שלך, ענה על השאלון (דקה אחת) ←</a></p>
   </div>
 </section>
 
-<!-- ============================ 2. הדליפה + המטרה ============================ -->
-<section class="section mesh-cream">
+<!-- ============================ 1א. יומן — מיד אחרי התוצאות ============================ -->
+<section class="section mesh-deep noise" id="book">
+  <div class="container" style="position:relative;z-index:2">
+    <div class="book-head reveal" style="margin-top:0">
+      <h2 class="h-display">בוא נראה את זה על המשרד שלך.</h2>
+      <p>בחר שעה לשיחת טלפון קצרה. נעבור על התוצאות שלך, ונראה לך בדיוק איך לוח הדיווחים והמשימות היה נראה אצלך.</p>
+    </div>
+
+    <div class="calendar reveal" id="calendar">
+      <div id="calendlyBox"></div>
+    </div>
+    <div class="cta-meta cal-meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>20 דקות</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>בטלפון</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ללא עלות</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ללא התחייבות</span>
+    </div>
+    <p class="cal-more reveal"><a href="#diagnosis">עוד לא בטוח? קרא קודם מה השאלון מצא ←</a></p>
+  </div>
+</section>
+
+<!-- ============================ 2. הדליפה + העומס ============================ -->
+<section class="section mesh-cream" id="diagnosis">
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">האבחון שלך</span>
-      <h2 class="h-section">איפה בדיוק <span class="mark">הכסף בורח.</span></h2>
+      <h2 class="h-section">איפה בדיוק <span class="mark">הזמן והכסף בורחים.</span></h2>
     </div>
     <div class="leak-grid">
       <article class="card card-dark leak-card reveal">
         <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>הדליפה הכי גדולה שלך</span>
-        <h3 id="leakTitle">רדיפה אחרי תשלומים</h3>
+        <h3 id="leakTitle">איסוף חומרים לדיווח</h3>
         <p id="leakText" style="color:rgba(248,244,234,.85)"></p>
         <p id="taxRisk" style="display:none;color:var(--loss-light);font-weight:700">ועוד משהו: ציינת שדוחות נדחים או מוגשים באיחור בגלל חומרים חסרים. זה פוגע באמון של הלקוחות, והנזק הזה בכלל לא נכנס לחישוב שלמעלה.</p>
       </article>
       <article class="card goal-card reveal">
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-        <h3 id="goalTitle">מה תעשה עם הזמן שיחזור אליך</h3>
-        <p id="goalText"></p>
-        <div class="goal-big"><span data-v="hoursYear">84</span> שעות<small id="goalBigNote">שחוזרות אליך בכל שנה</small></div>
+        <h3>מה מחזיק לך את הראש בכל חודש</h3>
+        <p id="loadText"></p>
+        <div class="goal-big"><span data-v="deadlines">38</span> מועדי דיווח<small>בכל חודש, לכל לקוח בתדירות אחרת</small></div>
       </article>
     </div>
   </div>
@@ -417,16 +440,16 @@
     </div>
     <div class="story">
       <p class="reveal">ובכל זאת, לפני כל מועד דיווח אותו סרט חוזר.</p>
-      <p class="reveal">אתה שולח ללקוח וואטסאפ: "תשלח לי בבקשה את החשבוניות של החודש". אחרי שבוע עוד אחד. הלקוח שולח שלוש תמונות מטושטשות של קבלות ושוכח את השאר. ובמקביל, את שכר הטרחה של החודשיים האחרונים הוא עוד "יעביר מחר".</p>
+      <p class="reveal">בתחילת החודש אתה מנסה להיזכר מי מדווח החודש ומי בחודש הבא. אחר כך אתה שולח ללקוח וואטסאפ: "תשלח לי בבקשה את החשבוניות של החודש". אחרי שבוע עוד אחד. הלקוח שולח שלוש תמונות מטושטשות של קבלות ושוכח את השאר. ובמקביל, את שכר הטרחה של החודשיים האחרונים הוא עוד "יעביר מחר".</p>
       <blockquote class="reveal">ואז מגיעה עונת הדוחות: עשרות תיקים פתוחים, ובכל אחד חסר משהו.</blockquote>
       <p class="reveal">אתה והצוות גוללים בוואטסאפ, במיילים ובתיקייה משותפת שאף אחד כבר לא יודע מה יש בה, ומבזבזים ערבים שלמים על ניירת במקום על עבודה מקצועית.</p>
       <p class="big reveal">אבל הכי גרוע זה מה שאתה <u>לא</u> רואה:</p>
       <ul class="hidden-list">
+        <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הלקוח שהמע״מ שלו היה צריך לצאת ב-15, ואף אחד לא שם לב שהחומרים לא הגיעו</li>
+        <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הפולואפ שהבטחת ללקוח בשיחה, ונזכרת בו רק כשהוא התקשר כועס</li>
         <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>שכר הטרחה של לקוח שלא שילם כבר 3 חודשים, ואף אחד במשרד לא שם לב</li>
-        <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הלקוח שהפסקת לתזכר על התשלום כי היה לך לא נעים, והכסף שלו פשוט ירד מהשולחן</li>
-        <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הדוח שהוגש באיחור כי החומרים לא הגיעו בזמן, והלקוח עוד כועס דווקא עליך</li>
       </ul>
-      <p class="cost-line reveal">השאלון הראה לך שזה עולה <b><span class="money">₪<span data-v="monthly">2,100</span></span> בחודש</b>. וזה עוד לפני שספרנו את השינה, את הלחץ ואת התחושה שהמשרד מנהל אותך. <strong style="color:var(--accent)">וכל חודש שזה נמשך, המספר הזה רק גדל.</strong></p>
+      <p class="cost-line reveal">השאלון הראה לך שהזמן הזה שווה <b><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</b>. וזה עוד לפני שספרנו את השינה, את הלחץ ואת התחושה שהמשרד מנהל אותך. <strong style="color:var(--accent)">וכל חודש שזה נמשך, המספר הזה רק גדל.</strong></p>
     </div>
   </div>
 </section>
@@ -436,60 +459,60 @@
   <div class="dot-grid"></div>
   <div class="container" style="position:relative;z-index:2">
     <div class="section-head reveal">
-      <span class="brand-chip"><img src="logo/mark.svg" alt="" width="30" height="30"><span>הכירו את <b>יתרה 0</b>: סוכן הגבייה החכם</span><span class="ai-tag" style="margin-inline-start:4px"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span></span>
+      <span class="brand-chip"><img src="logo/mark.svg" alt="" width="30" height="30"><span>הכירו את <b>יתרה 0</b>: המשרד שלא שוכח כלום</span><span class="ai-tag" style="margin-inline-start:4px"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span></span>
       <span class="eyebrow">החדשות הטובות?</span>
       <h2 class="h-section">אתה במרחק פגישה אחת מלהעביר את כל הבלגן הזה <span class="text-grad">לאוטומציה מלאה.</span></h2>
-      <p class="section-sub"><strong style="color:var(--accent)">סוכן ה-AI של יתרה 0 משווה אוטומטית בין כמה כסף שילמו לך לבין כמה חייבים לך, אומרת לך בדיוק מי חייב וכמה, ודואגת לגבות את זה אוטומטית.</strong> במקום שאתה והצוות תמשיכו לרדוף אחרי לקוחות, המערכת עושה את זה בשבילכם, אוטומטית ומהר, ונותנת לך שליטה מלאה ב-360 מעלות:</p>
+      <p class="section-sub"><strong style="color:var(--accent)">יתרה 0 מחזיקה בשבילך את כל מה שהיום יושב לך בראש:</strong> מה כל לקוח צריך לדווח החודש ומה כבר הגיע, כל משימה ופולואפ מחוברים ללקוח, קליטת לקוח חדש בקישור אחד, ומעקב אחרי שכר הטרחה. בלי להחליף את תוכנת הנהלת החשבונות שלך:</p>
     </div>
-    <figure class="dash reveal" aria-label="המחשה: הדאשבורד של יתרה 0">
+    <figure class="dash reveal" aria-label="המחשה: לוח הדיווחים של יתרה 0">
       <div class="dash-top">
         <img src="logo/logo-light.svg" alt="יתרה 0" width="104" height="26">
-        <span class="dash-live"><i></i>סוכן AI פעיל<span class="hide-m"> · מתעדכן בזמן אמת</span></span>
+        <span class="dash-live"><i></i>לוח הדיווחים · אוקטובר<span class="hide-m"> · התמלא לבד ב-1 לחודש</span></span>
       </div>
       <div class="dash-kpis">
-        <div class="kpi"><span>חויב החודש</span><b>₪184,500</b></div>
-        <div class="kpi ok"><span>שולם</span><b>₪151,200</b></div>
-        <div class="kpi due"><span>עדיין חייבים לך</span><b>₪33,300</b></div>
-        <div class="kpi auto"><span>נגבה אוטומטית החודש</span><b>₪21,850</b></div>
+        <div class="kpi"><span>דיווחים החודש</span><b>46</b></div>
+        <div class="kpi ok"><span>דווחו</span><b>31</b></div>
+        <div class="kpi due"><span>ממתינים לחומרים</span><b>9</b></div>
+        <div class="kpi auto"><span>משימות להיום</span><b>6</b></div>
       </div>
-      <div class="dash-bar" aria-hidden="true"><span style="width:82%"></span></div>
-      <div class="ai-insight"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><div><b>תובנת AI:</b> 3 לקוחות משלמים בדרך כלל רק אחרי תזכורת שנייה. שלחתי להם תזכורת אישית הבוקר. בנוסף שייכתי העברה בביט של <span class="money">₪1,450</span> ללקוח "אבירם הנדסה".</div></div>
+      <div class="dash-bar" aria-hidden="true"><span style="width:67%"></span></div>
+      <div class="ai-insight"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><div><b>הבוקר, 08:00:</b> 3 לקוחות עוד לא שלחו חומרים למע״מ שמוגש ב-15. נשלחה להם בקשה. ופולואפ פתוח להיום: לחזור לד״ר לוי לגבי המקדמות.</div></div>
       <div class="dash-table" role="table">
-        <div class="dr dh" role="row"><span>לקוח</span><span>חויב</span><span>שולם</span><span>יתרה</span><span>סטטוס</span></div>
-        <div class="dr" role="row"><span>כהן שיווק בע״מ</span><span>₪4,200</span><span>₪4,200</span><span class="zero">₪0</span><span><em class="st st-ok">יתרה 0 ✓</em></span></div>
-        <div class="dr" role="row"><span>ד״ר לוי, מרפאת שיניים</span><span>₪3,600</span><span>₪1,800</span><span class="owe">₪1,800</span><span><em class="st st-auto">תזכורת 2 נשלחה</em></span></div>
-        <div class="dr" role="row"><span>אבירם הנדסה</span><span>₪6,900</span><span>₪6,900</span><span class="zero">₪0</span><span><em class="st st-ok">יתרה 0 ✓</em></span></div>
-        <div class="dr" role="row"><span>מאפיית השכונה</span><span>₪2,100</span><span>₪0</span><span class="owe">₪2,100</span><span><em class="st st-docs">חסרות 3 קבלות</em></span></div>
-        <div class="dr" role="row"><span>שחר אדריכלות</span><span>₪5,400</span><span>₪5,400</span><span class="zero">₪0</span><span><em class="st st-ok">נגבה ע״י AI ✓</em></span></div>
+        <div class="dr dh" role="row"><span>לקוח</span><span>מועד</span><span>חומרים</span><span>דיווח</span><span>סטטוס</span></div>
+        <div class="dr" role="row"><span>כהן שיווק בע״מ</span><span>15.10</span><span class="zero">התקבלו</span><span>מע״מ</span><span><em class="st st-ok">דווח ✓</em></span></div>
+        <div class="dr" role="row"><span>ד״ר לוי, מרפאת שיניים</span><span>15.10</span><span class="zero">התקבלו</span><span>מקדמות</span><span><em class="st st-auto">בטיפול</em></span></div>
+        <div class="dr" role="row"><span>אבירם הנדסה</span><span>15.10</span><span class="zero">התקבלו</span><span>102</span><span><em class="st st-ok">דווח ✓</em></span></div>
+        <div class="dr" role="row"><span>מאפיית השכונה</span><span>15.10</span><span class="owe">חסרות 3 קבלות</span><span>מע״מ</span><span><em class="st st-docs">תזכורת נשלחה</em></span></div>
+        <div class="dr" role="row"><span>שחר אדריכלות</span><span>19.10</span><span class="owe">טרם התקבלו</span><span>מע״מ</span><span><em class="st st-docs">ממתין לחומרים</em></span></div>
       </div>
       <figcaption>המחשה של המערכת. הנתונים לדוגמה.</figcaption>
     </figure>
     <div class="pillars">
       <article class="card-glass pillar reveal">
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></span>
-        <h3>שליטה מוחלטת בשכר הטרחה שלך</h3>
-        <p>המערכת משווה אוטומטית בין התשלומים שנכנסו לבין שכר הטרחה שכל לקוח חייב. מבט אחד בדאשבורד מראה לך בדיוק כמה שילמו לך, כמה עוד חייבים לך ומי. מי שלא שילם מקבל תזכורות באוטומציה מלאה, ואתה רואה בזמן אמת את התשלומים שנכנסו בעקבותיהן.</p>
+        <h3>כל הדיווחים של החודש, במסך אחד</h3>
+        <p>בתחילת כל חודש הלוח מתמלא לבד, לפי התדירות שבכרטיס של כל לקוח: מה צריך לדווח, עד מתי, מה כבר הגיע ומה כבר דווח.</p>
       </article>
       <article class="card-glass pillar reveal">
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span>
-        <h3>אפס חורים בניירת של הלקוחות</h3>
-        <p>לא צריך יותר לחפש קבלות בוואטסאפ. המערכת מבקשת מהלקוחות את החומרים בעצמה, ואתה רואה מיד אילו מסמכים התקבלו, אילו חסרים ואילו העברות דורשות אישור שלך.</p>
+        <h3>אף פולואפ לא נופל</h3>
+        <p>כל משימה מחוברת ללקוח, עם תזכורת ב-08:00 ביום היעד. רואים מה באיחור, מה בלוח השנה, או הכול לפי לקוח.</p>
       </article>
       <article class="card-glass pillar reveal">
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
-        <h3>כל התיקים מוכנים לדיווח</h3>
-        <p>המשרד עובד על אוטומט עד סוף השנה. בכל רגע אתה רואה אילו תיקים מוכנים לטיפול ומה מצב ההכנה לדיווחים השנתיים של כל לקוח.</p>
+        <h3>לקוח חדש נקלט בקישור אחד</h3>
+        <p>הלקוח ממלא את הפרטים בקישור, והם נכנסים למערכת לבד. אתה מקבל התראה, ומשימת בדיקה נפתחת אוטומטית על אותו לקוח.</p>
       </article>
     </div>
     <div class="ai-block">
       <div class="ai-head reveal">
-        <span class="ai-pill"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>סוכן ה-AI של יתרה 0</span>
+        <span class="ai-pill"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>מה עובד בשבילך ברקע</span>
         <h3 class="h-display">עובד בשבילך <span class="ai-grad">24/7</span>, גם כשהמשרד סגור.</h3>
       </div>
       <div class="ai-grid">
-        <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12l2 2 3-4"/></svg></span><h3>מזהה כל תשלום</h3><p>ה-AI משייך אוטומטית כל העברה, ביט או צ׳ק ללקוח ולחודש הנכונים, גם כשההעברה הגיעה בלי שם.</p></article>
-        <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span><h3>יודע בדיוק מי חייב וכמה</h3><p>משווה בזמן אמת בין מה שחויב לבין מה ששולם, ומציג לך את היתרה המדויקת של כל לקוח.</p></article>
-        <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span><h3>כותב ושולח תזכורות</h3><p>מנסח לכל לקוח תזכורת אישית בטון שמתאים לו, ושולח אותה בוואטסאפ, במייל או ב-SMS בזמן הנכון.</p></article>
+        <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12l2 2 3-4"/></svg></span><h3>יודע מה צריך לדווח</h3><p>מכין בתחילת כל חודש את רשימת הדיווחים לפי התדירות של כל לקוח: מע״מ חודשי או דו-חודשי, 102 ומקדמות.</p></article>
+        <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span><h3>מזכיר לך בזמן</h3><p>כל בוקר ב-08:00 אתה יודע מה על השולחן היום: משימות, פולואפים ומועדים שמתקרבים.</p></article>
+        <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span><h3>עוקב אחרי שכר הטרחה</h3><p>רואים מי שילם ומי לא, ותזכורות התשלום יוצאות בזמן. אתה לא צריך להיות "הרע" מול הלקוח.</p></article>
         <article class="ai-card reveal"><span class="ai-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 12v6M9 15h6"/></svg></span><h3>מבקש חומרים חסרים</h3><p>יודע אילו מסמכים חסרים בכל תיק, ומבקש אותם מהלקוח בעצמו עד שהכול מגיע.</p></article>
       </div>
     </div>
@@ -502,41 +525,41 @@
     <div class="section-head reveal">
       <span class="eyebrow">איך זה עובד</span>
       <h2 class="h-section">4 שלבים. <span class="mark">ואתה לא עושה אף אחד מהם.</span></h2>
-      <p class="section-sub">מהרגע שמחברים את המשרד, סוכן ה-AI של יתרה 0 עובד ברקע: משווה, מזכיר וגובה. אתה רק רואה את התוצאות.</p>
+      <p class="section-sub">מהרגע שמחברים את המשרד, יתרה 0 עובדת ברקע: מכינה, מזכירה ועוקבת. אתה רק רואה מה פתוח.</p>
     </div>
     <ol class="hw-flow">
         <li class="hw-step reveal">
           <span class="hw-num">1</span>
           <span class="hw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></svg></span>
           <h3>מתחברים, פעם אחת</h3>
-          <p>אנחנו מחברים את יתרה 0 לחשבון הבנק ולתוכנת הנהלת החשבונות של המשרד, ומעבירים את כל הלקוחות והיתרות. ההקמה עלינו, אתה לא נוגע בכלום.</p>
-          <span class="hw-tag">חד-פעמי · עד 7 ימים</span>
+          <p>מייבאים את כל הלקוחות מהאקסל שלך, כולל התדירות של כל לקוח. ההקמה עלינו, ובלי להחליף את תוכנת הנהלת החשבונות.</p>
+          <span class="hw-tag">חד-פעמי</span>
         </li>
         <li class="hw-step reveal">
           <span class="hw-num">2</span>
           <span class="hw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8l-3 6h6zM19 8l-3 6h6z"/><path d="M5 8h14"/></svg></span>
-          <h3>ה-AI משווה: כמה חויב מול כמה שולם</h3>
-          <p>כל תשלום שנכנס, בהעברה, בביט או בצ׳ק, משויך אוטומטית ללקוח ולחודש הנכונים. בכל רגע המערכת יודעת בדיוק מי חייב לך וכמה.</p>
-          <span class="hw-tag">בזמן אמת</span>
+          <h3>הלוח מתמלא לבד</h3>
+          <p>בתחילת כל חודש: מה כל לקוח צריך לדווח, עד מתי, ומה כבר הגיע. בלי להכין כלום.</p>
+          <span class="hw-tag">כל 1 לחודש</span>
         </li>
         <li class="hw-step reveal">
           <span class="hw-num">3</span>
           <span class="hw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span>
           <h3>התזכורות יוצאות לבד</h3>
-          <p>לקוח שלא שילם או לא שלח חומרים מקבל תזכורת אישית בוואטסאפ, במייל או ב-SMS, בטון הנכון ובזמן הנכון, עד שהעניין סגור.</p>
-          <span class="hw-tag">אוטומטי · 24/7</span>
+          <p>לקוח שלא שלח חומרים או לא שילם מקבל תזכורת, ואתה מקבל משימה ב-08:00 ביום היעד, עד שהעניין סגור.</p>
+          <span class="hw-tag">אוטומטי</span>
         </li>
         <li class="hw-step reveal">
           <span class="hw-num">4</span>
           <span class="hw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-          <h3>הכסף נכנס. הלקוח ביתרה 0.</h3>
-          <p>כל לקוח ששילם מסומן ✓ בדאשבורד. אתה רק רואה את שכר הטרחה נכנס ואת היתרות הפתוחות יורדות, בלי לשלוח אף הודעה בעצמך.</p>
+          <h3>דווח ✓. הבא בתור.</h3>
+          <p>כל דיווח שהוגש מסומן, והמועד הבא שלו כבר מחכה בלוח. בכל רגע אתה רואה מה סגור ומה פתוח.</p>
           <span class="hw-tag">יתרה 0 ✓</span>
         </li>
     </ol>
     <div class="hw-strip reveal">
       <span class="ai-pill" style="color:var(--brand-900);border-color:rgba(11,46,36,.18)"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>ההבדל</span>
-      <p><b>היום:</b> אתה מצליב אקסלים, שולח הודעות ומחכה. <b>עם יתרה 0:</b> ה-AI עושה את כל זה בשבילך, ואתה מקבל התראה רק כשצריך אותך.</p>
+      <p><b>היום:</b> אתה מחזיק את המועדים בראש, שולח הודעות ומחכה. <b>עם יתרה 0:</b> הלוח יודע מה פתוח, התזכורות יוצאות לבד, ואתה מקבל התראה רק כשצריך אותך.</p>
     </div>
   </div>
 </section>
@@ -549,16 +572,16 @@
       <h2 class="h-section">לא עוד תוכנה. <span class="mark">משרד שעובד על אוטומט.</span></h2>
     </div>
     <ul class="fasc">
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>כמה שילמו לך מול כמה חייבים לך, עד השקל.</strong> המערכת משווה את זה לבד, בלי אקסלים ובלי לשבת עם הנהלת החשבונות: לחיצה אחת ורואים מי חייב וכמה.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>כל מועדי הדיווח של החודש, במבט אחד.</strong> בלי אקסל ובלי לזכור בעל-פה מי מדווח חודשי ומי דו-חודשי.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>שכר הטרחה נגבה בלי שתבקש אפילו פעם אחת.</strong> התזכורות יוצאות בזמן ובטון הנכון, ואתה לא צריך להיות "הרע" מול הלקוח.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>הלקוחות שולחים חומרים בלי שתרדוף אחריהם.</strong> סוכן ה-AI מבקש, מזכיר ומסמן מה הגיע ומה עוד חסר.</div></li>
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>למה לקוחות שמקבלים תזכורת מהמערכת משלמים ושולחים חומרים מהר יותר</strong> מלקוחות שמקבלים אותה ממך באופן אישי. זו פסיכולוגיה פשוטה, ונסביר אותה בשיחה.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>שום פולואפ לא נשכח.</strong> מה שהבטחת ללקוח בשיחה הופך למשימה עם תאריך, ומזכיר את עצמו ב-08:00.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>עונת הדוחות בלי לילות לבנים.</strong> התיקים מוכנים לטיפול לפני שהמועד מתקרב.</div></li>
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong><span data-v="hours">7</span> שעות חוזרות למשרד בכל חודש</strong>, לעבודה מקצועית, ללקוחות חדשים או סתם לערב בבית.</div></li>
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>תשלומים שנכנסו ולא שויכו לאף לקוח?</strong> ה-AI מזהה ומשייך אותם אוטומטית, בלי בירורים של "העברת לי?".</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong><span data-v="saved">12</span> שעות חוזרות למשרד בכל חודש</strong>, לעבודה מקצועית, ללקוחות חדשים או סתם לערב בבית.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לקוח חדש? קישור אחד.</strong> הוא ממלא את הפרטים, והכול נכנס למערכת בלי שתקליד שורה.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>אפשר לקחת עוד לקוחות בלי לגייס עוד עובד.</strong> הצוות הקיים מתפנה מהעבודה השחורה.</div></li>
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לא צריך להחליף תוכנת הנהלת חשבונות.</strong> המערכת מתחברת למה שהמשרד כבר עובד איתו.</div></li>
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>הכול מוכן תוך 7 ימים, ואנחנו עושים את כל ההקמה.</strong> אתה והצוות לא נוגעים בכלום.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לא צריך להחליף תוכנת הנהלת חשבונות.</strong> יתרה 0 עובדת לצד מה שהמשרד כבר עובד איתו.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>ההקמה עלינו.</strong> מייבאים את הלקוחות מהאקסל שלך, ואתה והצוות לא נוגעים בכלום.</div></li>
     </ul>
     <button class="btn btn-dark fasc-more" type="button" id="fascMore">הצג עוד 4 יתרונות</button>
   </div>
@@ -599,7 +622,7 @@
 
       <article class="card-glass stack-card reveal" style="border-color:rgba(244,183,64,.3)">
         <h3>הצעד הראשון: שיחת אבחון</h3>
-        <p class="lead">30 דקות · זום או טלפון</p>
+        <p class="lead">20 דקות · בטלפון</p>
         <div class="v-row"><div><b>אבחון דליפות למשרד</b><span>נמפה בדיוק איפה המשרד מפסיד זמן וכסף</span></div><span class="v-price">₪750</span></div>
         <div class="v-row"><div><b>הדגמה חיה על תיקים מהמשרד שלך</b><span>לקוחות חייבים, חומרים חסרים והכנה לדיווחים</span></div><span class="v-price">₪500</span></div>
         <div class="v-row"><div><b>מפת דרכים ל-30 יום להחזרת הכסף</b><span>נשארת אצלך גם אם לא תעבוד איתנו</span></div><span class="v-price">₪450</span></div>
@@ -624,7 +647,7 @@
         <div class="g-list">
           <div class="g-item g-main reveal"><h3>30 יום: המערכת מממנת את עצמה</h3><p>נגבה עבורך מספיק שכר טרחה תקוע כדי לכסות את עלות המערכת כבר ב-30 הימים הראשונים. <strong>לא גבינו? לא שילמת שקל.</strong></p></div>
           <div class="g-item reveal"><h3>90 יום: פי 3, או כל הכסף חוזר</h3><p>אם תוך 90 יום המערכת לא החזירה לך לפחות פי 3 ממה ששילמת, בשעות שנחסכו ובשכר טרחה שנגבה, נחזיר לך את כל התשלום, <strong>ותשאיר אצלך את כל הבונוסים.</strong></p></div>
-          <div class="g-item reveal"><h3>על השיחה</h3><p>אם בסוף 30 הדקות תרגיש שבזבזנו לך את הזמן, תגיד. נפצה אותך על הזמן שלך, בלי ויכוח.</p></div>
+          <div class="g-item reveal"><h3>על השיחה</h3><p>אם בסוף השיחה תרגיש שבזבזנו לך את הזמן, תגיד. נפצה אותך על הזמן שלך, בלי ויכוח.</p></div>
         </div>
         <p class="g-close reveal">אתה רק צריך להופיע.</p>
       </div>
@@ -632,8 +655,8 @@
   </div>
 </section>
 
-<!-- ============================ 8. דחיפות + יומן ============================ -->
-<section class="section mesh-emerald noise" id="book">
+<!-- ============================ 8. דחיפות ============================ -->
+<section class="section mesh-emerald noise" id="urgency">
   <div class="dot-grid"></div>
   <div class="container" style="position:relative;z-index:2">
     <div class="section-head reveal">
@@ -654,26 +677,14 @@
       </article>
       <article class="card-glass u-item reveal">
         <span class="icon-tile" style="background:rgba(255,155,133,.15);color:var(--loss-light)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <h3>כל חודש עולה לך <span class="text-loss money">₪<span data-v="monthly">2,100</span></span></h3>
-        <p>ההפסד לא מחכה שתהיה מוכן. כל חודש שעובר בלי מערכת הוא עוד <span data-v="hours">7</span> שעות ועוד כסף שלא חוזר.</p>
+        <h3>כל חודש שווה <span class="text-loss money">₪<span data-v="monthlyValue">3,000</span></span></h3>
+        <p>הזמן לא מחכה שתהיה מוכן. כל חודש שעובר בלי מערכת הוא עוד <span data-v="saved">12</span> שעות שלא חוזרות, ועוד <span data-v="deadlines">38</span> מועדים שאתה מחזיק בראש.</p>
       </article>
     </div>
 
-    <div class="book-head reveal">
-      <h2 class="h-display">אל תיתן לעוד חודש של עבודה שחורה להתבזבז.</h2>
-      <p>בחר עכשיו שעה ביומן כאן למטה, ובוא נראה לך בלייב איך המערכת שלנו תחסוך לך את הזמן והכסף האלה כבר מהשבוע הקרוב.</p>
-      <p><strong style="color:var(--accent)">בפגישה אחת נעבור לכם גם על כל השאר.</strong></p>
-      <div class="arrow-down" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+    <div class="r-ctas reveal" style="justify-content:center;margin-top:44px">
+      <a class="btn btn-primary shine" href="#calendar">בחר שעה ביומן, בחינם <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
     </div>
-
-    <div class="calendar reveal" id="calendar">
-      <div id="calendlyBox"></div>
-    </div>
-    <div class="cta-meta cal-meta">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>30 דקות</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>זום או טלפון</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ללא עלות</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ללא התחייבות</span>
     </div>
   </div>
 </section>
@@ -682,9 +693,9 @@
 <section class="section mesh-cream">
   <div class="container">
     <div class="ps">
-      <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: השאלון מצא שהמשרד שלך מפסיד <strong><span class="money">₪<span data-v="monthly">2,100</span></span> בחודש</strong>. בשיחה של 30 דקות, שעולה לך <span class="money">₪0</span> ומגובה באחריות על הזמן שלך, תקבל אבחון, הדגמה ותוכנית ל-30 יום. הסיכון היחיד הוא להמשיך כמו עכשיו.</p>
+      <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: השאלון מצא שהזמן שהמשרד שלך יכול להחזיר שווה <strong><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</strong>. בשיחה של 20 דקות, שעולה לך <span class="money">₪0</span> ומגובה באחריות על הזמן שלך, תקבל אבחון, הדגמה ותוכנית ל-30 יום. הסיכון היחיד הוא להמשיך כמו עכשיו.</p>
       <p class="reveal" id="psSpots"><b class="tag">נ.ב.ב.</b>נשארו <strong><span data-v="spotsLeft">3</span> מקומות</strong> להטמעה החודש.</p>
-      <div class="reveal"><a class="btn btn-dark" href="#calendar">אני רוצה לעצור את ההפסד. תנו לי לבחור שעה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
+      <div class="reveal"><a class="btn btn-dark" href="#calendar">אני רוצה להחזיר את הזמן הזה. תנו לי לבחור שעה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
     </div>
   </div>
 </section>
@@ -708,7 +719,7 @@
   </div>
 </div>
 
-<script src="config.js?v=3"></script>
+<script src="config.js?v=4"></script>
 <script>
 (function () {
   "use strict";
@@ -724,79 +735,87 @@
   /* ---------- נתוני השאלון (נשמרו בדף הקודם) ---------- */
   var data = null;
   try { data = JSON.parse(sessionStorage.getItem("qf_result") || "null"); } catch (e) {}
-  var hasData = !!(data && data.result);
+  var hasData = !!(data && data.result && data.result.saved !== undefined);
   var r = hasData ? data.result : {
-    // ערכי דוגמה כשנכנסים לדף ישירות
-    chase: 10, docs: 4, match: 2, hours: 16, hoursYear: 192, monthly: 16 * (CFG.hourlyRate || 300),
-    yearly: 192 * (CFG.hourlyRate || 300), outstanding: 20000, biggest: "chase", goal: "scale", taxRisk: false, rate: CFG.hourlyRate || 300
+    // ערכי דוגמה כשנכנסים לדף ישירות — משרד של כ-25 לקוחות (בערך המשרד של עידן)
+    clients: 25, fee: 750, trackingHours: 4.2, materialsHours: 9.2, slipsHours: 4, slips: 4,
+    hours: 17, saved: 12, savedYear: 144, extraClients: 4, perClient: 3, hourValue: 250,
+    yearly: 36000, monthlyValue: 3000, deadlines: 38, outstanding: 20000, biggest: "materials", taxRisk: false
   };
   if (!hasData) document.getElementById("noData").style.display = "block";
 
   var name = hasData && data.name ? data.name : "";
-  document.getElementById("preHead").textContent = name ? name + ", קרא את זה עד הסוף לפני שאתה סוגר את הדף" : "קרא את זה עד הסוף לפני שאתה סוגר את הדף";
 
   var values = {
-    hours: r.hours, hoursYear: r.hoursYear, monthly: r.monthly, yearly: r.yearly, outstanding: r.outstanding,
-    rate: r.rate, bonusDays: CFG.bonusDays || 7, spotsLeft: CFG.spotsLeft, spotsPerMonth: CFG.spotsPerMonth || 8
+    hours: r.hours, saved: r.saved, yearly: r.yearly, monthlyValue: r.monthlyValue, deadlines: r.deadlines,
+    outstanding: r.outstanding, bonusDays: CFG.bonusDays || 7, spotsLeft: CFG.spotsLeft, spotsPerMonth: CFG.spotsPerMonth || 8
   };
   document.querySelectorAll("[data-v]").forEach(function (el) {
     var v = values[el.dataset.v];
     if (v !== undefined && v !== null) el.textContent = fmt(v);
   });
 
-  /* ---------- אגרוף בבטן: הדליפה הגדולה + מה שענה בשאלה 5 ---------- */
+  /* ---------- כמה לקוחות נוספים הזמן הזה שווה ---------- */
+  document.getElementById("extraNote").textContent = r.extraClients >= 1
+    ? (r.extraClients === 1 ? "כמו לקוח נוסף אחד, בלי לגייס עובד" : "כמו " + fmt(r.extraClients) + " לקוחות נוספים, בלי לגייס עובד")
+    : "לפי " + "\u2066₪" + fmt(r.hourValue) + "\u2069" + " לשעה במשרד שלך";
+
+  /* ---------- החישוב, בשקיפות מלאה ---------- */
+  function hrs(n) { return n === 1 ? "בערך שעה אחת" : "כ-" + fmt(n) + " שעות"; }
+  if (r.saved === 1) {
+    document.getElementById("savedPre").textContent = "בערך ";
+    document.getElementById("savedHl").textContent = "שעה אחת";
+    document.getElementById("savedVerb").textContent = "ששווה";
+  }
+  var partsTxt = ["כ-" + r.trackingHours + " שעות בחודש למעקב דיווחים", "כ-" + r.materialsHours + " לאיסוף חומרים"];
+  if (r.slipsHours > 0) partsTxt.push("כ-" + r.slipsHours + " לתיקון דברים שנפלו בין הכיסאות");
+  document.getElementById("calcText").innerHTML =
+    "<strong>איך הגענו לזה:</strong> לפי כ-" + fmt(r.clients) + " לקוחות, המשרד שלך מקדיש " +
+    partsTxt.slice(0, -1).join(", ") + " ו" + partsTxt[partsTxt.length - 1] + ". מתוך " + hrs(r.hours) +
+    ", <strong>" + hrs(r.saved) + "</strong> אפשר להחזיר. לקוח ממוצע אצלך משלם " + money(r.fee) + " בחודש ולוקח כ-" + r.perClient +
+    " שעות, כלומר שעה במשרד שלך שווה כ-" + money(r.hourValue) + ". " + fmt(r.saved) + " × " + money(r.hourValue) + " × 12 חודשים = <strong>" +
+    money(r.yearly) + " בשנה</strong>. שכר הטרחה התקוע לא נכלל בחישוב.";
+
+  /* ---------- אגרוף בבטן: הדליפה הגדולה ---------- */
   var GUT = {
-    cashflow: "<b>" + money(r.outstanding) + " שלך</b> יושבים עכשיו אצל לקוחות. כסף שהרווחת, על עבודה שכבר עשית. ואתה עוד שולח להם \"רק מזכיר בעדינות\".",
-    chase: "<b>" + fmt(r.chase) + " שעות בכל חודש</b> אתה עובד בחינם, כשליח הגבייה של הלקוחות שלך.",
-    docs: "בכל מועד דיווח אתה הופך <b>לשליח שמחפש קבלות בוואטסאפ</b>, במקום לעבוד כרואה חשבון.",
-    match: "אתה לא יודע כמה חייבים לך. <b>וכל שקל שאתה לא יודע עליו, לא ייגבה לעולם.</b>"
-  };
-  var GUT_GOAL = {
-    scale: " ובינתיים, הלקוחות החדשים שרצית לקחת מחכים.",
-    service: " ובינתיים, הייעוץ שרצית לתת ללקוחות מחכה.",
-    family: " ובינתיים, המשפחה מחכה לך בבית.",
-    rest: " ובינתיים, הלחץ הזה הולך איתך לישון."
+    cashflow: "<b>" + money(r.outstanding) + " שלך</b> יושבים עכשיו אצל לקוחות. כסף שהרווחת, על עבודה שכבר עשית.",
+    tracking: "<b>" + fmt(r.deadlines) + " מועדי דיווח בכל חודש</b> מנוהלים אצלך בזיכרון ובוואטסאפ. מספיק שאחד מהם יתפספס.",
+    materials: "בכל מועד דיווח אתה הופך <b>לשליח שמחפש קבלות בוואטסאפ</b>, במקום לעבוד כרואה חשבון.",
+    slips: "<b>כ-" + fmt(r.slips) + " פעמים בחודש</b> משהו נופל בין הכיסאות. ואלה רק הפעמים שאתה יודע עליהן."
   };
   var gutEl = document.getElementById("gutPunch");
-  gutEl.innerHTML = (GUT[r.biggest] || GUT.chase) + (GUT_GOAL[r.goal] || "");
+  gutEl.innerHTML = (GUT[r.biggest] || GUT.materials) + " והזמן הזה שווה למשרד שלך כ-" + money(r.yearly) + " בשנה.";
   if (name) gutEl.insertAdjacentText("afterbegin", name + ", ");   /* השם כטקסט בלבד, לא כ-HTML */
 
   /* ---------- הדליפה הגדולה ביותר ---------- */
   var LEAKS = {
-    chase: {
-      title: "רדיפה אחרי לקוחות",
-      text: "המשרד שלך משמש כרגע כמחלקת גבייה ושליחויות. כ-" + fmt(r.chase) + " שעות בחודש הולכות על \"תשלח לי בבקשה את הקבלות\" ועל \"רק מזכיר לגבי התשלום\", שעות שבהן אתה והצוות לא עושים עבודה מקצועית. זו בדיוק העבודה הראשונה שהמערכת לוקחת מכם."
+    tracking: {
+      title: "מעקב דיווחים מהראש",
+      text: "יש לך כ-" + fmt(r.deadlines) + " מועדי דיווח בחודש, וכל לקוח בתדירות אחרת. כ-" + r.trackingHours + " שעות בחודש הולכות רק על להבין מה צריך לצאת ומה כבר הגיע, ועדיין הכול תלוי בזה שתזכור. זה בדיוק מה שלוח הדיווחים לוקח ממך: הוא מתמלא לבד בתחילת כל חודש."
     },
-    docs: {
+    materials: {
       title: "איסוף חומרים לדיווח",
-      text: "לפני כל מועד דיווח המשרד נכנס לציד חומרים: קבלות בוואטסאפ, צילומים מטושטשים, מיילים ו\"שלחתי לך כבר\". כ-" + fmt(r.docs) + " שעות בחודש נשרפות רק על זה, ודוחות שמתעכבים עולים לך גם באמון של הלקוחות."
+      text: "לפני כל מועד דיווח המשרד נכנס לציד חומרים: קבלות בוואטסאפ, צילומים מטושטשים, מיילים ו\"שלחתי לך כבר\". כ-" + r.materialsHours + " שעות בחודש נשרפות רק על זה, ודוחות שמתעכבים עולים לך גם באמון של הלקוחות."
     },
-    match: {
-      title: "לא יודעים כמה חייבים לך",
-      text: "אתה יודע שחייבים לך כסף, אבל לא בדיוק כמה ולא מי. כ-" + fmt(r.match) + " שעות בחודש הולכות על הצלבות, אקסלים ובירורים, ובינתיים יתרות נשארות פתוחות וכסף שכבר הרווחת לא נגבה. המערכת משווה אוטומטית בין מה ששילמו לך לבין מה שחייבים לך, ונותנת לך את המספר המדויק בשנייה."
+    slips: {
+      title: "פולואפים שנופלים בין הכיסאות",
+      text: "לקוח שחיכה לתשובה, מסמך ששכחת לבקש, פולואפ שהבטחת ולא קרה. כ-" + fmt(r.slips) + " פעמים בחודש, וכל אחת עולה שעה של תיקון והתנצלות, ולפעמים גם לקוח. כשכל משימה מחוברת ללקוח ומזכירה את עצמה ב-08:00, הן פשוט לא נופלות."
     },
     cashflow: {
       title: "שכר טרחה שתקוע אצל לקוחות",
       text: "כ-" + money(r.outstanding) + " שכר טרחה יושבים כרגע אצל לקוחות שעברו את מועד התשלום. זה כסף שכבר הרווחת, על עבודה שכבר עשית, ואינו נמצא בחשבון שלך. כל חודש שהוא לא נגבה מקטין את הסיכוי שהוא ייכנס בכלל."
     }
   };
-  var leak = LEAKS[r.biggest] || LEAKS.chase;
+  var leak = LEAKS[r.biggest] || LEAKS.materials;
   document.getElementById("leakTitle").textContent = leak.title;
   document.getElementById("leakText").textContent = leak.text;
   if (r.taxRisk) document.getElementById("taxRisk").style.display = "block";
 
-  /* ---------- המטרה מש׳5 ---------- */
-  var evenings = Math.max(1, Math.round(r.hoursYear / 4));
-  var GOALS = {
-    scale: { title: "אמרת שהיית לוקח עוד לקוחות", text: "הזמן שהולך היום על ניירת ורדיפה אחרי לקוחות הוא בדיוק הקיבולת שחסרה למשרד כדי לגדול בלי לגייס עוד עובד. כשהמערכת עושה את העבודה השחורה, הזמן הזה חוזר ישר לצמיחה.", note: "שחוזרות לצמיחה של המשרד בכל שנה" },
-    service: { title: "אמרת שהיית נותן ליווי וייעוץ", text: "ייעוץ וליווי הם השירות הכי רווחי במשרד, והלקוחות מוכנים לשלם עליו. כל שעה שלא הולכת לרדוף אחרי קבלות יכולה ללכת לשיחה שמביאה ללקוח ערך, ולך הכנסה.", note: "שחוזרות לעבודה המקצועית שלך" },
-    family: { title: "אמרת שהיית הולך הביתה מוקדם", text: "זה בערך " + fmt(evenings) + " ערבים בשנה שחוזרים אליך ואל המשפחה, גם בעונת הדוחות, במקום לשבת מול וואטסאפ ואקסל אחרי שכולם הלכו לישון.", note: "כ-" + fmt(evenings) + " ערבים בבית, בכל שנה" },
-    rest: { title: "אמרת שהיית מוריד את הלחץ", text: "והלחץ הזה לא נגמר כשאתה סוגר את המחשב. \"מי עוד לא שלח חומרים?\" ו\"מי עוד לא שילם?\" נשארים איתך בראש. המערכת מחזיקה את הרשימה הזו במקומך.", note: "בלי המשימות האלה בראש שלך" }
-  };
-  var goal = GOALS[r.goal] || GOALS.scale;
-  document.getElementById("goalTitle").textContent = goal.title;
-  document.getElementById("goalText").textContent = goal.text;
-  document.getElementById("goalBigNote").textContent = goal.note;
+  /* ---------- העומס: מה מחזיק לך את הראש ---------- */
+  document.getElementById("loadText").textContent =
+    "כ-" + fmt(r.deadlines) + " מועדי דיווח (מע״מ, 102, מקדמות) על פני כ-" + fmt(r.clients) + " לקוחות" +
+    (r.slips > 0 ? ", ובחודש האחרון משהו נפל בין הכיסאות כ-" + fmt(r.slips) + " פעמים." : ".") +
+    " גם אם שום דבר עוד לא התפספס, זה נשען על הזיכרון שלך ושל הצוות.";
 
   /* ---------- מחסור ---------- */
   if (CFG.spotsLeft === null || CFG.spotsLeft === undefined) {
@@ -835,13 +854,22 @@
       Calendly.initInlineWidget({
         url: CFG.calendlyUrl + (CFG.calendlyUrl.indexOf("?") > -1 ? "&" : "?") + "hide_gdpr_banner=1&primary_color=0b2e24",
         parentElement: box,
-        prefill: hasData ? { name: data.fullName || "" } : {}
+        prefill: calendlyPrefill()
       });
     };
     document.body.appendChild(s);
   } else {
     box.innerHTML = '<div class="cal-placeholder"><div><b>כאן יופיע היומן לקביעת הפגישה</b>יש להדביק את קישור ה-Calendly בקובץ <code>config.js</code> בשדה <code>calendlyUrl</code><br><br><a class="btn btn-dark" href="thank-you.html" style="width:auto">תצוגה מקדימה: דף התודה</a></div></div>';
   }
+  /* שם וטלפון מהשאלון — כדי שהליד לא יקליד שוב, וכדי שהטלפון ייכנס לתיאור האירוע ביומן
+     (כך הסנכרון של LeadSync משייך את הפגישה לליד) */
+  function calendlyPrefill() {
+    if (!hasData) return {};
+    var p = { name: data.fullName || "" };
+    if (CFG.calendlyPhoneAnswer && data.phone) { p.customAnswers = {}; p.customAnswers[CFG.calendlyPhoneAnswer] = data.phone; }
+    return p;
+  }
+
   // אחרי קביעת פגישה ב-Calendly → דף התודה
   addEventListener("message", function (e) {
     if (e.origin.indexOf("calendly.com") === -1) return;
@@ -852,7 +880,7 @@
   });
 
   /* ---------- וואטסאפ ---------- */
-  document.getElementById("waFloat").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, מילאתי את מחשבון ההפסדים ויש לי שאלה");
+  document.getElementById("waFloat").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, מילאתי את מחשבון המשרד ויש לי שאלה");
   document.getElementById("waSticky").href = document.getElementById("waFloat").href;
 
   /* ---------- "הצג עוד" בבולטים (מובייל) ---------- */

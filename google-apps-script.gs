@@ -1,5 +1,5 @@
 /**
- * משפך שאלון "מחשבון ההפסדים השקט" לרואי חשבון: קליטת לידים אל Google Sheets
+ * משפך שאלון "מחשבון המשרד" לרואי חשבון: קליטת לידים אל Google Sheets
  * =====================================================================
  *
  * התקנה (5 דקות, פעם אחת)
@@ -25,15 +25,15 @@ var NOTIFY_EMAIL = '';
 
 var HEADERS = [
   'תאריך', 'שם', 'טלפון', 'אימייל', 'מקור (UTM)', 'סטטוס',
-  'שעות בחודש', 'הפסד חודשי ₪', 'הפסד שנתי ₪', 'הדליפה הגדולה',
-  'ש1: שכר טרחה פתוח', 'ש2: רדיפה אחרי לקוחות', 'ש3: איסוף חומרים לדיווח',
-  'ש4: יודע כמה חייבים לו?', 'ש5: מה היה עושה עם הזמן'
+  'שעות בחודש', 'שעות שאפשר להחזיר', 'שווי בשנה ₪', 'מועדי דיווח בחודש', 'הדליפה הגדולה',
+  'ש1: לקוחות פעילים', 'ש2: מעקב דיווחים', 'ש3: איסוף חומרים לדיווח',
+  'ש4: דברים שנפלו בין הכיסאות', 'ש5: שכר טרחה חודשי ממוצע', 'ש6: שכר טרחה פתוח'
 ];
 
 var LEAK_NAMES = {
-  chase: 'רדיפה אחרי לקוחות',
-  docs: 'איסוף חומרים לדיווח',
-  match: 'לא יודע כמה חייבים לו',
+  tracking: 'מעקב דיווחים מהראש',
+  materials: 'איסוף חומרים לדיווח',
+  slips: 'פולואפים שנופלים בין הכיסאות',
   cashflow: 'שכר טרחה תקוע אצל לקוחות'
 };
 
@@ -52,14 +52,16 @@ function doPost(e) {
       d.utm_source || 'direct',
       'חדש',
       d.hours_per_month || '',
-      d.estimated_loss || '',
-      d.estimated_loss_yearly || '',
+      d.hours_saved_per_month || '',
+      d.yearly_value || '',
+      d.deadlines_per_month || '',
       d.biggest_leak_label || LEAK_NAMES[d.biggest_leak] || '',
       d.q1_answer || '',
       d.q2_answer || '',
       d.q3_answer || '',
       d.q4_answer || '',
-      d.q5_answer || ''
+      d.q5_answer || '',
+      d.q6_answer || ''
     ]);
 
     if (NOTIFY_EMAIL) notify_(d);
@@ -111,16 +113,16 @@ function formatNow_() {
 function notify_(d) {
   MailApp.sendEmail({
     to: NOTIFY_EMAIL,
-    subject: 'ליד חדש מהשאלון: ' + (d.name || '') + ' (₪' + (d.estimated_loss || '?') + ' בחודש)',
+    subject: 'ליד חדש מהשאלון: ' + (d.name || '') + ' (₪' + (d.yearly_value || '?') + ' בשנה)',
     htmlBody:
       '<div dir="rtl" style="font-family:Arial,sans-serif;font-size:15px">' +
-      '<h3 style="color:#0B2E24">ליד חדש ממחשבון ההפסדים</h3>' +
+      '<h3 style="color:#0B2E24">ליד חדש ממחשבון המשרד</h3>' +
       '<p><b>שם:</b> ' + (d.name || '') + '</p>' +
       '<p><b>טלפון:</b> ' + (d.phone || '') + '</p>' +
       '<p><b>אימייל:</b> ' + (d.email || '') + '</p>' +
-      '<p><b>שעות בחודש:</b> ' + (d.hours_per_month || '') + ' · <b>הפסד חודשי:</b> ₪' + (d.estimated_loss || '') + '</p>' +
+      '<p><b>שעות בחודש:</b> ' + (d.hours_per_month || '') + ' · <b>אפשר להחזיר:</b> ' + (d.hours_saved_per_month || '') + ' · <b>שווי בשנה:</b> ₪' + (d.yearly_value || '') + '</p>' +
       '<p><b>הדליפה הגדולה:</b> ' + (LEAK_NAMES[d.biggest_leak] || '') + '</p>' +
-      '<p><b>שכר טרחה פתוח:</b> ' + (d.q1_answer || '') + '</p>' +
+      '<p><b>לקוחות:</b> ' + (d.q1_answer || '') + ' · <b>שכר טרחה פתוח:</b> ' + (d.q6_answer || '') + '</p>' +
       '<p><b>מקור:</b> ' + (d.utm_source || 'direct') + '</p>' +
       '</div>'
   });
@@ -134,9 +136,9 @@ function json_(obj) {
 function testLead() {
   var res = doPost({ postData: { type: 'application/json', contents: JSON.stringify({
     name: 'בדיקה — למחוק', phone: '050-0000000', email: 'test@example.com', utm_source: 'בדיקה ידנית',
-    hours_per_month: 25, estimated_loss: 7500, estimated_loss_yearly: 90000, biggest_leak: 'cashflow',
-    q1_answer: 'בין 30,000 ₪ ל-80,000 ₪', q2_answer: '6 עד 15 שעות בחודש',
-    q3_answer: 'סיוט', q4_answer: 'חצי יום', q5_answer: 'לוקח עוד לקוחות למשרד'
+    hours_per_month: 17, hours_saved_per_month: 12, yearly_value: 36000, deadlines_per_month: 38, biggest_leak: 'materials',
+    q1_answer: 'עד 30 לקוחות', q2_answer: 'בראש ובוואטסאפים', q3_answer: 'סיוט',
+    q4_answer: '3 עד 5 פעמים', q5_answer: '500 עד 1,000 ₪', q6_answer: 'בין 10,000 ₪ ל-30,000 ₪'
   }) } });
   console.log(res.getContent());
 }
