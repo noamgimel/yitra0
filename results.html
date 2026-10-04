@@ -8,10 +8,10 @@
 <meta name="theme-color" content="#0B2E24">
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=4">
+<link rel="stylesheet" href="fonts.css?v=5">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -719,7 +719,8 @@
   </div>
 </div>
 
-<script src="config.js?v=4"></script>
+<script src="config.js?v=5"></script>
+<script src="tracking.js?v=5"></script>
 <script>
 (function () {
   "use strict";
@@ -874,7 +875,7 @@
   addEventListener("message", function (e) {
     if (e.origin.indexOf("calendly.com") === -1) return;
     if (e.data && e.data.event === "calendly.event_scheduled") {
-      try { if (window.fbq) fbq("track", "Schedule"); if (window.gtag) gtag("event", "Schedule"); } catch (x) {}
+      if (window.qfTrackOnce) window.qfTrackOnce("Schedule", {}, true);
       location.href = "thank-you.html";
     }
   });

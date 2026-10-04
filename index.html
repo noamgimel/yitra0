@@ -8,10 +8,10 @@
 <meta name="theme-color" content="#0B2E24">
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=4">
+<link rel="stylesheet" href="fonts.css?v=5">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 <style>
   /* ---------- Hero ---------- */
   .hero { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 72px; }
@@ -435,7 +435,8 @@
   </div>
 </div>
 
-<script src="config.js?v=4"></script>
+<script src="config.js?v=5"></script>
+<script src="tracking.js?v=5"></script>
 <script>
 (function () {
   "use strict";
@@ -588,7 +589,7 @@
     lastFocus = document.activeElement;
     quiz.classList.add("open");
     lockScroll();
-    track("QuizStart");
+    track("QuizStart");   /* פעם אחת לטעינת דף, גם אם סגר ופתח שוב */
     goTo(0);
   }
 
@@ -616,6 +617,8 @@
   function choose(qi, oi) {
     if (advancing) return;
     answers[QUESTIONS[qi].id] = oi;
+    /* אירוע לכל שאלה שנענתה (QuizAnswer1 … QuizAnswer6) — כדי לראות בדיוק איפה נוטשים */
+    track("QuizAnswer" + (qi + 1), { question: QUESTIONS[qi].id, answer: oi + 1 });
     var screen = screensWrap.children[qi];
     screen.querySelectorAll(".opt").forEach(function (o, i) {
       o.classList.toggle("selected", i === oi);
@@ -799,7 +802,7 @@
     payload.notes = leadNotes(payload);                              /* סיכום קריא לשדה ההערות של הליד */
 
     var isBot = !!(form.website && form.website.value.trim());       /* מלכודת: בני אדם לא רואים את השדה */
-    if (!isBot) track("Lead");
+    if (!isBot) track("Lead", {}, true);
     (isBot ? Promise.resolve() : sendLead(payload)).then(function () { location.href = "results.html"; });
   });
 
@@ -868,10 +871,9 @@
     return out;
   }
 
-  /* פיקסלים — אם מותקנים (Meta / GA) */
-  function track(ev) {
-    try { if (window.fbq) fbq(ev === "Lead" ? "track" : "trackCustom", ev); } catch (e) {}
-    try { if (window.gtag) gtag("event", ev); } catch (e) {}
+  /* מדידה — דרך tracking.js (פיקסל מטא / GA4, אם הוגדרו ב-config.js). כל אירוע נשלח פעם אחת לטעינת דף */
+  function track(ev, params, standard) {
+    if (window.qfTrackOnce) window.qfTrackOnce(ev, params, standard);
   }
 
   /* ---------- אנימציות גלילה + CTA דביק ---------- */
