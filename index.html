@@ -759,7 +759,7 @@
     var result = { name: name.split(" ")[0], fullName: name, phone: form.phone.value.trim(), result: r, at: Date.now() };
     try { sessionStorage.setItem("qf_result", JSON.stringify(result)); } catch (err) {}
 
-    /* Payload שטוח — נקלט ב-LeadSync (receiveWebsiteLead) וגם ב-Google Apps Script */
+    /* Payload שטוח — נקלט ב-Gware (receiveWebsiteLead בשכבת התאימות) וגם ב-Google Apps Script */
     var utm = utmParams();
     var payload = {
       event: "quiz_lead",
@@ -797,7 +797,7 @@
       utm_term: utm.utm_term,
       page_url: location.href.split("?")[0]
     };
-    if (CFG.leadFormId) payload.form_id = CFG.leadFormId;          /* אימות מול LeadSync */
+    if (CFG.leadFormId) payload.form_id = CFG.leadFormId;          /* אימות מול Gware */
     if (CFG.leadSecretKey) payload.secret_key = CFG.leadSecretKey;
     payload.notes = leadNotes(payload);                              /* סיכום קריא לשדה ההערות של הליד */
 
@@ -806,7 +806,7 @@
     (isBot ? Promise.resolve() : sendLead(payload)).then(function () { location.href = "results.html"; });
   });
 
-  /* סיכום השאלון בעברית — נכנס לשדה ההערות של הליד ב-LeadSync */
+  /* סיכום השאלון בעברית — נכנס להערות של הליד ב-Gware */
   function leadNotes(p) {
     return [
       "ליד ממחשבון המשרד (יתרה 0)",
@@ -838,10 +838,10 @@
   }
 
   /**
-   * שליחה ל-Webhook (LeadSync / Apps Script) — בלי לאבד לידים בשקט:
+   * שליחה ל-Webhook (Gware / Apps Script) — בלי לאבד לידים בשקט:
    * ניסיון 1: JSON רגיל. אם השרת תומך ב-CORS מקבלים תשובה אמיתית ובודקים שהיא תקינה.
    * ניסיון 2 (אם הראשון נכשל או החזיר שגיאה): text/plain במצב no-cors — עובר בלי preflight,
-   *   ושני הצדדים (LeadSync ו-Apps Script) יודעים לפרסר JSON מגוף טקסט. התשובה אטומה, אז מניחים שהגיע.
+   *   ושני הצדדים (Gware ו-Apps Script) יודעים לפרסר JSON מגוף טקסט. התשובה אטומה, אז מניחים שהגיע.
    * אם גם זה נכשל (אין רשת), הליד נשמר ב-localStorage ונשלח שוב מדף התוצאות או דף התודה.
    */
   var PENDING_KEY = "qf_pending_lead";

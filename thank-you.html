@@ -194,7 +194,7 @@
   var header = document.getElementById("siteHeader");
   addEventListener("scroll", function () { header.classList.toggle("scrolled", scrollY > 30); }, { passive: true });
 
-  /* ליד שלא הצליח להישלח מהשאלון נשלח שוב מכאן (עד 3 ניסיונות; LeadSync מאחד כפילויות לפי טלפון) */
+  /* ליד שלא הצליח להישלח מהשאלון נשלח שוב מכאן (עד 3 ניסיונות; Gware מאחד כפילויות לפי טלפון) */
   function retryPendingLead() {
     var url = CFG.leadWebhookUrl; if (!url) return;
     var rec = null;

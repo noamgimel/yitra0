@@ -738,7 +738,7 @@
   try { data = JSON.parse(sessionStorage.getItem("qf_result") || "null"); } catch (e) {}
   var hasData = !!(data && data.result && data.result.saved !== undefined);
   var r = hasData ? data.result : {
-    // ערכי דוגמה כשנכנסים לדף ישירות — משרד של כ-25 לקוחות (בערך המשרד של עידן)
+    // ערכי דוגמה כשנכנסים לדף ישירות — משרד של כ-25 לקוחות
     clients: 25, fee: 750, trackingHours: 4.2, materialsHours: 9.2, slipsHours: 4, slips: 4,
     hours: 17, saved: 12, savedYear: 144, extraClients: 4, perClient: 3, hourValue: 250,
     yearly: 36000, monthlyValue: 3000, deadlines: 38, outstanding: 20000, biggest: "materials", taxRisk: false
@@ -863,7 +863,7 @@
     box.innerHTML = '<div class="cal-placeholder"><div><b>כאן יופיע היומן לקביעת הפגישה</b>יש להדביק את קישור ה-Calendly בקובץ <code>config.js</code> בשדה <code>calendlyUrl</code><br><br><a class="btn btn-dark" href="thank-you.html" style="width:auto">תצוגה מקדימה: דף התודה</a></div></div>';
   }
   /* שם וטלפון מהשאלון — כדי שהליד לא יקליד שוב, וכדי שהטלפון ייכנס לתיאור האירוע ביומן
-     (כך הסנכרון של LeadSync משייך את הפגישה לליד) */
+     (כך אפשר לשייך את הפגישה לליד כשסנכרון היומן של Gware ייבנה) */
   function calendlyPrefill() {
     if (!hasData) return {};
     var p = { name: data.fullName || "" };
@@ -911,7 +911,7 @@
   onScroll();
 
   /* ליד שלא הצליח להישלח מהשאלון (למשל נפילת רשת) נשלח שוב מכאן, עד 3 ניסיונות.
-     LeadSync מאחד כפילויות לפי טלפון, אז ניסיון חוזר לא יוצר ליד כפול. */
+     Gware מאחד כפילויות לפי טלפון (9 ספרות אחרונות), אז ניסיון חוזר לא יוצר ליד כפול. */
   function retryPendingLead() {
     var url = CFG.leadWebhookUrl; if (!url) return;
     var rec = null;
