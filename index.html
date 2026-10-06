@@ -764,6 +764,9 @@
     var payload = {
       event: "quiz_lead",
       source: "yitra0_loss_quiz",
+      /* מזהה קבוע לליד הזה: נשמר עם הליד הממתין ונשלח שוב באותו ערך,
+         כך ש-Gware מזהה שליחה חוזרת ולא קולטת את אותו ליד פעמיים */
+      submission_id: submissionId(),
       submitted_at: new Date().toISOString(),
       name: name,
       first_name: name.split(" ")[0],
@@ -829,6 +832,11 @@
     slips: "פולואפים שנופלים בין הכיסאות",
     cashflow: "שכר טרחה תקוע אצל לקוחות"
   };
+
+  function submissionId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+  }
 
   /* 972XXXXXXXXX — פורמט שמתאים לוואטסאפ ול-CRM */
   function phoneIntl(raw) {
