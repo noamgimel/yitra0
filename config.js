@@ -5,20 +5,18 @@ window.FUNNEL_CONFIG = {
   /** שם המערכת / העסק — מופיע בלוגו ובכותרות */
   brand: "יתרה 0",
 
-  /** כתובת קליטת הלידים. ההחלטה (אוקטובר 2026): Gware, המערכת החדשה של נועם —
-      נקודת הקליטה בשכבת התאימות, למשל:
-      "https://crm.noamg.co.il/api/functions/receiveWebsiteLead"
-      (הדומיין הסופי ייקבע כש-Gware עולה לאוויר. חלופה לבדיקות: Web App של
-      Google Apps Script, ראו google-apps-script.gs).
+  /** כתובת קליטת הלידים: Gware, המערכת של נועם (באוויר מאוקטובר 2026).
+      כל ליד נכנס במקור "משפך יתרה 0", ונועם מקבל עליו התראה בטלגרם.
+      (חלופה לבדיקות: Web App של Google Apps Script, ראו google-apps-script.gs.)
       ריק = הלידים לא נשלחים לשום מקום. */
-  leadWebhookUrl: "",
+  leadWebhookUrl: "https://crm.noamg.co.il/api/functions/receiveWebsiteLead",
 
   /** מזהה הטופס והמפתח הסודי של מפתח גישה ב-Gware (הגדרות ← מפתחות גישה).
       נשלחים עם כל ליד כ-form_id / secret_key. ריק = לא נשלחים (Apps Script לא צריך אותם).
       ⚠️ הערכים האלה גלויים לכל מי שפותח את קוד הדף. להשתמש רק במפתח שמורשה ליצור לידים,
       לא במפתח של הסוכן (שיכול גם לקרוא ולעדכן לידים). */
-  leadFormId: "",
-  leadSecretKey: "",
+  leadFormId: "form_KLcomyWbpnqL",
+  leadSecretKey: "gw_zmgnLUkyqQizqrkCaascsEkSVTHstcbf",
 
   /** קישור ה-Calendly להטמעה בדף התוצאות, למשל:
       "https://calendly.com/your-name/30min"
