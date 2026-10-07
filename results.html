@@ -8,10 +8,11 @@
 <meta name="theme-color" content="#0B2E24">
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=5">
+<link rel="preconnect" href="https://app.cal.com" crossorigin>
+<link rel="stylesheet" href="fonts.css?v=6">
 <link rel="icon" href="logo/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo/mark-180.png">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=6">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -195,7 +196,13 @@
   .arrow-down svg { width: 24px; height: 24px; }
   @keyframes bob { 50% { transform: translateY(6px); } }
   .calendar { margin-top: 28px; border-radius: 28px; background: var(--cream); padding: 10px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7); scroll-margin-top: 90px; }
-  #calBox { min-height: 640px; border-radius: 20px; overflow: hidden; }
+  #calBox { position: relative; min-height: 640px; border-radius: 20px; overflow: hidden; }
+  .cal-loading { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; text-align: center; padding: 24px; background: var(--cream); color: rgba(11, 46, 36, .75); font-weight: 600; font-size: 17px; }
+  .cal-spin { width: 36px; height: 36px; margin: 0 auto 14px; border-radius: 50%; border: 3px solid rgba(11, 46, 36, .15); border-top-color: var(--brand-900, #0B2E24); animation: cal-spin .9s linear infinite; }
+  @keyframes cal-spin { to { transform: rotate(360deg); } }
+  .cal-fallback { display: none; margin-top: 16px; font-size: 15px; font-weight: 500; }
+  .cal-fallback.show { display: block; }
+  .cal-fallback a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
   #calBox:has(.cal-placeholder) { min-height: 0; }
   .cal-placeholder { min-height: 520px; display: grid; place-items: center; text-align: center; color: rgba(11, 46, 36, .65); padding: 30px; border: 2px dashed rgba(11, 46, 36, .18); border-radius: 20px; }
   .cal-placeholder b { display: block; font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 6px; }
@@ -719,8 +726,9 @@
   </div>
 </div>
 
-<script src="config.js?v=5"></script>
-<script src="tracking.js?v=5"></script>
+<script src="config.js?v=6"></script>
+<script src="tracking.js?v=6"></script>
+<script src="booking.js?v=6"></script>
 <script>
 (function () {
   "use strict";
@@ -846,31 +854,51 @@
   document.querySelectorAll("[data-count]").forEach(function (el) { cio.observe(el); });
 
   /* ---------- יומן Cal.com ----------
-     ההטמעה הרשמית של Cal.com (embed.js). השפה נקבעת לפי הדפדפן של הגולש: עברית מימין לשמאל
-     למי שהדפדפן שלו בעברית. השם מהשאלון ממולא מראש, והטלפון נכנס לשדה מוסתר בטופס ההזמנה. */
+     ההטמעה הרשמית של Cal.com (booking.js). השפה נקבעת לפי הדפדפן של הגולש: עברית מימין לשמאל
+     למי שהדפדפן שלו בעברית. השם מהשאלון ממולא מראש, והטלפון נכנס לשדה מוסתר בטופס ההזמנה.
+     עד שהיומן מוכן מוצגת הודעת טעינה, ואם הוא לא נטען תוך 9 שניות מופיע קישור לפתוח אותו בחלון חדש. */
   var box = document.getElementById("calBox");
   var CAL_NS = "diagnosis";
-  if (CFG.calLink) {
-    (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal; var ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-    Cal("init", CAL_NS, { origin: "https://app.cal.com" });
-    Cal.ns[CAL_NS]("inline", { elementOrSelector: "#calBox", calLink: CFG.calLink, config: calPrefill() });
+  if (window.qfCal && window.qfCal.load()) {
+    var calData = hasData ? data : null;
+    box.insertAdjacentHTML("beforeend",
+      '<div class="cal-loading" id="calLoading"><div><div class="cal-spin" aria-hidden="true"></div>' +
+      '<span id="calLoadingText">טוען את היומן…</span>' +
+      '<div class="cal-fallback" id="calFallback"><span id="calFallbackLead">לוקח יותר מדי זמן? </span><a target="_blank" rel="noopener" href="' +
+      window.qfCal.directUrl(calData).replace(/"/g, "&quot;") + '">פתח את היומן בחלון חדש ←</a></div></div></div>');
+    var calConfig = window.qfCal.prefill(calData);
+    calConfig.layout = "month_view";
+    calConfig.theme = "light";   /* בהיר, כמו המסגרת בדף */
+    Cal("init", CAL_NS, { origin: window.qfCal.origin });
+    Cal.ns[CAL_NS]("inline", { elementOrSelector: "#calBox", calLink: CFG.calLink, config: calConfig });
     Cal.ns[CAL_NS]("ui", { theme: "light", layout: "month_view", hideEventTypeDetails: false, cssVarsPerTheme: { light: { "cal-brand": "#0B2E24" } } });
     // אחרי קביעת פגישה → מדידה בפיקסל ומעבר לדף התודה
     Cal.ns[CAL_NS]("on", { action: "bookingSuccessfulV2", callback: function () {
       if (window.qfTrackOnce) window.qfTrackOnce("Schedule", {}, true);
       setTimeout(function () { location.href = "thank-you.html"; }, 600);
     } });
+    // מעקב אחרי מצב הטעינה של היומן (Cal.com מסמן את האלמנט שלו: done / failed)
+    var calStart = Date.now();
+    var calPoll = setInterval(function () {
+      var el = box.querySelector("cal-inline");
+      var state = el && el.getAttribute("loading");
+      var waited = Date.now() - calStart;
+      if (state === "done") {
+        clearInterval(calPoll);
+        var ov = document.getElementById("calLoading");
+        if (ov) ov.remove();
+        return;
+      }
+      if (state === "failed") {
+        document.getElementById("calLoadingText").textContent = "היומן לא נטען כאן.";
+        document.getElementById("calFallbackLead").textContent = "";
+        var sp = box.querySelector(".cal-spin"); if (sp) sp.remove();
+      }
+      if (state === "failed" || waited > 9000) document.getElementById("calFallback").classList.add("show");
+      if (waited > 90000) clearInterval(calPoll);
+    }, 250);
   } else {
     box.innerHTML = '<div class="cal-placeholder"><div><b>כאן יופיע היומן לקביעת הפגישה</b>יש להגדיר את האירוע ב-Cal.com בקובץ <code>config.js</code> בשדה <code>calLink</code><br><br><a class="btn btn-dark" href="thank-you.html" style="width:auto">תצוגה מקדימה: דף התודה</a></div></div>';
-  }
-  /* שם מהשאלון — כדי שהליד לא יקליד שוב; הטלפון לשדה המוסתר — כדי לשייך את הפגישה לליד */
-  function calPrefill() {
-    var c = { layout: "month_view", theme: "light" };   /* בהיר, כמו המסגרת בדף */
-    if (!hasData) return c;
-    if (data.fullName) c.name = data.fullName;
-    var digits = String(data.phone || "").replace(/\D/g, "");
-    if (CFG.calPhoneField && digits) c[CFG.calPhoneField] = "+" + (digits.charAt(0) === "0" ? "972" + digits.slice(1) : digits);
-    return c;
   }
 
   /* ---------- וואטסאפ ---------- */

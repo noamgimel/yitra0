@@ -9,6 +9,7 @@
 | `results.html` | דף 2: התוצאות האישיות, הדליפה הגדולה, הפתרון, הצעת הסנדק (ערימת ערך + בונוסים), אחריות, דחיפות ויומן Cal.com |
 | `thank-you.html` | דף 3: אישור הפגישה, 2 צעדי הכנה, מה יקרה בשיחה ווואטסאפ |
 | `config.js` | **כל ההגדרות במקום אחד** (שם, Webhook, יומן Cal.com, פיקסל, וואטסאפ, כיול החישוב, מחסור) |
+| `booking.js` | יומן Cal.com: טעינת ההטמעה, טעינה מוקדמת בזמן השאלון, מילוי מראש וקישור גיבוי |
 | `tracking.js` | פיקסל מטא ו-GA4 (נטענים רק אם הוגדר מזהה) + פונקציית האירועים של המשפך |
 | `styles.css` | מערכת העיצוב המשותפת |
 | `google-apps-script.gs` | קליטת הלידים ל-Google Sheets (הוראות בראש הקובץ) |
@@ -91,7 +92,7 @@
 
 
 ## העלאה ל-uPress / Elementor
-- האתר סטטי: `index.html`, `results.html`, `thank-you.html`, `styles.css`, `fonts.css`, `config.js`, `tracking.js` והתיקיות `logo/` ו-`fonts/`. אפשר להעלות כמו שהם לתיקייה בשרת.
+- האתר סטטי: `index.html`, `results.html`, `thank-you.html`, `styles.css`, `fonts.css`, `config.js`, `tracking.js`, `booking.js` והתיקיות `logo/` ו-`fonts/`. אפשר להעלות כמו שהם לתיקייה בשרת.
 - ב-Elementor: כל `<section>` הוא בלוק עצמאי שאפשר להדביק בווידג'ט HTML. את `styles.css` מוסיפים פעם אחת (Custom CSS של האתר), ואת `config.js`, `tracking.js` והסקריפט שבתחתית כל דף מוסיפים בווידג'ט HTML בסוף העמוד.
 - השאלון שומר את התוצאה ב-`sessionStorage`, כך ש-`results.html` חייב להיות באותו דומיין.
 
@@ -125,4 +126,4 @@ python3 -m http.server 8531
 | `build_logo.py` + `rubik900.ttf` | מייצר מחדש את כל הקבצים (`python logo/build_logo.py`) |
 
 ## עדכון גרסה (Cache)
-הקישורים ל-`styles.css`, ל-`config.js`, ל-`tracking.js` ול-`fonts.css` כוללים `?v=5`. אחרי כל שינוי בקבצים האלה, להעלות את המספר (`?v=6` וכן הלאה) בשלושת הדפים, כדי שגולשים לא יקבלו גרסה ישנה מהמטמון.
+הקישורים ל-`styles.css`, ל-`config.js`, ל-`tracking.js`, ל-`booking.js` ול-`fonts.css` כוללים `?v=6`. אחרי כל שינוי בקבצים האלה, להעלות את המספר (`?v=7` וכן הלאה) בשלושת הדפים, כדי שגולשים לא יקבלו גרסה ישנה מהמטמון.
