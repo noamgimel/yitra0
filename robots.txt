@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# דף התוצאות ודף התודה מסומנים noindex בתוך הדף עצמו
+Sitemap: https://yitra0.noamg.co.il/sitemap.xml
