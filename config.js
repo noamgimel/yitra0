@@ -25,7 +25,7 @@ window.FUNNEL_CONFIG = {
 
   /** מזהה פיקסל מטא (מנהל האירועים ← מקורות נתונים ← "Pixel ID"). ריק = בלי פיקסל.
       האירועים שהמשפך שולח מפורטים ב-README. */
-  metaPixelId: "",
+  metaPixelId: "2202476460340750",
 
   /** מזהה מדידה של Google Analytics 4 (מתחיל ב-G-). ריק = בלי GA. */
   gaMeasurementId: "",
