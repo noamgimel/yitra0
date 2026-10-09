@@ -85,13 +85,17 @@
       } catch (e) {}
     },
 
-    /* מה שממולא מראש: שם, והטלפון לשדה המוסתר בטופס ההזמנה (כדי לשייך את הפגישה לליד) */
+    /* מה שממולא מראש: שם, והטלפון לשדה המוסתר בטופס ההזמנה (כדי לשייך את הפגישה לליד).
+       ובנוסף מזהה השליחה של הליד כ-metadata של ההזמנה: לא מוצג לליד, נשמר בהזמנה ב-Cal.com
+       ומגיע ב-webhook של Cal.com ל-Gware (payload.metadata.submission_id) — גם בביטול ובשינוי מועד,
+       כך ש-Gware מקשרת כל שינוי בדיוק לליד הזה. */
     prefill: function (data) {
       var c = {};
       if (!data) return c;
       if (data.fullName) c.name = data.fullName;
       var phone = intlPhone(data.phone);
       if (CFG.calPhoneField && phone) c[CFG.calPhoneField] = phone;
+      if (data.submissionId) c["metadata[submission_id]"] = String(data.submissionId);
       return c;
     },
 
