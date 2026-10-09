@@ -22,11 +22,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=9">
+<link rel="stylesheet" href="fonts.css?v=10">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 <style>
   /* ---------- Hero ---------- */
   .hero { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 72px; }
@@ -457,9 +457,9 @@
   </div>
 </div>
 
-<script src="config.js?v=9"></script>
-<script src="tracking.js?v=9"></script>
-<script src="booking.js?v=9"></script>
+<script src="config.js?v=10"></script>
+<script src="tracking.js?v=10"></script>
+<script src="booking.js?v=10"></script>
 <script>
 (function () {
   "use strict";
@@ -780,7 +780,9 @@
     document.getElementById("leadSubmitText").textContent = "מכין את התוצאות שלך...";
 
     var r = compute();
-    var result = { name: name.split(" ")[0], fullName: name, phone: form.phone.value.trim(), result: r, at: Date.now() };
+    /* מזהה קבוע לליד הזה: נשלח עם הליד, ונשמר גם כאן כדי שקביעת פגישה ביומן תדווח ל-Gware בדיוק על הליד הזה */
+    var subId = submissionId();
+    var result = { name: name.split(" ")[0], fullName: name, phone: form.phone.value.trim(), result: r, submissionId: subId, at: Date.now() };
     try { sessionStorage.setItem("qf_result", JSON.stringify(result)); } catch (err) {}
 
     /* Payload שטוח — נקלט ב-Gware (receiveWebsiteLead בשכבת התאימות) וגם ב-Google Apps Script */
@@ -790,7 +792,7 @@
       source: "yitra0_loss_quiz",
       /* מזהה קבוע לליד הזה: נשמר עם הליד הממתין ונשלח שוב באותו ערך,
          כך ש-Gware מזהה שליחה חוזרת ולא קולטת את אותו ליד פעמיים */
-      submission_id: submissionId(),
+      submission_id: subId,
       submitted_at: new Date().toISOString(),
       name: name,
       first_name: name.split(" ")[0],

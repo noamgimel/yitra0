@@ -18,6 +18,11 @@ window.FUNNEL_CONFIG = {
   leadFormId: "form_KLcomyWbpnqL",
   leadSecretKey: "gw_zmgnLUkyqQizqrkCaascsEkSVTHstcbf",
 
+  /** לאן מדווחים שהליד קבע שיחת אבחון ביומן (Gware: העסקה עוברת ל"אבחון נקבע").
+      נשלח עם אותו form_id / secret_key, והליד מזוהה לפי מזהה השליחה (submission_id) שנשלח איתו.
+      ריק = לא מדווחים. */
+  meetingWebhookUrl: "https://crm.noamg.co.il/api/functions/receiveMeetingBooked",
+
   /** האירוע ב-Cal.com שמוטמע בדף התוצאות, בפורמט "משתמש/אירוע".
       שיחת אבחון של 30 דקות בגוגל מיט, מחוברת ליומן הגוגל של נועם.
       ריק = מוצגת מסגרת "כאן יופיע היומן" */

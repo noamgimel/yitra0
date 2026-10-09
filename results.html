@@ -9,11 +9,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=9">
+<link rel="stylesheet" href="fonts.css?v=10">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -45,6 +45,7 @@
   .hb-text { flex: 1; min-width: 0; }
   .hb-text b { display: block; font-family: var(--font-display); font-size: 19px; color: var(--cream); }
   .hb-text > span { display: block; margin-top: 2px; font-size: 15px; color: rgba(248, 244, 234, .75); line-height: 1.5; }
+  .hb-free { display: inline-block; padding: 1px 10px; border-radius: 999px; background: rgba(244, 183, 64, .16); border: 1px solid rgba(244, 183, 64, .45); color: var(--accent); font-weight: 800; line-height: 1.5; }
   .hero-book .btn { flex: none; }
   .hero-book.nudge .btn { animation: nudge 1.6s var(--ease) 2; }
   @keyframes nudge { 0%, 100% { transform: none; } 30% { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 0 6px rgba(244, 183, 64, .25), 0 18px 42px -10px rgba(244, 183, 64, .7); } }
@@ -415,7 +416,7 @@
       <span class="hb-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
       <div class="hb-text">
         <b>השלב הבא: שיחת אבחון קצרה</b>
-        <span>30 דקות בווידאו<span class="hide-m"> · נעבור על המספרים האלה ונראה את המערכת על הלקוחות שלך</span> · ללא עלות</span>
+        <span>30 דקות בווידאו<span class="hide-m"> · נעבור על המספרים האלה ונראה את המערכת על הלקוחות שלך</span> · <strong class="hb-free">ללא עלות</strong></span>
       </div>
       <button class="btn btn-primary shine" type="button" data-book="hero">בחר שעה ביומן <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
     </div>
@@ -771,9 +772,9 @@
   </div>
 </div>
 
-<script src="config.js?v=9"></script>
-<script src="tracking.js?v=9"></script>
-<script src="booking.js?v=9"></script>
+<script src="config.js?v=10"></script>
+<script src="tracking.js?v=10"></script>
+<script src="booking.js?v=10"></script>
 <script>
 (function () {
   "use strict";
@@ -919,9 +920,18 @@
     Cal.ns[CAL_NS]("inline", { elementOrSelector: "#calBox", calLink: CFG.calLink, config: calConfig });
     Cal.ns[CAL_NS]("ui", { theme: "light", layout: "month_view", hideEventTypeDetails: false, cssVarsPerTheme: { light: { "cal-brand": "#0B2E24" } } });
     // אחרי קביעת פגישה → מדידה בפיקסל ומעבר לדף התודה
-    Cal.ns[CAL_NS]("on", { action: "bookingSuccessfulV2", callback: function () {
+    /* אחרי קביעה: מדידה, דיווח ל-Gware (הליד עובר ל"אבחון נקבע") ודף התודה.
+       מחכים לאישור של Gware עד 2 שניות (ולא פחות מ-600ms); מה שלא אושר נשלח שוב מדף התודה. */
+    var booked = false;
+    Cal.ns[CAL_NS]("on", { action: "bookingSuccessfulV2", callback: function (e) {
+      if (booked) return;
+      booked = true;
       if (window.qfTrackOnce) window.qfTrackOnce("Schedule", {}, true);
-      setTimeout(function () { location.href = "thank-you.html"; }, 600);
+      var data = (e && e.detail && e.detail.data) || {};
+      var report = window.qfCal.reportBooking(data).catch(function () {});
+      var atMost = new Promise(function (res) { setTimeout(res, 2000); });
+      var atLeast = new Promise(function (res) { setTimeout(res, 600); });
+      Promise.all([Promise.race([report, atMost]), atLeast]).then(function () { location.href = "thank-you.html"; });
     } });
     // מעקב אחרי מצב הטעינה של היומן (Cal.com מסמן את האלמנט שלו: done / failed)
     var calStart = Date.now();
