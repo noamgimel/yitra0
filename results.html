@@ -9,11 +9,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=8">
+<link rel="stylesheet" href="fonts.css?v=9">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -44,7 +44,7 @@
   .hb-ic svg { width: 26px; height: 26px; }
   .hb-text { flex: 1; min-width: 0; }
   .hb-text b { display: block; font-family: var(--font-display); font-size: 19px; color: var(--cream); }
-  .hb-text span { display: block; margin-top: 2px; font-size: 15px; color: rgba(248, 244, 234, .75); line-height: 1.5; }
+  .hb-text > span { display: block; margin-top: 2px; font-size: 15px; color: rgba(248, 244, 234, .75); line-height: 1.5; }
   .hero-book .btn { flex: none; }
   .hero-book.nudge .btn { animation: nudge 1.6s var(--ease) 2; }
   @keyframes nudge { 0%, 100% { transform: none; } 30% { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 0 6px rgba(244, 183, 64, .25), 0 18px 42px -10px rgba(244, 183, 64, .7); } }
@@ -52,7 +52,7 @@
     .hero-book { flex-wrap: wrap; gap: 12px; padding: 14px; margin-top: 18px; }
     .hb-ic { width: 42px; height: 42px; border-radius: 13px; }
     .hb-text b { font-size: 17px; }
-    .hb-text span { font-size: 14px; }
+    .hb-text > span { font-size: 14px; }
     .hero-book .btn { width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) { .hero-book.nudge .btn { animation: none; } }
@@ -190,7 +190,7 @@
   .vs-price small { display: block; font-family: var(--font); font-size: 13px; font-weight: 600; color: rgba(248, 244, 234, .55); }
   .vs-sub { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(248, 244, 234, .05); font-size: 15px; }
   .vs-sub b { color: var(--accent); font-family: var(--font-display); }
-  .vs-bonus-title { margin-top: 26px; font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+  .vs-group-title { margin-top: 26px; font-family: var(--font-display); font-weight: 800; font-size: 18px; }
   .vs-now { margin-top: 14px; padding: 18px 20px; border-radius: 18px; background: linear-gradient(160deg, var(--accent-bright), var(--accent)); color: var(--brand-900); }
   .vs-now b { display: block; font-family: var(--font-display); font-size: 22px; }
   .vs-now span { display: block; margin-top: 4px; font-weight: 600; font-size: 15.5px; }
@@ -238,6 +238,28 @@
   .cal-placeholder code { direction: ltr; display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(11, 46, 36, .07); font-size: 14px; }
   .cal-meta { margin-top: 18px; justify-content: center; color: var(--cream); }
   .cal-more { margin-top: 22px; text-align: center; font-size: 15px; }
+
+  /* ---------- היומן כחלון מעל הדף (כל כפתורי "בחר שעה") ----------
+     זה אותו יומן שכבר נטען בדף, רק מוצג מעל הכול. לכן הוא נפתח מיד, בלי טעינה נוספת. */
+  .cal-pop-head { display: none; }
+  .cal-backdrop { position: fixed; inset: 0; z-index: 1; background: rgba(5, 20, 15, .72); backdrop-filter: blur(4px); }
+  .cal-backdrop[hidden] { display: none; }
+  html.cal-open { overflow: hidden; }
+  html.cal-open #book > .container { z-index: 1000 !important; }   /* מעל הכותרת, הסרגל הדביק וכפתור הוואטסאפ */
+  .calendar.is-pop { position: fixed; z-index: 2; inset: 0; margin: auto; width: min(1100px, calc(100% - 32px)); height: fit-content; max-height: calc(100% - 32px); overflow-y: auto; overscroll-behavior: contain; opacity: 1; transform: none; transition: none; }
+  .calendar.is-pop #calBox:not(:has(#calLoading)) { min-height: 0; }   /* בחלון: בגובה היומן עצמו, בלי שטח ריק מתחתיו */
+  .calendar.is-pop .cal-pop-head { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 14px; padding: 6px 8px 12px 6px; color: var(--ink); }
+  .cal-pop-head b { font-family: var(--font-display); font-size: 19px; }
+  .cal-pop-head span { font-size: 14.5px; color: rgba(11, 46, 36, .65); }
+  .cal-close { margin-inline-start: auto; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; border: 0; background: rgba(11, 46, 36, .08); color: var(--ink); cursor: pointer; }
+  .cal-close:hover { background: rgba(11, 46, 36, .15); }
+  .cal-close svg { width: 20px; height: 20px; }
+  @media (max-width: 760px) {
+    .calendar.is-pop { width: 100%; height: 100%; max-height: none; border-radius: 0; padding: 0 6px 6px; }
+    .calendar.is-pop .cal-pop-head { position: sticky; top: 0; z-index: 3; margin-inline: -6px; padding: 10px 14px; background: var(--cream); box-shadow: 0 1px 0 rgba(11, 46, 36, .1); }
+    .cal-pop-head b { font-size: 17px; }
+    .cal-pop-head span { display: none; }
+  }
   .cal-more a { color: rgba(248, 244, 234, .8); text-decoration: underline; text-underline-offset: 4px; }
 
   /* ---------- איך זה עובד ---------- */
@@ -333,7 +355,7 @@
     .fasc-more { display: flex; width: 100%; margin-top: 14px; min-height: 48px; font-size: 16px; }
 
     .stack-grid { margin-top: 28px; gap: 14px; }
-    .vs-row div span { display: none; }
+    .vs-row div span { font-size: 13.5px; }
     .vs-sub { flex-direction: column; gap: 2px; }
     .vs-now b { font-size: 19px; }
     .v-total .old { font-size: 19px; }
@@ -375,7 +397,7 @@
     <a class="logo" href="index.html" aria-label="לדף הבית">
       <img class="logo-img" src="logo/logo-dark.svg" alt="יתרה 0" width="160" height="40"><span class="ai-tag"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>AI</span>
     </a>
-    <a class="btn btn-primary shine" href="#calendar" data-book style="min-height:44px;padding:8px 20px;font-size:15px;width:auto">בחר שעה ביומן</a>
+    <a class="btn btn-primary shine" href="#calendar" data-book="header" style="min-height:44px;padding:8px 20px;font-size:15px;width:auto">בחר שעה ביומן</a>
   </div>
 </header>
 
@@ -395,7 +417,7 @@
         <b>השלב הבא: שיחת אבחון קצרה</b>
         <span>30 דקות בווידאו<span class="hide-m"> · נעבור על המספרים האלה ונראה את המערכת על הלקוחות שלך</span> · ללא עלות</span>
       </div>
-      <button class="btn btn-primary shine" type="button" data-book>בחר שעה ביומן <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <button class="btn btn-primary shine" type="button" data-book="hero">בחר שעה ביומן <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
     </div>
 
     <div class="stats">
@@ -435,7 +457,9 @@
       <p>בחר שעה לשיחת וידאו קצרה. נעבור על התוצאות שלך, ונראה לך בלייב איך לוח הדיווחים והמשימות היה נראה אצלך.</p>
     </div>
 
-    <div class="calendar reveal" id="calendar">
+    <div class="cal-backdrop" id="calBackdrop" hidden></div>
+    <div class="calendar reveal" id="calendar" aria-label="יומן לקביעת שיחת האבחון">
+      <div class="cal-pop-head"><b>בחר שעה לשיחת האבחון</b><span>30 דקות · שיחת וידאו · ללא עלות</span><button class="cal-close" type="button" id="calClose" aria-label="סגירת היומן"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
       <div id="calBox"></div>
     </div>
     <div class="cta-meta cal-meta">
@@ -575,7 +599,7 @@
           <span class="hw-num">3</span>
           <span class="hw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span>
           <h3>התזכורות יוצאות לבד</h3>
-          <p>לקוח שלא שלח חומרים מקבל תזכורת, ואתה מקבל משימה ב-08:00 ביום היעד, עד שהעניין סגור.</p>
+          <p>לקוח שלא שלח חומרים או לא שילם מקבל תזכורת, ואתה מקבל משימה ב-08:00 ביום היעד, עד שהעניין סגור.</p>
           <span class="hw-tag">אוטומטי</span>
         </li>
         <li class="hw-step reveal">
@@ -604,6 +628,7 @@
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>כל מועדי הדיווח של החודש, במבט אחד.</strong> בלי אקסל ובלי לזכור בעל-פה מי מדווח חודשי ומי דו-חודשי.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>"מה עוד חסר לך?" נשאל פעם אחת.</strong> המערכת מבקשת את החומרים ומסמנת מי שלח ומי לא.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>שום פולואפ לא נשכח.</strong> מה שהבטחת ללקוח בשיחה הופך למשימה עם תאריך ותזכורת.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>שכר הטרחה לא נשכח.</strong> רואים מי שילם ומי לא, ותזכורות התשלום יוצאות ללקוח בזמן ובטון הנכון.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>פותחים את היום בלוח בוקר.</strong> המשימות החשובות של היום, לפי סדר עדיפויות.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לקוח חדש? קישור אחד.</strong> פרטים, תעודת זהות וייפוי כוח נכנסים לתיק בלי שתקליד שורה.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>כל לקוח במקום אחד.</strong> התיק, ההערות, הפגישות ומה שהובטח לו, בלי לחפש בוואטסאפ.</div></li>
@@ -611,7 +636,7 @@
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לא צריך להחליף תוכנת הנהלת חשבונות.</strong> יתרה 0 עובדת לצד מה שכבר עובד אצלך.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>ההקמה עלינו.</strong> מייבאים את הלקוחות מהאקסל שלך, כולל התדירות של כל לקוח.</div></li>
     </ul>
-    <button class="btn btn-dark fasc-more" type="button" id="fascMore">הצג עוד 3 יתרונות</button>
+    <button class="btn btn-dark fasc-more" type="button" id="fascMore">הצג עוד 4 יתרונות</button>
   </div>
 </section>
 
@@ -627,21 +652,22 @@
     <div class="stack-grid">
       <article class="card-glass stack-card vs-card reveal">
         <h3>מה בונים לך</h3>
-        <p class="lead">חמישה כלים, מחוברים זה לזה</p>
+        <p class="lead">הכלים והסוכנים, מחוברים זה לזה</p>
         <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span><div><b>קליטת לקוחות ואיסוף חומרים</b><span>לקוח חדש ממלא פרטים, תעודת זהות וייפוי כוח בקישור אחד, והתיק נפתח לבד. לפני כל מועד המערכת מבקשת את החומרים ומסמנת מי שלח.</span></div></div>
         <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></span><div><b>לוח לקוחות במקום אקסל</b><span>כל הלקוחות, התיקים, ההערות והפגישות במקום אחד, מסודר וברור. מחפשים לקוח ורואים הכול: מה הוא מדווח, מה חסר, מה הובטח לו.</span></div></div>
         <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span><div><b>תזכורות למשימות ופולואפים</b><span>כל מה שהבטחת בשיחה הופך למשימה עם תאריך ותזכורת. "חזרת אליי לגבי המקדמות?" כבר לא יתפוס אותך לא מוכן.</span></div></div>
         <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span><div><b>מעקב דיווחים לכל לקוח</b><span>מע״מ חודשי או דו-חודשי, 102, מקדמות ודוח שנתי, לכל לקוח בתדירות שלו. בתחילת כל חודש הלוח מתמלא לבד: מה צריך לצאת, עד מתי ומה כבר הוגש.</span></div></div>
         <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><div><b>לוח בוקר לפי סדר עדיפויות</b><span>כל בוקר מחכה לך מסך אחד: המשימות החשובות של היום, מסודרות לפי דחיפות. פותחים את היום בלי לחפש.</span></div></div>
 
-        <p class="vs-bonus-title">ובנוסף, שני בונוסים:</p>
-        <div class="vs-row vs-bonus"><span class="vs-ic">🎁</span><div><b>סוכן טלגרם: עוזר אישי שמתעד שיחות</b><span>מה שנאמר בשיחה עם לקוח נשמר בתיק שלו, כדי ששום פרט לא ילך לאיבוד.</span></div></div>
-        <div class="vs-row vs-bonus"><span class="vs-ic">🎁</span><div><b>סוכן וואטסאפ לניהול שוטף מול לקוחות</b><span>בקשות חומרים, תזכורות ועדכונים שוטפים ללקוחות, בלי להקליד כל הודעה בעצמך.</span></div></div>
+        <p class="vs-group-title">והסוכנים שעובדים בשבילך:</p>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span><div><b>סוכן וואטסאפ מול הלקוחות</b><span>בקשות חומרים, תזכורות ועדכונים שוטפים ללקוחות, בלי להקליד כל הודעה בעצמך.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></span><div><b>גבייה ומעקב שכר טרחה</b><span>רואים מי שילם ומי לא, והסוכן שולח ללקוח תזכורת תשלום בזמן ובטון הנכון. אתה לא צריך להיות "הרע" מול הלקוח.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></span><div><b>סוכן טלגרם שמתעד שיחות</b><span>אחרי שיחה עם לקוח שולחים לו הודעה קולית, והסיכום נכנס לתיק של הלקוח עם משימת המשך. שום פרט לא הולך לאיבוד.</span></div></div>
 
         <div class="vs-now">
           <div><b>מותאם אישית, לא מערכת מדף.</b><span>במקום כמה תוכנות ואקסלים, מערכת אחת מסודרת שמחזיקה את המשרד, בלי עבודה שחורה ובלי לקפוץ בין תוכנות.</span></div>
         </div>
-        <a class="btn btn-primary shine btn-block" href="#calendar" data-book style="margin-top:16px">בוא נראה איך זה ייראה אצלך <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
+        <a class="btn btn-primary shine btn-block" href="#calendar" data-book="offer" style="margin-top:16px">בוא נראה איך זה ייראה אצלך <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
       </article>
 
       <article class="card-glass stack-card reveal" style="border-color:rgba(244,183,64,.3)">
@@ -709,7 +735,7 @@
     </div>
 
     <div class="r-ctas reveal" style="justify-content:center;margin-top:44px">
-      <a class="btn btn-primary shine" href="#calendar" data-book>בחר שעה ביומן, בחינם <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
+      <a class="btn btn-primary shine" href="#calendar" data-book="urgency">בחר שעה ביומן, בחינם <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
     </div>
   </div>
 </section>
@@ -720,7 +746,7 @@
     <div class="ps">
       <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: לפי השאלון, הזמן שהמשרד שלך יכול להחזיר שווה כ-<strong><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</strong>. בשיחה של 30 דקות נעבור על החישוב, נראה את המערכת על הלקוחות שלך ונחליט יחד מאיפה מתחילים. ללא עלות וללא התחייבות.</p>
       <p class="reveal" id="psSpots"><b class="tag">נ.ב.ב.</b>נשארו <strong><span data-v="spotsLeft">3</span> מקומות</strong> להטמעה החודש.</p>
-      <div class="reveal"><a class="btn btn-dark" href="#calendar" data-book>בחר שעה לשיחה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
+      <div class="reveal"><a class="btn btn-dark" href="#calendar" data-book="ps">בחר שעה לשיחה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
     </div>
   </div>
 </section>
@@ -740,14 +766,14 @@
 
 <div class="sticky-cta" id="sticky">
   <div class="sticky-row">
-    <a class="btn btn-primary shine btn-block" href="#calendar" data-book>בחר שעה ביומן, בחינם</a>
+    <a class="btn btn-primary shine btn-block" href="#calendar" data-book="sticky">בחר שעה ביומן, בחינם</a>
     <a class="sticky-wa" id="waSticky" href="#" target="_blank" rel="noopener" aria-label="שלח לנו הודעה בוואטסאפ"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 012.2 12 9.8 9.8 0 0112 2.2 9.8 9.8 0 0121.8 12 9.8 9.8 0 0112 21.8zM20.5 3.5A11.8 11.8 0 0012 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.7a11.9 11.9 0 005.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4z"/></svg></a>
   </div>
 </div>
 
-<script src="config.js?v=8"></script>
-<script src="tracking.js?v=8"></script>
-<script src="booking.js?v=8"></script>
+<script src="config.js?v=9"></script>
+<script src="tracking.js?v=9"></script>
+<script src="booking.js?v=9"></script>
 <script>
 (function () {
   "use strict";
@@ -831,7 +857,7 @@
     },
     cashflow: {
       title: "שכר טרחה שתקוע אצל לקוחות",
-      text: "כ-" + money(r.outstanding) + " שכר טרחה יושבים כרגע אצל לקוחות שעברו את מועד התשלום. זה כסף שכבר הרווחת, על עבודה שכבר עשית, ואינו נמצא בחשבון שלך. כל חודש שהוא לא נגבה מקטין את הסיכוי שהוא ייכנס בכלל."
+      text: "כ-" + money(r.outstanding) + " שכר טרחה יושבים כרגע אצל לקוחות שעברו את מועד התשלום. זה כסף שכבר הרווחת, על עבודה שכבר עשית, ואינו נמצא בחשבון שלך. כל חודש שהוא לא נגבה מקטין את הסיכוי שהוא ייכנס בכלל. וזה בדיוק מה שהסוכן לוקח ממך: הוא עוקב מי שילם ומי לא, ושולח ללקוח תזכורת תשלום בזמן ובטון הנכון."
     }
   };
   var leak = LEAKS[r.biggest] || LEAKS.materials;
@@ -922,25 +948,58 @@
   }
 
 
-  /* ---------- כפתורי "בחר שעה": היומן נפתח מיד בחלון קופץ ----------
-     אותו אירוע ואותו namespace כמו היומן שבדף, ולכן קביעה מהחלון גם מודדת Schedule ועוברת לדף התודה.
-     אם Cal.com לא זמין — גלילה חלקה ליומן שבדף (ואם גם הוא לא נטען, יש שם קישור גיבוי). */
+  /* ---------- כפתורי "בחר שעה": היומן נפתח מיד, כחלון מעל הדף ----------
+     החלון הוא אותו יומן שכבר נטען בדף (לא יומן נוסף שמתחיל להיטען רק בלחיצה), ולכן הוא נפתח מיד
+     עם השם והטלפון ממולאים. אם הוא עוד בטעינה, רואים את הודעת הטעינה, ואחרי 9 שניות גם קישור גיבוי.
+     קביעה מהחלון מודדת Schedule ועוברת לדף התודה, כמו היומן בדף.
+     נסגר ב-✕, בלחיצה על הרקע, ב-Esc ובכפתור "חזור" של הטלפון. */
+  var calWrap = document.getElementById("calendar");
+  var calBackdrop = document.getElementById("calBackdrop");
+  var calClose = document.getElementById("calClose");
+  var calHolder = null, calOpener = null, calPopOpen = false, calPushed = false;
   function scrollToCal() {
-    var el = document.getElementById("calendar");
-    if (!el) return;
-    var y = el.getBoundingClientRect().top + scrollY - 90;
+    var y = calWrap.getBoundingClientRect().top + scrollY - 90;
     window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
   }
+  function openCalPop(src, opener) {
+    if (!box.querySelector("cal-inline")) { scrollToCal(); return; }   /* בלי Cal.com: גלילה ליומן שבדף */
+    if (window.qfTrackOnce) window.qfTrackOnce("CalendarOpen", { source: src || "page" });
+    if (calPopOpen) return;
+    calPopOpen = true;
+    calOpener = opener || null;
+    calHolder = document.createElement("div");   /* שומר את המקום של היומן בדף, כדי שהדף מאחור לא יקפוץ */
+    calHolder.style.height = calWrap.offsetHeight + "px";
+    calWrap.parentNode.insertBefore(calHolder, calWrap);
+    calWrap.classList.add("in", "is-pop");
+    calWrap.setAttribute("role", "dialog");
+    calWrap.setAttribute("aria-modal", "true");
+    calBackdrop.hidden = false;
+    document.documentElement.classList.add("cal-open");
+    calWrap.scrollTop = 0;
+    try { history.pushState({ calPop: 1 }, ""); calPushed = true; } catch (err) {}
+    try { calClose.focus({ preventScroll: true }); } catch (err) {}
+  }
+  function closeCalPop(fromHistory) {
+    if (!calPopOpen) return;
+    calPopOpen = false;
+    calWrap.classList.remove("is-pop");
+    calWrap.removeAttribute("role");
+    calWrap.removeAttribute("aria-modal");
+    calBackdrop.hidden = true;
+    document.documentElement.classList.remove("cal-open");
+    if (calHolder) { calHolder.remove(); calHolder = null; }
+    if (calPushed && !fromHistory) history.back();
+    calPushed = false;
+    if (calOpener) try { calOpener.focus({ preventScroll: true }); } catch (err) {}
+  }
+  calClose.addEventListener("click", function () { closeCalPop(false); });
+  calBackdrop.addEventListener("click", function () { closeCalPop(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeCalPop(false); });
+  window.addEventListener("popstate", function () { closeCalPop(true); });
   document.querySelectorAll("[data-book]").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.preventDefault();
-      if (window.Cal && Cal.ns && Cal.ns[CAL_NS]) {
-        try {
-          Cal.ns[CAL_NS]("modal", { calLink: CFG.calLink, config: calConfig });
-          return;
-        } catch (err) {}
-      }
-      scrollToCal();
+      openCalPop(btn.getAttribute("data-book"), btn);
     });
   });
   /* מיד אחרי השאלון: הכפתור "מהבהב" פעמיים אחרי שהמספרים נספרו, כדי שלא יתפספס */
