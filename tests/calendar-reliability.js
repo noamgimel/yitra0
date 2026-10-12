@@ -65,6 +65,9 @@ async function waitVisible(p, ms) {
   await p.waitForURL(/thank-you\.html/, { timeout: 8000 }).catch(() => {});
   ok(/thank-you\.html/.test(p.url()), `a booking from the rebuilt calendar ("${ns}") goes to the thank-you page`);
   ok(reports.some(r => /reliability-0000/.test(r) && /reliability-uid/.test(r)), 'the booking is reported to Gware with the lead submission id');
+  const when = await p.evaluate(() => { const el = document.getElementById('tyWhen'); return el && !el.hidden ? el.textContent.trim() : null; });
+  const expected = new Date('2026-10-20T08:00:00.000Z').toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false });
+  ok(!!when && when.includes(expected) && /30 דקות/.test(when), `the thank-you page shows the booked day and time ("${when}")`);
 
   await b.close();
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED');

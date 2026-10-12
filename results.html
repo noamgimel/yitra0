@@ -234,6 +234,11 @@
   .cal-fallback.show { display: block; }
   .cal-fallback a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
   #calBox:has(.cal-placeholder) { min-height: 0; }
+  /* כשהיומן מוכן (מחלקה cal-ready): בגובה התוכן שלו. הגובה המינימלי נועד רק להודעת הטעינה —
+     בשלב הטופס Cal.com מתכווץ לכ-280px, ובתוך תיבה של 720px הטופס "ריחף" באמצע עם שטח ריק סביבו (12/10/2026). */
+  #calBox.cal-ready { min-height: 0; }
+  /* Cal.com גולל את הדף בעצמו לראש היומן (במעבר לטופס וכו') — שיעצור מתחת לכותרת הקבועה ולא מאחוריה */
+  #calBox cal-inline { scroll-margin-top: 84px; }
   .cal-placeholder { min-height: 520px; display: grid; place-items: center; text-align: center; color: rgba(11, 46, 36, .65); padding: 30px; border: 2px dashed rgba(11, 46, 36, .18); border-radius: 20px; }
   .cal-placeholder b { display: block; font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 6px; }
   .cal-placeholder code { direction: ltr; display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(11, 46, 36, .07); font-size: 14px; }
@@ -905,6 +910,8 @@
       booked = true;
       if (window.qfTrackOnce) window.qfTrackOnce("Schedule", {}, true);
       var data = (e && e.detail && e.detail.data) || {};
+      /* המועד שנקבע — לדף התודה ("הפגישה נקבעה ליום ... בשעה ..."), כי בטופס של Cal.com הוא לא מוצג */
+      try { sessionStorage.setItem("qf_booked", JSON.stringify({ start: data.startTime || "", end: data.endTime || "" })); } catch (err) {}
       var report = window.qfCal.reportBooking(data).catch(function () {});
       var atMost = new Promise(function (res) { setTimeout(res, 2000); });
       var atLeast = new Promise(function (res) { setTimeout(res, 600); });
@@ -960,6 +967,7 @@
       var state = el && el.getAttribute("loading");
       if (state === "done") {
         clearInterval(calPoll);
+        box.classList.add("cal-ready");
         var ov = document.getElementById("calLoading");
         if (ov) ov.remove();
         return;

@@ -21,6 +21,15 @@
   @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes draw { to { stroke-dashoffset: 0; } }
   .ty-hero h1 { font-size: clamp(32px, 5vw, 56px); }
+  .ty-when { display: inline-flex; align-items: center; gap: 10px; margin: 22px auto 0; padding: 10px 20px; border-radius: 999px; background: rgba(244, 183, 64, .14); border: 1px solid rgba(244, 183, 64, .5); color: var(--accent); font-weight: 800; font-size: clamp(17px, 2vw, 21px); }
+  .ty-when[hidden] { display: none; }
+  .ty-when svg { width: 22px; height: 22px; flex: none; }
+  .ty-when .w-t::before { content: "·"; margin: 0 8px; }
+  @media (max-width: 560px) {   /* בנייד: היום בשורה אחת, השעה והאורך בשורה שנייה — בלי שבירה באמצע */
+    .ty-when { border-radius: 18px; padding: 10px 16px; text-align: start; }
+    .ty-when #tyWhenText { display: grid; gap: 2px; }
+    .ty-when .w-t::before { content: none; }
+  }
   .ty-hero .sub { margin: 22px auto 0; max-width: 640px; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.7; color: rgba(248, 244, 234, .85); }
   .warn-strip { margin: 34px auto 0; max-width: 640px; padding: 16px 22px; border-radius: 18px; background: rgba(244, 183, 64, .12); border: 1px solid rgba(244, 183, 64, .35); color: var(--cream); font-weight: 600; display: flex; gap: 12px; align-items: center; text-align: start; }
   .warn-strip svg { width: 24px; height: 24px; color: var(--accent); flex: none; }
@@ -84,6 +93,7 @@
   <div class="container narrow">
     <div class="check-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
     <h1 class="h-display" id="tyTitle">מעולה! פגישת ההדגמה שלנו נקבעה.</h1>
+    <p class="ty-when" id="tyWhen" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span id="tyWhenText"></span></p>
     <p class="sub">שלחנו לך ברגע זה זימון למייל עם הקישור לשיחת הווידאו (כדאי לוודא שהוא לא נפל לספאם).</p>
     <div class="warn-strip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>עוד לא סיימת: 2 צעדים קטנים שיבטיחו שתצא מהשיחה עם תוכנית ברורה למשרד.</span></div>
   </div>
@@ -189,6 +199,22 @@
   var data = null;
   try { data = JSON.parse(sessionStorage.getItem("qf_result") || "null"); } catch (e) {}
   if (data && data.name) document.getElementById("tyTitle").textContent = "מעולה, " + data.name + "! פגישת ההדגמה שלנו נקבעה.";
+
+  /* היום והשעה שנקבעו (נשמרו בדף התוצאות מאירוע הקביעה של Cal.com), באזור הזמן של הגולש — כמו ביומן */
+  var booked = null;
+  try { booked = JSON.parse(sessionStorage.getItem("qf_booked") || "null"); } catch (e) {}
+  var when = booked && booked.start ? new Date(booked.start) : null;
+  if (when && !isNaN(when.getTime())) {
+    var day = when.toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" });
+    var time = when.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit", hour12: false });
+    var end = booked.end ? new Date(booked.end) : null;
+    var mins = end && !isNaN(end.getTime()) ? Math.round((end - when) / 60000) : 0;
+    var wt = document.getElementById("tyWhenText");
+    var dEl = document.createElement("span"); dEl.className = "w-d"; dEl.textContent = day;
+    var tEl = document.createElement("span"); tEl.className = "w-t"; tEl.textContent = time + (mins > 0 ? " · " + mins + " דקות" : "");
+    wt.appendChild(dEl); wt.appendChild(tEl);
+    document.getElementById("tyWhen").hidden = false;
+  }
   if (data && data.result && data.result.saved !== undefined) document.getElementById("agendaNums").textContent = " (לפי השאלון: כ-" + fmt(data.result.saved) + " שעות בחודש שאפשר להחזיר, ששוות כ-" + money(data.result.yearly) + " בשנה)";
 
   document.getElementById("waBtn").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, קבעתי פגישת הדגמה ויש לי שאלה");

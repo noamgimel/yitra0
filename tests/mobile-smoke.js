@@ -81,6 +81,21 @@ const ok = (cond, msg) => { console.log((cond ? 'PASS ' : 'FAIL ') + msg); if (!
     ok(top > 40 && top < 140, `sticky button scrolls back to the calendar (top ${top}px)`);
   } else ok(false, 'sticky bar did not show on the offer section');
 
+  // 5. שלב הטופס: יום אחרון + שעה אחרונה (רחוקים — Cal.com "מחזיק" שעה שנבחרה כמה דקות, לא לגעת בשעות קרובות)
+  //    הטופס צריך להופיע מתחת לכותרת הקבועה, בלי שטח ריק סביבו (בעבר: הטופס ריחף בתוך תיבה של 720px)
+  await page.evaluate(() => { const c = document.getElementById('calendar'); window.scrollTo(0, c.getBoundingClientRect().top + scrollY - 84); });
+  await page.waitForTimeout(800);
+  const lastDay = frame.locator('button[data-testid="day"]:not([disabled])').last();
+  await lastDay.scrollIntoViewIfNeeded(); await lastDay.tap(); await page.waitForTimeout(4000);
+  const lastSlot = frame.locator('[data-testid="time"]:not([disabled])').last();
+  await lastSlot.scrollIntoViewIfNeeded(); await lastSlot.tap(); await page.waitForTimeout(4000);
+  const lay = await page.evaluate(() => { const box = document.getElementById('calBox').getBoundingClientRect(), f = document.querySelector('#calBox iframe').getBoundingClientRect(); return { boxH: Math.round(box.height), frameTop: Math.round(f.top), frameH: Math.round(f.height), header: Math.round(document.getElementById('siteHeader').getBoundingClientRect().bottom) }; });
+  const formCount = await frame.locator('form input[name="email"], form [name="email"]').count().catch(() => 0);
+  ok(formCount > 0, 'picking a time opens the booking form');
+  ok(lay.boxH - lay.frameH < 40, `no empty space around the form (box ${lay.boxH}px, form frame ${lay.frameH}px)`);
+  ok(lay.frameTop >= lay.header - 2 && lay.frameTop < 200, `the form starts below the fixed header (frame top ${lay.frameTop}px, header bottom ${lay.header}px)`);
+  await page.screenshot({ path: OUT + '/smoke-3-form.png' });
+
   ok(errors.length === 0, `no page/console errors ${errors.length ? JSON.stringify(errors.slice(0, 3)) : ''}`);
   await browser.close();
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED');
