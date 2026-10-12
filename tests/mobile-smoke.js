@@ -19,6 +19,8 @@ const ok = (cond, msg) => { console.log((cond ? 'PASS ' : 'FAIL ') + msg); if (!
         result: { clients: 55, fee: 750, trackingHours: 9.2, materialsHours: 20.2, slipsHours: 1.5, slips: 1.5, hours: 31, saved: 22, savedYear: 264, extraClients: 7, perClient: 3, hourValue: 250, yearly: 66000, monthlyValue: 5500, deadlines: 83, outstanding: 20000, biggest: 'materials', taxRisk: false }, at: Date.now() }));
     }
   });
+  /* בדיקה לא שולחת אירועים לפיקסל או ל-GA (גם כשבודקים את האתר החי) */
+  await ctx.route(/facebook\.(com|net)|googletagmanager|google-analytics/, r => r.abort());
   const page = await ctx.newPage();
   const cdp = await ctx.newCDPSession(page);
   const errors = [];
