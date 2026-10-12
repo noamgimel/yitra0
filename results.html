@@ -240,27 +240,10 @@
   .cal-meta { margin-top: 18px; justify-content: center; color: var(--cream); }
   .cal-more { margin-top: 22px; text-align: center; font-size: 15px; }
 
-  /* ---------- היומן כחלון מעל הדף (כל כפתורי "בחר שעה") ----------
-     זה אותו יומן שכבר נטען בדף, רק מוצג מעל הכול. לכן הוא נפתח מיד, בלי טעינה נוספת. */
-  .cal-pop-head { display: none; }
-  .cal-backdrop { position: fixed; inset: 0; z-index: 1; background: rgba(5, 20, 15, .72); backdrop-filter: blur(4px); }
-  .cal-backdrop[hidden] { display: none; }
-  html.cal-open { overflow: hidden; }
-  html.cal-open #book > .container { z-index: 1000 !important; }   /* מעל הכותרת, הסרגל הדביק וכפתור הוואטסאפ */
-  .calendar.is-pop { position: fixed; z-index: 2; inset: 0; margin: auto; width: min(1100px, calc(100% - 32px)); height: fit-content; max-height: calc(100% - 32px); overflow-y: auto; overscroll-behavior: contain; opacity: 1; transform: none; transition: none; }
-  .calendar.is-pop #calBox:not(:has(#calLoading)) { min-height: 0; }   /* בחלון: בגובה היומן עצמו, בלי שטח ריק מתחתיו */
-  .calendar.is-pop .cal-pop-head { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 14px; padding: 6px 8px 12px 6px; color: var(--ink); }
-  .cal-pop-head b { font-family: var(--font-display); font-size: 19px; }
-  .cal-pop-head span { font-size: 14.5px; color: rgba(11, 46, 36, .65); }
-  .cal-close { margin-inline-start: auto; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; border: 0; background: rgba(11, 46, 36, .08); color: var(--ink); cursor: pointer; }
-  .cal-close:hover { background: rgba(11, 46, 36, .15); }
-  .cal-close svg { width: 20px; height: 20px; }
-  @media (max-width: 760px) {
-    .calendar.is-pop { width: 100%; height: 100%; max-height: none; border-radius: 0; padding: 0 6px 6px; }
-    .calendar.is-pop .cal-pop-head { position: sticky; top: 0; z-index: 3; margin-inline: -6px; padding: 10px 14px; background: var(--cream); box-shadow: 0 1px 0 rgba(11, 46, 36, .1); }
-    .cal-pop-head b { font-size: 17px; }
-    .cal-pop-head span { display: none; }
-  }
+  /* ---------- "בחר שעה" גולל לכאן: הבזק זהב קצר על היומן, כדי שהעין תנחת עליו ---------- */
+  .calendar.flash { animation: cal-flash 1.7s var(--ease) .45s 1; }
+  @keyframes cal-flash { 0%, 100% { box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7); } 35% { box-shadow: 0 0 0 4px rgba(244, 183, 64, .9), 0 40px 80px -30px rgba(0, 0, 0, .7); } }
+  @media (prefers-reduced-motion: reduce) { .calendar.flash { animation: none; } }
   .cal-more a { color: rgba(248, 244, 234, .8); text-decoration: underline; text-underline-offset: 4px; }
 
   /* ---------- איך זה עובד ---------- */
@@ -458,9 +441,7 @@
       <p>בחר שעה לשיחת וידאו קצרה. נעבור על התוצאות שלך, ונראה לך בלייב איך לוח הדיווחים והמשימות היה נראה אצלך.</p>
     </div>
 
-    <div class="cal-backdrop" id="calBackdrop" hidden></div>
     <div class="calendar reveal" id="calendar" aria-label="יומן לקביעת שיחת האבחון">
-      <div class="cal-pop-head"><b>בחר שעה לשיחת האבחון</b><span>30 דקות · שיחת וידאו · ללא עלות</span><button class="cal-close" type="button" id="calClose" aria-label="סגירת היומן"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
       <div id="calBox"></div>
     </div>
     <div class="cta-meta cal-meta">
@@ -958,58 +939,29 @@
   }
 
 
-  /* ---------- כפתורי "בחר שעה": היומן נפתח מיד, כחלון מעל הדף ----------
-     החלון הוא אותו יומן שכבר נטען בדף (לא יומן נוסף שמתחיל להיטען רק בלחיצה), ולכן הוא נפתח מיד
-     עם השם והטלפון ממולאים. אם הוא עוד בטעינה, רואים את הודעת הטעינה, ואחרי 9 שניות גם קישור גיבוי.
-     קביעה מהחלון מודדת Schedule ועוברת לדף התודה, כמו היומן בדף.
-     נסגר ב-✕, בלחיצה על הרקע, ב-Esc ובכפתור "חזור" של הטלפון. */
+  /* ---------- כפתורי "בחר שעה": גלילה של הדף ליומן שכבר נטען בו ----------
+     ⚠️ לא לעטוף את היומן בחלון צף, בשכבה עם אזור גלילה משלה או בנעילת גלילה של הדף.
+     ב-12/10/2026 זה הקפיא את המסך באייפון (ספארי וגם כרום, ששניהם WebKit): היומן של Cal.com הוא iframe,
+     וב-WebKit של אייפון גלילת אצבע שמתחילה על iframe לא עוברת לאזור גלילה שעוטף אותו — רק לגלילה של הדף עצמו.
+     החלון כיסה את כל המסך, הדף מאחור היה נעול, ולכן שום דבר לא זז. גלילה של הדף עובדת בכל מכשיר.
+     (בכרום של אנדרואיד ובאמולציית נייד במחשב זה עבד — לכן בדיקה באייפון אמיתי היא חובה לפני main, ראו README.) */
   var calWrap = document.getElementById("calendar");
-  var calBackdrop = document.getElementById("calBackdrop");
-  var calClose = document.getElementById("calClose");
-  var calHolder = null, calOpener = null, calPopOpen = false, calPushed = false;
-  function scrollToCal() {
-    var y = calWrap.getBoundingClientRect().top + scrollY - 90;
-    window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
-  }
-  function openCalPop(src, opener) {
-    if (!box.querySelector("cal-inline")) { scrollToCal(); return; }   /* בלי Cal.com: גלילה ליומן שבדף */
+  function goToCal(src) {
     if (window.qfTrackOnce) window.qfTrackOnce("CalendarOpen", { source: src || "page" });
-    if (calPopOpen) return;
-    calPopOpen = true;
-    calOpener = opener || null;
-    calHolder = document.createElement("div");   /* שומר את המקום של היומן בדף, כדי שהדף מאחור לא יקפוץ */
-    calHolder.style.height = calWrap.offsetHeight + "px";
-    calWrap.parentNode.insertBefore(calHolder, calWrap);
-    calWrap.classList.add("in", "is-pop");
-    calWrap.setAttribute("role", "dialog");
-    calWrap.setAttribute("aria-modal", "true");
-    calBackdrop.hidden = false;
-    document.documentElement.classList.add("cal-open");
-    calWrap.scrollTop = 0;
-    try { history.pushState({ calPop: 1 }, ""); calPushed = true; } catch (err) {}
-    try { calClose.focus({ preventScroll: true }); } catch (err) {}
+    calWrap.classList.add("in");
+    /* המיקום לפי offsetTop ולא getBoundingClientRect: היומן אולי עוד באנימציית הכניסה (translateY), שמזיזה את המדידה */
+    var y = 0;
+    for (var el = calWrap; el; el = el.offsetParent) y += el.offsetTop;
+    y -= 84;   /* מתחת לכותרת הקבועה */
+    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" });
+    calWrap.classList.remove("flash");
+    void calWrap.offsetWidth;   /* מאפשר להבזק לרוץ שוב בלחיצה נוספת */
+    calWrap.classList.add("flash");
   }
-  function closeCalPop(fromHistory) {
-    if (!calPopOpen) return;
-    calPopOpen = false;
-    calWrap.classList.remove("is-pop");
-    calWrap.removeAttribute("role");
-    calWrap.removeAttribute("aria-modal");
-    calBackdrop.hidden = true;
-    document.documentElement.classList.remove("cal-open");
-    if (calHolder) { calHolder.remove(); calHolder = null; }
-    if (calPushed && !fromHistory) history.back();
-    calPushed = false;
-    if (calOpener) try { calOpener.focus({ preventScroll: true }); } catch (err) {}
-  }
-  calClose.addEventListener("click", function () { closeCalPop(false); });
-  calBackdrop.addEventListener("click", function () { closeCalPop(false); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeCalPop(false); });
-  window.addEventListener("popstate", function () { closeCalPop(true); });
   document.querySelectorAll("[data-book]").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      openCalPop(btn.getAttribute("data-book"), btn);
+      e.preventDefault();   /* בלי JavaScript — הקישור #calendar קופץ ליומן בעצמו */
+      goToCal(btn.getAttribute("data-book"));
     });
   });
   /* מיד אחרי השאלון: הכפתור "מהבהב" פעמיים אחרי שהמספרים נספרו, כדי שלא יתפספס */
