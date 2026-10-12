@@ -916,20 +916,24 @@
        דף היומן מגיע במלואו, אבל Cal.com לא שולח לעצמו את אות ה"מוכן" (linkReady), והתוכן נשאר מוסתר: יומן ריק.
        החתימה: אירוע load של ה-iframe קרה, ו-done לא מגיע. בטעינה תקינה done מגיע 0.2–0.3 שניות אחרי load.
        לכן: כשאין done זמן מה אחרי load (או כש-Cal.com מסמן failed) — מסירים את ההטמעה ובונים אותה מחדש
-       ב-namespace חדש (טעינה מחדש של אותו iframe לא עוזרת). עד 3 בניות מחדש.
+       ב-namespace חדש (טעינה מחדש של אותו iframe לא עוזרת). עד 5 בניות מחדש (באתר החי נמדדו גם 2–3 ברצף).
        הסף: לפחות 2.5 שניות אחרי load, או 60% מהזמן שלקח ל-iframe להיטען — הגבוה מביניהם, כי בחיבור איטי
        גם הפער גדל (נמדד: 1.6 שניות כשכל קובץ של Cal.com מתעכב 1.5 שניות; 3.2 שניות בעיכוב של 3 שניות).
        בחיבור איטי load עוד לא קרה, ולכן לא בונים מחדש סתם: מחכים (ורק אחרי 15 שניות בלי load — בנייה אחת מחדש; גם כשבקשת ה-iframe נכשלת ברשת, load לא מגיע).
        כל בנייה מחדש נמדדת כ-CalendarRetry, וכישלון סופי כ-CalendarFailed (פיקסל, בלי מידע מזהה).
        אחרי 9 שניות בלי יומן מופיע גם קישור גיבוי לפתיחה בחלון חדש. */
-    var MAX_REBUILDS = 3, STUCK_AFTER_LOAD = 2500, NO_LOAD_LIMIT = 15000;
+    var MAX_REBUILDS = 5, STUCK_AFTER_LOAD = 2500, NO_LOAD_LIMIT = 15000;
     var calAttempt = 0, calMountedAt = 0, calLoadedAt = 0, calFrame = null, calGaveUp = false;
     var calStart = Date.now();
+    /* בנייד בלי תיאור האירוע בראש היומן: אחרי בחירת יום Cal.com גולל לשעות ואז (כשהכתובת שלו מתעדכנת)
+       בחזרה לראש היומן. עם התיאור (כחצי מסך) השעות נשארו מתחת למסך (נמדד: y=819 מתוך 839); בלעדיו הן גלויות
+       (y=476). מה שהתיאור אומר — 30 דקות, וידאו, ללא עלות — כתוב בדף מעל ומתחת ליומן. במחשב התיאור נשאר. */
+    var HIDE_DETAILS = matchMedia("(max-width: 760px)").matches;
     function mountCal() {
       var ns = calAttempt === 0 ? CAL_NS : CAL_NS + "R" + calAttempt;
       Cal("init", ns, { origin: window.qfCal.origin });
       Cal.ns[ns]("inline", { elementOrSelector: "#calBox", calLink: CFG.calLink, config: calConfig });
-      Cal.ns[ns]("ui", { theme: "light", layout: "month_view", hideEventTypeDetails: false, cssVarsPerTheme: { light: { "cal-brand": "#0B2E24" } } });
+      Cal.ns[ns]("ui", { theme: "light", layout: "month_view", hideEventTypeDetails: HIDE_DETAILS, cssVarsPerTheme: { light: { "cal-brand": "#0B2E24" } } });
       Cal.ns[ns]("on", { action: "bookingSuccessfulV2", callback: onBooked });
       calMountedAt = Date.now(); calLoadedAt = 0; calFrame = null;
     }

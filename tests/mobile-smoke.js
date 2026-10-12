@@ -25,7 +25,8 @@ const ok = (cond, msg) => { console.log((cond ? 'PASS ' : 'FAIL ') + msg); if (!
   const cdp = await ctx.newCDPSession(page);
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
-  page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  /* שגיאות של בקשות פיקסל/GA שהבדיקה עצמה חוסמת — לא נספרות */
+  page.on('console', m => { if (m.type() === 'error' && !/facebook|googletagmanager|google-analytics/.test((m.location() || {}).url || '')) errors.push(m.text()); });
   const swipe = (dy, y = 600) => cdp.send('Input.synthesizeScrollGesture', { x: 200, y, yDistance: dy, gestureSourceType: 'touch', speed: 900 });
 
   await page.goto(BASE + '/results.html?smoke=' + Date.now(), { waitUntil: 'domcontentloaded' });
@@ -50,9 +51,17 @@ const ok = (cond, msg) => { console.log((cond ? 'PASS ' : 'FAIL ') + msg); if (!
   await page.waitForTimeout(2500);
   const slots = await frame.locator('[data-testid="time"]').count();
   ok(slots > 0, `tapping a day inside the calendar shows time slots (${slots})`);
+  // אחרי בחירת יום Cal.com גולל לשעות ואחר כך לראש היומן — השעה הראשונה חייבת להישאר על המסך
+  await page.waitForTimeout(6000);
+  const slotBox = await frame.locator('[data-testid="time"]').first().boundingBox().catch(() => null);
+  const vh = await page.evaluate(() => innerHeight);
+  ok(!!slotBox && slotBox.y >= 0 && slotBox.y + slotBox.height <= vh, `after picking a day the first time slot stays on screen (y=${slotBox ? Math.round(slotBox.y) : 'none'} of ${vh})`);
   await page.screenshot({ path: OUT + '/smoke-2-after-day.png' });
 
   // 3. גלילה באצבע מעל היומן ומחוצה לו
+  // אחרי בחירת יום Cal.com גולל את הדף בעצמו אל השעות — מחכים שהדף יתייצב, כדי לא לערבב את הגלילה שלו עם המחווה
+  let prevY = -1;
+  for (let k = 0; k < 20; k++) { const yy = await page.evaluate(() => scrollY); if (yy === prevY) break; prevY = yy; await page.waitForTimeout(500); }
   const y0 = await page.evaluate(() => scrollY);
   await swipe(-500, 500); await page.waitForTimeout(700);
   const y1 = await page.evaluate(() => scrollY);
