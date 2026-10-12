@@ -925,15 +925,17 @@
     var MAX_REBUILDS = 5, STUCK_AFTER_LOAD = 2500, NO_LOAD_LIMIT = 15000;
     var calAttempt = 0, calMountedAt = 0, calLoadedAt = 0, calFrame = null, calGaveUp = false;
     var calStart = Date.now();
-    /* בנייד בלי תיאור האירוע בראש היומן: אחרי בחירת יום Cal.com גולל לשעות ואז (כשהכתובת שלו מתעדכנת)
-       בחזרה לראש היומן. עם התיאור (כחצי מסך) השעות נשארו מתחת למסך (נמדד: y=819 מתוך 839); בלעדיו הן גלויות
-       (y=476). מה שהתיאור אומר — 30 דקות, וידאו, ללא עלות — כתוב בדף מעל ומתחת ליומן. במחשב התיאור נשאר. */
-    var HIDE_DETAILS = matchMedia("(max-width: 760px)").matches;
+    /* ⚠️ היומן בלי תיאור האירוע (hideEventTypeDetails: true) — בכל המסכים. לא להחזיר:
+       1. זה מה שגרם ליומן הריק: עם התיאור כ-25%–40% מהטעינות נתקעו (נייד ומחשב); בלעדיו 0 מתוך 34 (12/10/2026).
+          אות ה"מוכן" של Cal.com תלוי בדיווח גובה תקין, ונראה שבלוק התיאור משבש אותו.
+       2. בנייד, אחרי בחירת יום Cal.com גולל לשעות ואז בחזרה לראש היומן; עם התיאור (חצי מסך) השעות נשארו
+          מתחת למסך (y=819 מתוך 839), בלעדיו הן גלויות (y=476).
+       מה שהתיאור אמר — 30 דקות, וידאו, ללא עלות — כתוב בדף מעל ומתחת ליומן. */
     function mountCal() {
       var ns = calAttempt === 0 ? CAL_NS : CAL_NS + "R" + calAttempt;
       Cal("init", ns, { origin: window.qfCal.origin });
       Cal.ns[ns]("inline", { elementOrSelector: "#calBox", calLink: CFG.calLink, config: calConfig });
-      Cal.ns[ns]("ui", { theme: "light", layout: "month_view", hideEventTypeDetails: HIDE_DETAILS, cssVarsPerTheme: { light: { "cal-brand": "#0B2E24" } } });
+      Cal.ns[ns]("ui", { theme: "light", layout: "month_view", hideEventTypeDetails: true, cssVarsPerTheme: { light: { "cal-brand": "#0B2E24" } } });
       Cal.ns[ns]("on", { action: "bookingSuccessfulV2", callback: onBooked });
       calMountedAt = Date.now(); calLoadedAt = 0; calFrame = null;
     }
