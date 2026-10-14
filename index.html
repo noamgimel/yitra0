@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>מחשבון המשרד לרואי חשבון: כמה זמן וכסף אפשר להחזיר | יתרה 0</title>
-<meta name="description" content="רואה חשבון? גלה תוך דקה כמה מועדי דיווח אתה מחזיק בראש, כמה שעות הולכות על מעקב ותזכורות, ומה הזמן הזה שווה למשרד שלך. 6 לחיצות, בלי להתחבר לשום דבר.">
+<title>כמה שעות בחודש אפשר להוריד ממך במשרד? | יתרה 0</title>
+<meta name="description" content="בדיקה של דקה לרואי חשבון: שש שאלות, ותגלה כמה שעות בחודש תוכל לחסוך על מעקב דיווחים, איסוף חומרים ופולואפים, ואיך להחזיר אותן. בלי להתחבר לשום דבר.">
 <meta name="theme-color" content="#0B2E24">
 <link rel="canonical" href="https://yitra0.noamg.co.il/">
 <!-- תצוגה מקדימה כשמשתפים את הקישור (וואטסאפ, פייסבוק, לינקדאין) -->
@@ -12,8 +12,8 @@
 <meta property="og:locale" content="he_IL">
 <meta property="og:site_name" content="יתרה 0">
 <meta property="og:url" content="https://yitra0.noamg.co.il/">
-<meta property="og:title" content="מחשבון המשרד לרואי חשבון | יתרה 0">
-<meta property="og:description" content="כמה מועדי דיווח אתה מחזיק בראש, כמה שעות הולכות על מעקב ותזכורות, ומה הזמן הזה שווה למשרד שלך. בדיקה של דקה, שש שאלות.">
+<meta property="og:title" content="כמה שעות בחודש אפשר להוריד ממך במשרד? | יתרה 0">
+<meta property="og:description" content="שש שאלות, ותגלה כמה שעות בחודש תוכל לחסוך על מעקב דיווחים, איסוף חומרים ופולואפים, והכי חשוב: איך. בדיקה של דקה לרואי חשבון.">
 <meta property="og:image" content="https://yitra0.noamg.co.il/logo/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,11 +22,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=11">
+<link rel="stylesheet" href="fonts.css?v=12">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles.css?v=12">
 <style>
   /* ---------- Hero ---------- */
   .hero { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 72px; }
@@ -34,6 +34,8 @@
   .hero .preview-wrap { margin-top: 178px; }
   .hero h1 { font-size: clamp(32px, 4.4vw, 52px); line-height: 1.1; margin-top: 18px; }
   .hero h1 .kicker { display: block; font-size: .46em; font-weight: 700; margin-bottom: 12px; letter-spacing: 0; }
+  .hero-sub { margin-top: 18px; max-width: 580px; font-size: clamp(18px, 1.8vw, 21px); line-height: 1.6; color: rgba(248, 244, 234, .88); }
+  .hero-sub b { color: var(--accent); }
 
   .float-chat { position: absolute; z-index: 3; top: -178px; inset-inline-end: -40px; width: 250px; display: grid; gap: 7px; transform: rotate(3deg); animation: float2 6s ease-in-out infinite; }
   @keyframes float2 { 50% { transform: rotate(3deg) translateY(8px); } }
@@ -156,39 +158,6 @@
   .calc-list li.done .tick { background: var(--accent); border-color: var(--accent); color: var(--brand-900); }
   .calc-list li.done .tick svg { opacity: 1; }
 
-  /* מסך לכידת הליד */
-  .lead-card { display: flex; flex-direction: column; padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--cream); color: var(--ink); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6); }
-  .lead-card > .pill { align-self: flex-start; }
-  .hp-field { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }   /* מלכודת לבוטים — לא נראה למשתמשים */
-  .lead-card .q-hint { color: rgba(11, 46, 36, .72); }
-  .lead-form { margin-top: 26px; display: grid; gap: 16px; }
-  .field label { display: block; font-weight: 700; font-size: 15.5px; margin-bottom: 7px; }
-  .field label small { font-weight: 500; font-size: 14px; color: rgba(11, 46, 36, .6); }
-  .field input {
-    width: 100%; min-height: 56px; padding: 14px 18px; border-radius: 16px;
-    background: #fff; border: 1.5px solid rgba(11, 46, 36, .15); color: var(--ink);
-    font: inherit; font-size: 17px; transition: border-color .2s, box-shadow .2s;
-  }
-  .field input::placeholder { color: rgba(11, 46, 36, .38); }
-  .field input:focus { outline: none; border-color: var(--brand-600); box-shadow: 0 0 0 4px rgba(31, 106, 82, .15); }
-  .field input[aria-invalid="true"] { border-color: var(--loss); }
-  .field .err { display: none; margin-top: 6px; color: var(--loss); font-size: 14px; font-weight: 600; }
-  .field input[aria-invalid="true"] + .err { display: block; }
-  .field input[type="tel"], .field input[type="email"] { direction: ltr; text-align: right; }
-  .consent { font-size: 12.5px; color: rgba(11, 46, 36, .55); text-align: center; line-height: 1.55; }
-  .consent a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-  .consent-check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(11, 46, 36, .75); cursor: pointer; }
-  .consent-check input { width: 18px; height: 18px; margin-top: 2px; flex: none; accent-color: var(--brand-600); }
-  .form-trust { display: flex; justify-content: center; gap: 8px; align-items: center; color: rgba(11, 46, 36, .7); font-size: 14px; }
-  .form-trust svg { width: 16px; height: 16px; color: var(--brand-600); }
-  .bribe { margin-top: 20px; padding: 16px 18px; border-radius: 18px; background: #fff; border: 1px solid rgba(11, 46, 36, .1); border-inline-start: 4px solid var(--accent); }
-  .bribe-title { font-family: var(--font-display); font-weight: 800; font-size: 16px; }
-  .bribe ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 9px; }
-  .bribe li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.55; color: rgba(11, 46, 36, .8); }
-  .bribe li b { color: var(--ink); }
-  .bribe-ck { width: 22px; height: 22px; border-radius: 50%; flex: none; margin-top: 1px; display: grid; place-items: center; background: var(--brand-900); color: var(--accent); }
-  .bribe-ck svg { width: 12px; height: 12px; }
-  .done-pill { background: rgba(31, 106, 82, .1); color: var(--brand-600); border-color: rgba(31, 106, 82, .2); }
 
   @media (max-width: 960px) {
     .hero-grid { grid-template-columns: 1fr; gap: 70px; }
@@ -210,8 +179,6 @@
     .t-step::before { top: 52px; inset-inline-start: 25px; }
     .opt { padding: 16px; }
     .kbd-hint { display: none; }
-    .lead-card .lead-form { order: 1; }                 /* במובייל: הטופס מעל קופסת ההבטחות, כדי שהשדות יהיו בקפל הראשון */
-    .lead-card .bribe { order: 2; margin-top: 18px; }
   }
 
   /* ============================================================
@@ -222,6 +189,7 @@
     .hero { padding-block: 88px 56px; }
     .hero h1 { font-size: 30px; margin-top: 14px; }
     .hero h1 .kicker { font-size: .5em; margin-bottom: 8px; }
+    .hero-sub { font-size: 16.5px; margin-top: 12px; }
     .hero-bullets { margin-top: 18px; gap: 10px; }
     .hero-bullets li { font-size: 16px; }
     .hb-ck { width: 24px; height: 24px; }       /* משני — יש כפתור דביק למטה */
@@ -270,18 +238,19 @@
   <div class="dot-grid"></div>
   <div class="container hero-grid">
     <div>
-      <h1 class="h-display reveal"><span class="kicker text-accent">רואה חשבון? בוא נבדוק כמה עולה לך לנהל את המשרד מהראש.</span>כמה שעות וכסף המשרד שלך <span class="text-loss">מאבד בכל חודש</span> על מעקב דיווחים, חומרים חסרים ופולואפים שנופלים בין הכיסאות?</h1>
+      <h1 class="h-display reveal"><span class="kicker text-accent">לרואי חשבון · בדיקה של דקה</span>כמה שעות בחודש <span class="text-grad">אפשר להוריד ממך</span> במשרד?</h1>
+      <p class="hero-sub reveal">רדיפה אחרי חומרים, מעקב דיווחים ופולואפים. שש שאלות, ותגלה כמה שעות תוכל לחסוך כל חודש, <b>והכי חשוב: איך.</b></p>
 
       <ul class="hero-bullets reveal">
         <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>גלה כמה <b>מועדי דיווח</b> אתה מחזיק בראש בכל חודש</span></li>
         <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>גלה כמה <b>שעות</b> הולכות על מעקב, תזכורות ורדיפה אחרי חומרים</span></li>
-        <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>ראה <b>כמה לקוחות נוספים</b> הזמן הזה שווה למשרד</span></li>
+        <li><span class="hb-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span>קבל <b>תוכנית מעשית</b>: מאיפה מתחילים ואיך מחזירים את השעות</span></li>
       </ul>
 
       <div class="reveal" id="heroCta">
         <div class="hero-ctas">
           <button class="btn btn-primary shine" data-start-quiz>
-            בדוק כמה זה עולה למשרד שלך
+            גלה כמה שעות תוכל לחסוך
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
           </button>
         </div>
@@ -303,11 +272,11 @@
       </div>
       <div class="preview">
         <div class="preview-head"><b class="ph-title"><img src="logo/mark.svg" alt="" width="28" height="28">הדוח של המשרד שלך</b><span class="tag tag-ai"><svg class="spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10.5l-6.3 2.2L12 19l-2.2-6.3L3.5 10.5l6.3-2.2z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>ניתוח AI</span></div>
-        <div class="p-row"><span class="p-label">מועדי דיווח בחודש</span><span class="p-val loss">38</span></div>
-        <div class="p-row"><span class="p-label">שעות שחוזרות בחודש</span><span class="p-val">12</span></div>
-        <div class="p-row"><span class="p-label">שכר טרחה תקוע</span><span class="p-val loss">₪35,000</span></div>
+        <div class="p-row"><span class="p-label">שעות שחוזרות בחודש</span><span class="p-val">20–36</span></div>
         <div class="p-row"><span class="p-label">שווי הזמן בשנה</span><span class="p-val save">₪36,000</span></div>
-        <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>המספרים שלך ייחשפו אחרי 6 שאלות</div>
+        <div class="p-row"><span class="p-label">שכר טרחה בחוץ</span><span class="p-val loss">₪20,000</span></div>
+        <div class="p-row"><span class="p-label">מתחילים כאן</span><span class="p-val">איסוף חומרים</span></div>
+        <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>המספרים והתוכנית שלך, אחרי 6 שאלות</div>
       </div>
     </div>
   </div>
@@ -318,26 +287,26 @@
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">מה השאלון חושף</span>
-      <h2 class="h-section">3 מספרים שאף דוח <span class="mark">לא מראה לך.</span></h2>
+      <h2 class="h-section">כמה, כמה זה שווה, <span class="mark">ואיך מחזירים.</span></h2>
     </div>
     <div class="discover">
       <article class="card reveal">
         <span class="num" aria-hidden="true">01</span>
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <h3>כמה מועדים אתה מחזיק בראש</h3>
-        <p>מע״מ, 102, מקדמות, לכל לקוח בתדירות אחרת. כמה מועדי דיווח עוברים אצלך בכל חודש, ומה מהם מנוהל רק בזיכרון ובוואטסאפ.</p>
+        <h3>כמה שעות חוזרות אליך</h3>
+        <p>מעקב דיווחים, איסוף חומרים, חיפושים בין וואטסאפ לאקסל ופולואפים: כמה שעות בחודש הולכות על כל אחד, וכמה מהן אפשר להחזיר.</p>
       </article>
       <article class="card reveal">
         <span class="num" aria-hidden="true">02</span>
         <span class="icon-tile tile-loss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 18l-9.5-9.5-5 5L1 6"/><path d="M17 18h6v-6"/></svg></span>
-        <h3>כמה זמן וכסף זה עולה לך</h3>
-        <p>השעות שהולכות על מעקב, תזכורות ופולואפים, ומה הן שוות במונחים של המשרד שלך: כמה לקוחות נוספים יכולת לקחת בלי לגייס עובד.</p>
+        <h3>מה הן שוות בשקלים</h3>
+        <p>בחישוב שמרני ושקוף, שאפשר לבדוק שורה אחרי שורה. ושכר הטרחה שיושב אצל לקוחות, בנפרד.</p>
       </article>
       <article class="card card-dark reveal">
         <span class="num" aria-hidden="true" style="color:rgba(248,244,234,.06)">03</span>
         <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span>
-        <h3>מאיפה כדאי להתחיל</h3>
-        <p style="color:rgba(248,244,234,.8)">מעקב דיווחים, איסוף חומרים, פולואפים שנשכחים או שכר טרחה תקוע? תדע בדיוק מה לתקן קודם, לפני עונת הדוחות הבאה.</p>
+        <h3>איך מחזירים אותן</h3>
+        <p style="color:rgba(248,244,234,.8)">תוכנית פתרונות לפי סדר העדיפויות של המשרד שלך: מאיפה מתחילים, איך כל פתרון עובד, ומה אפשר לעשות כבר השבוע.</p>
       </article>
     </div>
   </div>
@@ -352,8 +321,8 @@
     </div>
     <div class="timeline">
       <div class="t-step reveal"><span class="t-num">1</span><div><h3>עונים על 6 שאלות</h3><p class="t-sub">שאלה אחת בכל מסך, לחיצה אחת לכל תשובה</p><p>בלי להקליד מספרים ובלי לפתוח אקסל. רק לבחור את מה שהכי קרוב למצב שלך היום.</p></div></div>
-      <div class="t-step reveal"><span class="t-num">2</span><div><h3>המחשבון מתרגם לשעות ולשקלים</h3><p class="t-sub">לפי גודל המשרד ושכר הטרחה שלך</p><p>הזמן שהולך על מעקב ותזכורות, הדברים שנופלים בין הכיסאות ושכר הטרחה שתקוע, בחישוב שקוף שאפשר לבדוק.</p></div></div>
-      <div class="t-step reveal"><span class="t-num">3</span><div><h3>מקבלים את התוצאות</h3><p class="t-sub">על המסך ובוואטסאפ</p><p>יחד עם הנקודה שהכי כדאי להתחיל ממנה ומה אפשר לעשות איתה כבר השבוע.</p></div></div>
+      <div class="t-step reveal"><span class="t-num">2</span><div><h3>המחשבון מתרגם לשעות ולשקלים</h3><p class="t-sub">לפי גודל המשרד והתשובות שלך</p><p>הזמן שהולך על מעקב, חומרים, חיפושים ופולואפים, בחישוב שמרני ושקוף. שכר הטרחה שבחוץ מוצג בנפרד.</p></div></div>
+      <div class="t-step reveal"><span class="t-num">3</span><div><h3>מקבלים את התוצאות</h3><p class="t-sub">על המסך, מיד</p><p>יחד עם תוכנית: מאיפה כדאי להתחיל, ואיך מחזירים את השעות.</p></div></div>
     </div>
   </div>
 </section>
@@ -363,9 +332,9 @@
   <div class="container narrow reveal">
     <span class="eyebrow">דקה אחת</span>
     <h2 class="h-display h-section" style="margin-top:14px">כל חודש שהמשרד רץ על הזיכרון שלך, <span class="text-grad">עולה לך כסף.</span></h2>
-    <p>דקה אחת עכשיו תראה לך בדיוק כמה.</p>
+    <p>דקה אחת עכשיו תראה לך כמה, ואיך מחזירים.</p>
     <button class="btn btn-primary shine" data-start-quiz>
-      תראו לי כמה זה עולה למשרד שלי
+      תראו לי כמה שעות אפשר להחזיר
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
     </button>
   </div>
@@ -381,7 +350,7 @@
 </footer>
 
 <div class="sticky-cta" id="sticky">
-  <button class="btn btn-primary shine btn-block" data-start-quiz>בדוק כמה זה עולה למשרד שלך</button>
+  <button class="btn btn-primary shine btn-block" data-start-quiz>גלה כמה שעות תוכל לחסוך</button>
 </div>
 
 <!-- ============================================================
@@ -412,132 +381,33 @@
       <ul class="calc-list">
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>מחשב את הזמן שהולך על מעקב דיווחים וחומרים</li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>בודק כמה דברים נופלים בין הכיסאות</li>
-        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>מחשב כמה זמן וכסף אפשר להחזיר</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>בונה את התוכנית שלך</li>
       </ul>
     </div>
 
-    <!-- מסך לכידת הליד -->
-    <div class="screen" id="leadScreen">
-      <div class="lead-card">
-        <span class="pill done-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>האבחון הושלם בהצלחה!</span>
-        <h2 class="q-title" style="margin-top:16px">התוצאות שלך מוכנות.</h2>
-        <p class="q-hint">חישבנו כמה שעות וכסף המשרד שלך מאבד בכל חודש על מעקב דיווחים, חומרים חסרים ופולואפים, וכמה מזה אפשר להחזיר.</p>
-
-        <div class="bribe">
-          <p class="bribe-title">ברגע שתלחץ, תקבל:</p>
-          <ul>
-            <li><span class="bribe-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>דוח אישי למשרד שלך:</b> כמה שעות חוזרות אליך בחודש, מה הן שוות בשקלים, וכמה מועדי דיווח אתה מחזיק בראש.</span></li>
-            <li><span class="bribe-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>מאיפה כדאי להתחיל:</b> הנקודה שהכי מעיקה על המשרד, לפני עונת הדוחות הבאה.</span></li>
-            <li><span class="bribe-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>הכול גם בוואטסאפ,</b> כדי שתוכל לחזור לזה ולהראות לשותפים.</span></li>
-          </ul>
-        </div>
-
-        <form class="lead-form" id="leadForm" novalidate>
-          <div class="field">
-            <label for="fName">שם מלא</label>
-            <input id="fName" name="name" type="text" autocomplete="name" placeholder="איך קוראים לך?" required aria-describedby="fNameErr">
-            <span class="err" id="fNameErr" role="alert">נא להזין שם</span>
-          </div>
-          <div class="field">
-            <label for="fPhone">טלפון <small>(כדי שנוכל לשלוח לך את התוצאות גם לוואטסאפ)</small></label>
-            <input id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000" required aria-describedby="fPhoneErr">
-            <span class="err" id="fPhoneErr" role="alert">נא להזין מספר טלפון תקין</span>
-          </div>
-          <label class="consent-check" for="fFollowup"><input id="fFollowup" name="followup" type="checkbox"><span>אפשר לשלוח לי בוואטסאפ תזכורת לתיאום השיחה, אם לא אספיק לקבוע. אפשר להסיר בכל עת.</span></label>
-          <div class="hp-field" aria-hidden="true"><label>אתר <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
-          <button type="submit" class="btn btn-primary shine btn-block" id="leadSubmit">
-            <span id="leadSubmitText">הראו לי את התוצאות</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
-          </button>
-          <p class="form-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>הפרטים נשארים אצלנו. בלי ספאם, ולא נעביר אותם לאף אחד.</p>
-          <p class="consent">בלחיצה על הכפתור אני מאשר/ת לקבל את תוצאות האבחון ופנייה בנושא בטלפון ובוואטסאפ, בהתאם ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.</p>
-        </form>
-      </div>
-    </div>
   </div>
 </div>
 
-<script src="config.js?v=11"></script>
-<script src="tracking.js?v=11"></script>
-<script src="booking.js?v=11"></script>
+<script src="config.js?v=12"></script>
+<script src="tracking.js?v=12"></script>
+<script src="booking.js?v=12"></script>
+<script src="quiz-core.js?v=12"></script>
 <script>
 (function () {
   "use strict";
   var CFG = window.FUNNEL_CONFIG || {};
-  var fmt = function (n) { return Math.round(n).toLocaleString("he-IL"); };
+  var CORE = window.qfCore;
 
   /* ---------- שם המותג ---------- */
   document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
   document.getElementById("year").textContent = new Date().getFullYear();
 
   /* ============================================================
-     השאלות — לכל תשובה יש משקל (value) שנכנס לחישוב
+     השאלות והחישוב — ב-quiz-core.js (משותף לדף התוצאות, שמחשב מאותן תשובות)
      ============================================================ */
-  var QUESTIONS = [
-    {
-      id: "clients",
-      title: "כמה לקוחות פעילים יש למשרד?",
-      options: [
-        { main: "עד 30 לקוחות", sub: "משרד קטן, הכול עובר דרכי", value: 25 },
-        { main: "30 עד 80 לקוחות", sub: "כבר אי אפשר לזכור הכול בראש", value: 55 },
-        { main: "80 עד 200 לקוחות", sub: "יש צוות, ועדיין הכול מתנקז אליי", value: 140 },
-        { main: "מעל 200 לקוחות", sub: "משרד גדול עם הרבה ידיים ועוד יותר מועדים", value: 250 }
-      ]
-    },
-    {
-      id: "tracking",
-      title: "תחילת חודש. איך אתה יודע מה כל לקוח צריך לדווח החודש, ומה כבר הגיע?",
-      options: [
-        { main: "יש לי מערכת שמתמלאת לבד", sub: "הכול מול העיניים, בלי להכין כלום", value: 1 },
-        { main: "אקסל שאני מעדכן ידנית", sub: "שעה-שעתיים של הצלבות בכל חודש", value: 5 },
-        { main: "בראש ובוואטסאפים", sub: "זה עובד. עד שזה לא עובד", value: 10 },
-        { main: "אני מגלה כשהלקוח מתקשר", sub: "או כשמגיע מכתב מרשות המסים", value: 15 }
-      ]
-    },
-    {
-      id: "materials",
-      title: "מתקרב מועד דיווח (מע\"מ, 102, מקדמות). איך נראה איסוף החומרים מהלקוחות?",
-      options: [
-        { main: "הלקוחות מעלים הכול בזמן", sub: "התיקים מוכנים לטיפול תמיד", value: 4 },
-        { main: "צריך להזכיר לחלק מהלקוחות", sub: "כמה שעות של הודעות ומיילים לפני כל מועד", value: 12 },
-        { main: "סיוט", sub: "קבלות מטושטשות בוואטסאפ, \"שלחתי לך כבר\", ומיילים שאף אחד לא עונה עליהם", value: 22 },
-        { main: "עונת דוחות = לילות לבנים", sub: "אני עובד עד 2 בלילה, הלקוחות מתעלמים מהוואטסאפים שלי, והדוחות נדחים", value: 35 }
-      ]
-    },
-    {
-      id: "slips",
-      title: "בחודש האחרון, כמה פעמים משהו נפל בין הכיסאות? לקוח שחיכה לתשובה, מסמך ששכחת לבקש, פולואפ שלא קרה.",
-      options: [
-        { main: "אף פעם", sub: "שום דבר לא נופל אצלי", value: 0 },
-        { main: "פעם-פעמיים", sub: "קורה, ואז מתנצלים ומתקנים", value: 1.5 },
-        { main: "3 עד 5 פעמים", sub: "ואני יודע רק על אלה שגילו", value: 4 },
-        { main: "הפסקתי לספור", sub: "כל יום משהו מתפספס, וזה יושב לי על הראש", value: 7 }
-      ]
-    },
-    {
-      id: "fee",
-      title: "מה שכר הטרחה החודשי הממוצע של לקוח במשרד?",
-      options: [
-        { main: "עד 500 ₪", value: 400 },
-        { main: "500 עד 1,000 ₪", value: 750 },
-        { main: "1,000 עד 2,000 ₪", value: 1500 },
-        { main: "מעל 2,000 ₪", value: 2500 }
-      ]
-    },
-    {
-      id: "outstanding",
-      title: "וכמה שכר טרחה יושב כרגע \"בחוץ\", אצל לקוחות שעברו את מועד התשלום?",
-      options: [
-        { main: "פחות מ-10,000 ₪", sub: "זה סביר, אבל עדיין דורש התעסקות", value: 5000 },
-        { main: "בין 10,000 ₪ ל-30,000 ₪", sub: "אני עובד חודשים בלי לקבל על זה כסף", value: 20000 },
-        { main: "בין 30,000 ₪ ל-80,000 ₪", sub: "זה כבר מורגש בתזרים", value: 55000 },
-        { main: "מעל 80,000 ₪", sub: "יותר ממה שנוח לי להודות", value: 100000 }
-      ]
-    }
-  ];
-
+  var QUESTIONS = CORE.QUESTIONS;
   var TOTAL = QUESTIONS.length;
-  var answers = {};      // id -> index של התשובה
+  var answers = {};      // id -> מספר התשובה (0–3)
   var current = 0;
   var KEYS = ["1", "2", "3", "4"];   // תואם לרמז "1-4 במקלדת"
 
@@ -548,16 +418,16 @@
   var qProgressWrap = document.getElementById("qProgressWrap");
   var qBack = document.getElementById("qBack");
   var calcScreen = document.getElementById("calcScreen");
-  var leadScreen = document.getElementById("leadScreen");
   var lastFocus = null;
 
-  /* ---------- בניית מסכי השאלות ---------- */
+  /* ---------- בניית מסכי השאלות: כותרת, שורת הסבר עם דוגמאות, ו-4 תשובות ---------- */
   QUESTIONS.forEach(function (q, qi) {
     var s = document.createElement("div");
     s.className = "screen";
     s.dataset.index = qi;
     var html = '<h2 class="q-title" id="qt' + qi + '">' + q.title + '</h2>' +
-               '<div class="options" role="radiogroup" aria-labelledby="qt' + qi + '">';
+               (q.hint ? '<p class="q-hint" id="qh' + qi + '">' + q.hint + '</p>' : '') +
+               '<div class="options" role="radiogroup" aria-labelledby="qt' + qi + '"' + (q.hint ? ' aria-describedby="qh' + qi + '"' : '') + '>';
     q.options.forEach(function (o, oi) {
       html += '<button type="button" class="opt" role="radio" aria-checked="false" data-q="' + qi + '" data-o="' + oi + '">' +
                 '<span class="opt-key" aria-hidden="true">' + KEYS[oi] + '</span>' +
@@ -608,16 +478,19 @@
     window.scrollTo(0, lockedY);
   }
 
+  var calculating = false;
   function openQuiz() {
+    if (quiz.classList.contains("open")) return;
     lastFocus = document.activeElement;
     quiz.classList.add("open");
     lockScroll();
     track("QuizStart");   /* פעם אחת לטעינת דף, גם אם סגר ופתח שוב */
-    if (window.qfCal) window.qfCal.warm();   /* היומן נטען ברקע בזמן שעונים, כדי שיופיע מיד בדף התוצאות */
+    if (window.qfCal) window.qfCal.warm();   /* קבצי היומן נטענים ברקע בזמן שעונים, כדי שבדף התוצאות היומן יעלה מהר */
     goTo(0);
   }
 
   function closeQuiz() {
+    if (calculating) return;
     quiz.classList.remove("open");
     unlockScroll();
     if (lastFocus) lastFocus.focus();
@@ -625,10 +498,9 @@
 
   document.querySelectorAll("[data-start-quiz]").forEach(function (b) { b.addEventListener("click", openQuiz); });
   document.getElementById("qClose").addEventListener("click", closeQuiz);
-  qBack.addEventListener("click", function () {
-    if (leadScreen.classList.contains("active")) { goTo(TOTAL - 1, true); return; }
-    if (current > 0) goTo(current - 1, true);
-  });
+  qBack.addEventListener("click", function () { if (current > 0 && !calculating) goTo(current - 1, true); });
+  /* מדף התוצאות ("ענה על השאלון") — index.html#start פותח את השאלון ישר */
+  if (location.hash === "#start") setTimeout(openQuiz, 250);
 
   /* ---------- בחירת תשובה ---------- */
   screensWrap.addEventListener("click", function (e) {
@@ -639,7 +511,7 @@
 
   var advancing = false;
   function choose(qi, oi) {
-    if (advancing) return;
+    if (advancing || calculating) return;
     answers[QUESTIONS[qi].id] = oi;
     /* אירוע לכל שאלה שנענתה (QuizAnswer1 … QuizAnswer6) — כדי לראות בדיוק איפה נוטשים */
     track("QuizAnswer" + (qi + 1), { question: QUESTIONS[qi].id, answer: oi + 1 });
@@ -679,226 +551,37 @@
     else if (!quiz.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
   });
 
-  /* ---------- מסך החישוב ---------- */
+  /* ---------- מסך החישוב, ומשם ישר לדף התוצאות ----------
+     הטופס (שם וטלפון) כבר לא כאן (14/10/2026): דף התוצאות מציג קודם את המספרים ואת הכותרות של התוכנית,
+     והטופס שם פותח את התוכנית המלאה ואת היומן. התשובות עוברות ב-sessionStorage, ודף התוצאות מחשב מהן הכול.
+     בלי sessionStorage (נדיר) — התשובות עוברות בקוד בכתובת (results.html?c=...). */
   function runCalculation() {
+    calculating = true;
     show(calcScreen);
     qBack.hidden = true;
     setProgress(96, "מחשב תוצאות...");
+    track("QuizComplete");   /* כבר כאן, ולא ברגע המעבר, כדי שהאירוע יספיק לצאת לפני שהדף מתחלף */
+    var saved = false;
+    try {
+      sessionStorage.setItem("qf_result", JSON.stringify({ answers: answers, utm: utmParams(), pageUrl: location.href.split(/[?#]/)[0], at: Date.now() }));
+      saved = true;
+    } catch (err) {}
     var items = calcScreen.querySelectorAll(".calc-list li");
     items.forEach(function (li) { li.classList.remove("done"); });
     items.forEach(function (li, i) { setTimeout(function () { li.classList.add("done"); }, 650 * (i + 1)); });
     setTimeout(function () {
-      show(leadScreen);
-      qBack.hidden = false;
-      setProgress(100, "שלב אחרון");
-      track("QuizComplete");
-      setTimeout(function () { document.getElementById("fName").focus(); }, 80);
+      setProgress(100, "התוצאות מוכנות");
+      location.href = "results.html" + (saved ? "" : "?c=" + CORE.encode(answers));
     }, 650 * items.length + 600);
   }
 
-  /* ============================================================
-     לוגיקת החישוב — כל המספרים בדקות לחודש
-     מעקב דיווחים  = לקוחות × דקות ללקוח (ש׳2) — 90% נחסך (הלוח מתמלא לבד)
-     איסוף חומרים  = לקוחות × דקות ללקוח (ש׳3) — 60% נחסך (חלק נשאר אנושי)
-     נפילות        = מספר תקלות (ש׳4) × 60 דקות טיפול — 80% נחסך
-     שווי שעה      = שכר טרחה חודשי ממוצע (ש׳5) ÷ שעות ללקוח בחודש (config.js)
-     שווי בשנה     = שעות שנחסכות × שווי שעה × 12
-     שכר הטרחה התקוע (ש׳6) מוצג בנפרד ולא נכנס לסכום — כדי לא לספור פעמיים.
-     ============================================================ */
-  var SAVE = { tracking: 0.9, materials: 0.6, slips: 0.8 };
-  var SLIP_MINUTES = 60;
-
-  function val(id) { var q = QUESTIONS.filter(function (x) { return x.id === id; })[0]; return q.options[answers[id]].value; }
-  function txt(id) { var q = QUESTIONS.filter(function (x) { return x.id === id; })[0]; var o = q.options[answers[id]]; return o.main + (o.sub ? " (" + o.sub + ")" : ""); }
-  function r1(n) { return Math.round(n * 10) / 10; }
-
-  function compute() {
-    var clients = val("clients"), fee = val("fee");
-    var perClient = CFG.hoursPerClient || 3;
-    var trackingH = clients * val("tracking") / 60;
-    var materialsH = clients * val("materials") / 60;
-    var slipsH = val("slips") * SLIP_MINUTES / 60;
-    var parts = [
-      { key: "tracking", hours: trackingH, saved: trackingH * SAVE.tracking },
-      { key: "materials", hours: materialsH, saved: materialsH * SAVE.materials },
-      { key: "slips", hours: slipsH, saved: slipsH * SAVE.slips }
-    ];
-    var hours = parts.reduce(function (a, p) { return a + p.hours; }, 0);
-    var saved = parts.reduce(function (a, p) { return a + p.saved; }, 0);
-    /* מעגלים לפני ההכפלה — כדי שהחישוב שמוצג בדף התוצאות ("12 × ₪250 × 12") ייצא בדיוק */
-    var savedR = Math.max(1, Math.round(saved));
-    var hourValue = Math.round(fee / perClient);
-    var yearly = savedR * hourValue * 12;
-    var biggest = answers.outstanding >= 2 ? "cashflow"
-      : parts.slice().sort(function (a, b) { return b.saved - a.saved; })[0].key;
-
-    return {
-      clients: clients,
-      clientsLabel: QUESTIONS[0].options[answers.clients].main,
-      fee: fee,
-      trackingHours: r1(trackingH), materialsHours: r1(materialsH), slipsHours: r1(slipsH),
-      slips: val("slips"),
-      hours: Math.max(1, Math.round(hours)),
-      saved: savedR,
-      savedYear: savedR * 12,
-      extraClients: Math.floor(savedR / perClient),
-      perClient: perClient,
-      hourValue: hourValue,
-      yearly: yearly,
-      monthlyValue: Math.round(yearly / 12),
-      deadlines: Math.round(clients * (CFG.deadlinesPerClient || 1.5)),
-      outstanding: val("outstanding"),
-      biggest: biggest,
-      taxRisk: answers.materials === 3 || answers.tracking === 3
-    };
-  }
-
-  /* ---------- טופס הליד ---------- */
-  var form = document.getElementById("leadForm");
-  var SUBMIT_TEXT = document.getElementById("leadSubmitText").textContent;
-  function setErr(input, bad) { input.setAttribute("aria-invalid", bad ? "true" : "false"); return !bad; }
-  // הודעת השגיאה נעלמת ברגע שמתחילים לתקן
-  ["name", "phone"].forEach(function (f) { form[f].addEventListener("input", function () { setErr(form[f], false); }); });
-  // אם הדפדפן שחזר את הדף מהמטמון אחרי "חזור" — הכפתור לא נשאר נעול
+  /* חזרה לדף הזה בכפתור "אחורה" (מהמטמון של הדפדפן): השאלון לא נשאר תקוע על מסך החישוב */
   addEventListener("pageshow", function (e) {
-    if (!e.persisted) return;
-    document.getElementById("leadSubmit").disabled = false;
-    document.getElementById("leadSubmitText").textContent = SUBMIT_TEXT;
+    if (!e.persisted || !calculating) return;
+    calculating = false;
+    quiz.classList.remove("open");
+    unlockScroll();
   });
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var name = form.name.value.trim();
-    var phoneDigits = form.phone.value.replace(/\D/g, "");
-    var ok = true;
-    ok = setErr(form.name, name.length < 2) && ok;
-    ok = setErr(form.phone, !/^(0\d{8,9}|972\d{8,9})$/.test(phoneDigits)) && ok;
-    if (!ok) { var bad = form.querySelector('[aria-invalid="true"]'); if (bad) bad.focus(); return; }
-
-    var btn = document.getElementById("leadSubmit");
-    btn.disabled = true;
-    document.getElementById("leadSubmitText").textContent = "מכין את התוצאות שלך...";
-
-    var r = compute();
-    /* מזהה קבוע לליד הזה: נשלח עם הליד, ונשמר גם כאן כדי שקביעת פגישה ביומן תדווח ל-Gware בדיוק על הליד הזה */
-    var subId = submissionId();
-    var result = { name: name.split(" ")[0], fullName: name, phone: form.phone.value.trim(), result: r, submissionId: subId, at: Date.now() };
-    try { sessionStorage.setItem("qf_result", JSON.stringify(result)); } catch (err) {}
-
-    /* Payload שטוח — נקלט ב-Gware (receiveWebsiteLead בשכבת התאימות) וגם ב-Google Apps Script */
-    var utm = utmParams();
-    var payload = {
-      event: "quiz_lead",
-      source: "yitra0_loss_quiz",
-      /* מזהה קבוע לליד הזה: נשמר עם הליד הממתין ונשלח שוב באותו ערך,
-         כך ש-Gware מזהה שליחה חוזרת ולא קולטת את אותו ליד פעמיים */
-      submission_id: subId,
-      submitted_at: new Date().toISOString(),
-      name: name,
-      first_name: name.split(" ")[0],
-      email: "",            /* הטופס לא אוסף אימייל; המפתח נשאר כדי שהמיפוי בצד המקבל לא יישבר */
-      phone: form.phone.value.trim(),
-      phone_intl: phoneIntl(form.phone.value),
-      q1_question: "לקוחות פעילים במשרד",
-      q1_answer: txt("clients"),
-      q2_question: "איך יודע מה כל לקוח צריך לדווח החודש",
-      q2_answer: txt("tracking"),
-      q3_question: "איסוף חומרים לפני מועד דיווח",
-      q3_answer: txt("materials"),
-      q4_question: "כמה פעמים משהו נפל בין הכיסאות בחודש האחרון",
-      q4_answer: txt("slips"),
-      q5_question: "שכר טרחה חודשי ממוצע ללקוח",
-      q5_answer: txt("fee"),
-      q6_question: "שכר טרחה פתוח שעבר את מועד התשלום",
-      q6_answer: txt("outstanding"),
-      hours_per_month: r.hours,
-      hours_saved_per_month: r.saved,
-      yearly_value: r.yearly,
-      extra_clients: r.extraClients,
-      deadlines_per_month: r.deadlines,
-      outstanding_fees: r.outstanding,
-      biggest_leak: r.biggest,
-      biggest_leak_label: LEAK_LABELS[r.biggest] || r.biggest,
-      utm_source: utm.utm_source,
-      utm_medium: utm.utm_medium,
-      utm_campaign: utm.utm_campaign,
-      utm_content: utm.utm_content,
-      utm_term: utm.utm_term,
-      page_url: location.href.split("?")[0]
-    };
-    if (CFG.leadFormId) payload.form_id = CFG.leadFormId;          /* אימות מול Gware */
-    if (CFG.leadSecretKey) payload.secret_key = CFG.leadSecretKey;
-    payload.followup_consent = !!(form.followup && form.followup.checked);   /* תזכורת לתיאום בוואטסאפ — רק אם סימן */
-    payload.notes = leadNotes(payload);                              /* סיכום קריא לשדה ההערות של הליד */
-
-    var isBot = !!(form.website && form.website.value.trim());       /* מלכודת: בני אדם לא רואים את השדה */
-    if (!isBot) track("Lead", {}, true);
-    (isBot ? Promise.resolve() : sendLead(payload)).then(function () { location.href = "results.html"; });
-  });
-
-  /* סיכום השאלון בעברית — נכנס להערות של הליד ב-Gware */
-  function leadNotes(p) {
-    return [
-      "ליד ממחשבון המשרד (יתרה 0)",
-      "שעות בחודש: " + p.hours_per_month + " · מתוכן אפשר להחזיר: " + p.hours_saved_per_month + " · שווי בשנה: ₪" + fmt(p.yearly_value),
-      "מועדי דיווח בחודש: " + p.deadlines_per_month + " · שכר טרחה פתוח: ₪" + fmt(p.outstanding_fees),
-      "הדליפה הגדולה: " + p.biggest_leak_label,
-      "1. " + p.q1_question + ": " + p.q1_answer,
-      "2. " + p.q2_question + ": " + p.q2_answer,
-      "3. " + p.q3_question + ": " + p.q3_answer,
-      "4. " + p.q4_question + ": " + p.q4_answer,
-      "5. " + p.q5_question + ": " + p.q5_answer,
-      "6. " + p.q6_question + ": " + p.q6_answer,
-      "מאשר/ת תזכורת לתיאום בוואטסאפ: " + (p.followup_consent ? "כן" : "לא"),
-      "מקור: " + p.utm_source + (p.utm_campaign ? " / " + p.utm_campaign : "")
-    ].join("\n");
-  }
-
-  var LEAK_LABELS = {
-    tracking: "מעקב דיווחים מהראש",
-    materials: "איסוף חומרים לדיווח",
-    slips: "פולואפים שנופלים בין הכיסאות",
-    cashflow: "שכר טרחה תקוע אצל לקוחות"
-  };
-
-  function submissionId() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
-  }
-
-  /* 972XXXXXXXXX — פורמט שמתאים לוואטסאפ ול-CRM */
-  function phoneIntl(raw) {
-    var d = String(raw || "").replace(/\D/g, "");
-    if (d.indexOf("972") === 0) return d;
-    return d.charAt(0) === "0" ? "972" + d.slice(1) : d;
-  }
-
-  /**
-   * שליחה ל-Webhook (Gware / Apps Script) — בלי לאבד לידים בשקט:
-   * ניסיון 1: JSON רגיל. אם השרת תומך ב-CORS מקבלים תשובה אמיתית ובודקים שהיא תקינה.
-   * ניסיון 2 (אם הראשון נכשל או החזיר שגיאה): text/plain במצב no-cors — עובר בלי preflight,
-   *   ושני הצדדים (Gware ו-Apps Script) יודעים לפרסר JSON מגוף טקסט. התשובה אטומה, אז מניחים שהגיע.
-   * אם גם זה נכשל (אין רשת), הליד נשמר ב-localStorage ונשלח שוב מדף התוצאות או דף התודה.
-   */
-  var PENDING_KEY = "qf_pending_lead";
-  function postLead(payload) {
-    var url = CFG.leadWebhookUrl, body = JSON.stringify(payload);
-    return fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true })
-      .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return true; })
-      .catch(function () {
-        return fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body, keepalive: true })
-          .then(function () { return true; });
-      });
-  }
-  function sendLead(payload) {
-    if (!CFG.leadWebhookUrl) return Promise.resolve();
-    try { localStorage.setItem(PENDING_KEY, JSON.stringify({ payload: payload, attempts: 0 })); } catch (e) {}
-    var req = postLead(payload)
-      .then(function () { try { localStorage.removeItem(PENDING_KEY); } catch (e) {} })
-      .catch(function () {});
-    // לא מחכים יותר מ-2.5 שניות — הלקוח חייב לראות תוצאות (keepalive ממשיך את השליחה ברקע)
-    return Promise.race([req, new Promise(function (res) { setTimeout(res, 2500); })]);
-  }
 
   function utmParams() {
     var p = new URLSearchParams(location.search), out = {};

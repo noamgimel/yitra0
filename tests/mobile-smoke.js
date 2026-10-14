@@ -16,7 +16,7 @@ const ok = (cond, msg) => { console.log((cond ? 'PASS ' : 'FAIL ') + msg); if (!
     const t = setInterval(() => { if (window.qfTrack && !window.qfTrack.__spy) { const o = window.qfTrack; window.qfTrack = function (n, p, s) { window.__ev.push(n + ':' + JSON.stringify(p || {})); return o(n, p, s); }; window.qfTrack.__spy = 1; clearInterval(t); } }, 20);
     if (location.pathname.endsWith('results.html')) {
       sessionStorage.setItem('qf_result', JSON.stringify({ name: 'בדיקה', fullName: 'בדיקה מקומית', phone: '0500000003', submissionId: 'smoke-0000-0000',
-        result: { clients: 55, fee: 750, trackingHours: 9.2, materialsHours: 20.2, slipsHours: 1.5, slips: 1.5, hours: 31, saved: 22, savedYear: 264, extraClients: 7, perClient: 3, hourValue: 250, yearly: 66000, monthlyValue: 5500, deadlines: 83, outstanding: 20000, biggest: 'materials', taxRisk: false }, at: Date.now() }));
+        answers: { clients: 1, tracking: 1, materials: 2, switching: 2, slips: 1, outstanding: 1 }, at: Date.now() }));   /* אחרי שם וטלפון: התוכנית והיומן פתוחים */
     }
   });
   /* בדיקה לא שולחת אירועים לפיקסל או ל-GA (גם כשבודקים את האתר החי) */

@@ -6,14 +6,28 @@
 <title>התוצאות שלך | מחשבון המשרד לרואי חשבון</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0B2E24">
+<script>
+/* קישור תוכנית עם מזהה ליד (results.html?c=<קוד>-<מזהה>, למשל מהוואטסאפ): המזהה עובר לזיכרון הלשונית
+   ונמחק מהכתובת לפני שהפיקסל נטען — כך שהוא לא נשלח למטא, ומי שמעתיק את הכתובת מהדפדפן מעביר אותה בלעדיו.
+   התבנית של הקוד: quiz-core.js (encode/decode). */
+(function () {
+  try {
+    var p = new URLSearchParams(location.search), m = /^(3[0-3]{6})-([A-Za-z0-9_-]+)$/.exec(p.get("c") || "");
+    if (!m) return;
+    sessionStorage.setItem("qf_link_sid", m[2]);
+    p.set("c", m[1]);
+    history.replaceState(null, "", location.pathname + "?" + p.toString() + location.hash);
+  } catch (e) {}
+})();
+</script>
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=11">
+<link rel="stylesheet" href="fonts.css?v=12">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles.css?v=12">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -32,8 +46,6 @@
   .stat.highlight { background: linear-gradient(160deg, var(--accent-bright), var(--accent)); }
   .stat.highlight .stat-label, .stat.highlight .stat-note { color: rgba(11, 46, 36, .75); }
   .stat.highlight::after { display: none; }
-  .r-text { margin-top: 36px; max-width: 820px; font-size: clamp(17px, 1.7vw, 20px); line-height: 1.75; color: rgba(248, 244, 234, .88); }
-  .r-text strong { color: var(--accent); }
   .r-ctas { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .no-data { display: none; margin-top: 18px; font-size: 15px; color: rgba(248, 244, 234, .75); }
   .no-data a { color: var(--accent); font-weight: 700; }
@@ -62,16 +74,6 @@
     .r-hero h1 { font-size: 24px; }
     .hero-book { margin-top: 14px; }
   }
-
-  /* ---------- הדליפה הגדולה ---------- */
-  .leak-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 24px; margin-top: 52px; align-items: stretch; }
-  .leak-card { padding: clamp(26px, 3.5vw, 40px); }
-  .leak-card h3 { font-family: var(--font-display); font-size: clamp(24px, 2.8vw, 32px); font-weight: 800; margin-top: 14px; }
-  .leak-card p { margin-top: 14px; font-size: 17.5px; line-height: 1.75; }
-  .goal-card h3 { font-family: var(--font-display); font-size: 22px; font-weight: 800; margin-top: 14px; }
-  .goal-card p { margin-top: 12px; color: rgba(11, 46, 36, .75); font-size: 17px; line-height: 1.75; }
-  .goal-big { margin-top: 20px; padding-top: 20px; border-top: 1px dashed rgba(11, 46, 36, .15); font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4vw, 48px); color: var(--brand-600); line-height: 1; }
-  .goal-big small { display: block; margin-top: 8px; font-family: var(--font); font-size: 15px; font-weight: 600; color: rgba(11, 46, 36, .6); }
 
   /* ---------- אג׳יטציה ---------- */
   .story { max-width: 760px; margin-top: 36px; display: grid; gap: 20px; font-size: clamp(17.5px, 1.7vw, 20px); line-height: 1.8; color: rgba(11, 46, 36, .85); }
@@ -282,7 +284,7 @@
 
   @media (max-width: 1000px) {
     .stats { grid-template-columns: 1fr 1fr; }
-    .leak-grid, .stack-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: 1fr; }
     .pillars, .urgency { grid-template-columns: 1fr; }
     .fasc { grid-template-columns: 1fr; }
   }
@@ -309,11 +311,6 @@
     .stat-label { font-size: 12.5px; }
     .stat-val { font-size: clamp(18px, 6.2vw, 24px); letter-spacing: -.01em; }   /* מתכווץ במסכים צרים כדי ש-₪212,400 לא ייחתך */
     .stat-note { display: none; }
-    .r-text { font-size: 15.5px; margin-top: 24px; }
-
-    .leak-grid { margin-top: 28px; gap: 14px; }
-    .leak-card p, .goal-card p { font-size: 15.5px; }
-    .goal-big { font-size: 32px; }
 
     .story { margin-top: 24px; gap: 14px; font-size: 16px; }
     .story > p.reveal:nth-of-type(3) { display: none; }   /* חוזר על הבלוקציטוט */
@@ -374,6 +371,161 @@
   }
   /* מסכים צרים במיוחד (320-380): אחרי בלוק המובייל כדי שבאמת יגבר עליו */
   @media (max-width: 380px) { .stats { gap: 8px; } .stat { padding: 12px 10px; } }
+
+  /* ============================================================
+     שאלון v3 (14/10/2026): מספרים בטווח, "איך חישבנו?", התוכנית המטושטשת עד שם וטלפון, והיומן מאחורי אותו טופס
+     ============================================================ */
+  /* מספרים בכרטיסים: כיוון עברי, והמספרים עצמם מבודדים (טווח "20–36" ו-₪ משמאל לספרות) */
+  .stat-val { direction: rtl; text-align: start; }
+  .stat-val small { font-family: var(--font); font-size: .42em; font-weight: 800; letter-spacing: 0; }
+  @media (min-width: 761px) { .stat-val .sv-cap { display: block; margin-bottom: 6px; font-size: 15px; } }   /* "לפחות" מעל המספר, כדי שלא יישבר לשורה באמצע */
+
+  .howcalc { margin-top: 18px; max-width: 900px; border-radius: 18px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .14); color: rgba(248, 244, 234, .88); }
+  .howcalc summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 18px; font-weight: 800; font-size: 15.5px; color: var(--accent); }
+  .howcalc summary::-webkit-details-marker { display: none; }
+  .howcalc summary::after { content: "+"; margin-inline-start: auto; font-size: 22px; line-height: 1; transition: transform .3s var(--ease); }
+  .howcalc[open] summary::after { transform: rotate(45deg); }
+  .hc-body { padding: 0 18px 18px; font-size: 15.5px; line-height: 1.7; }
+  .hc-body ul { margin: 10px 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .hc-body li { padding: 10px 14px; border-radius: 12px; background: rgba(248, 244, 234, .05); }
+  .hc-body li b { color: var(--cream); }
+  .hc-body .hc-off { opacity: .65; }
+  .hc-body strong { color: var(--accent); }
+
+  /* ---------- התוכנית שלך ---------- */
+  #plan .container { max-width: 940px; }   /* שורות קריאות במחשב: הכרטיסים לא נמתחים על כל רוחב המסך */
+  .plan-cards { margin-top: 40px; display: grid; gap: 20px; }
+  .plan-card { position: relative; padding: clamp(22px, 3vw, 36px); border-radius: 26px; background: #fff; border: 1px solid rgba(11, 46, 36, .1); box-shadow: 0 30px 60px -38px rgba(11, 46, 36, .45); }
+  .plan-card.first { border: 2px solid var(--accent); box-shadow: 0 30px 60px -34px rgba(244, 183, 64, .55); }
+  .pc-label { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 999px; font-size: 13.5px; font-weight: 800; background: var(--brand-900); color: var(--accent); }
+  .plan-card:not(.first) .pc-label { background: rgba(11, 46, 36, .08); color: var(--brand-600); }
+  .pc-name { margin-top: 14px; font-size: 15px; font-weight: 800; color: var(--brand-600); }
+  .pc-title { margin-top: 4px; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; }
+  .pc-short { margin-top: 10px; font-size: 17px; line-height: 1.6; color: rgba(11, 46, 36, .78); }
+  .pc-chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 5px 13px; border-radius: 999px; font-size: 14.5px; font-weight: 800; background: rgba(31, 106, 82, .1); color: var(--brand-600); }
+  .pc-chip.loss { background: rgba(224, 88, 63, .1); color: var(--loss); }
+  .pc-chip svg { width: 15px; height: 15px; }
+  .pc-body { margin-top: 22px; padding-top: 22px; border-top: 1px dashed rgba(11, 46, 36, .16); display: grid; gap: 18px; }
+  .pc-body h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 16.5px; font-weight: 800; }
+  .pc-body p { font-size: 16.5px; line-height: 1.75; color: rgba(11, 46, 36, .82); }
+  .pc-today { padding: 16px 18px; border-radius: 18px; background: rgba(224, 88, 63, .06); border: 1px solid rgba(224, 88, 63, .16); }
+  .pc-today .pc-risk { margin-top: 8px; color: var(--loss); font-weight: 700; }
+  .pc-how ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .pc-how li { display: flex; gap: 12px; align-items: flex-start; font-size: 16.5px; line-height: 1.65; color: rgba(11, 46, 36, .82); }
+  .pc-how li::before { content: ""; flex: none; width: 22px; height: 22px; margin-top: 2px; border-radius: 50%; background: var(--brand-900) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F4B740' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 12px no-repeat; }
+  .pc-team { margin-top: 10px; font-weight: 700; color: var(--brand-600) !important; }
+  .pc-returns { padding: 16px 18px; border-radius: 18px; background: var(--brand-900); }
+  .pc-returns h4 { color: var(--accent); }
+  .pc-returns p { color: rgba(248, 244, 234, .9); }
+  .pc-week { padding: 16px 18px; border-radius: 16px; background: rgba(244, 183, 64, .14); border-inline-start: 4px solid var(--accent); }
+
+  /* נעול: החלק של "איך זה עובד" ומה שאחריו מטושטש ונחתך, עד שם וטלפון */
+  .pc-lock { display: none; }
+  .plan.locked .pc-body { max-height: 240px; overflow: hidden; filter: blur(5px); user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-mask-image: linear-gradient(#000 30%, transparent 96%); mask-image: linear-gradient(#000 30%, transparent 96%); }
+  .plan.locked .pc-lock { display: flex; position: absolute; inset-inline: 0; bottom: clamp(26px, 4vw, 40px); justify-content: center; pointer-events: none; }
+  .pc-lock button { pointer-events: auto; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 9px 18px; border: 0; border-radius: 999px; background: var(--brand-900); color: var(--cream); font-size: 14.5px; font-weight: 800; box-shadow: 0 14px 30px -12px rgba(11, 46, 36, .7); }
+  .pc-lock svg { width: 16px; height: 16px; color: var(--accent); }
+
+  /* תיבת הפתיחה: הטופס */
+  .unlock { margin-top: 24px; max-width: 760px; margin-inline: auto; padding: clamp(22px, 3.5vw, 38px); border-radius: 28px; background: #fff; border: 2px solid var(--accent); box-shadow: 0 40px 80px -40px rgba(11, 46, 36, .55); }
+  .plan:not(.locked) .unlock { display: none; }
+  .unlock .pill { background: rgba(244, 183, 64, .2); color: #7A4F00; border-color: rgba(244, 183, 64, .5); }
+  .unlock h3 { margin-top: 14px; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 2.5vw, 28px); line-height: 1.3; text-wrap: balance; }
+  .unlock .u-sub { margin-top: 8px; font-size: 16.5px; color: rgba(11, 46, 36, .75); }
+
+  /* טפסים (התוכנית + היומן) */
+  .hp-field { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }   /* מלכודת לבוטים — לא נראה למשתמשים */
+  .lead-form { margin-top: 22px; display: grid; gap: 14px; text-align: start; }
+  .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field label { display: block; font-weight: 700; font-size: 15.5px; margin-bottom: 7px; color: var(--ink); }
+  .field input { width: 100%; min-height: 56px; padding: 14px 18px; border-radius: 16px; background: #fff; border: 1.5px solid rgba(11, 46, 36, .18); color: var(--ink); font: inherit; font-size: 17px; transition: border-color .2s, box-shadow .2s; }
+  .field input::placeholder { color: rgba(11, 46, 36, .38); }
+  .field input:focus { outline: none; border-color: var(--brand-600); box-shadow: 0 0 0 4px rgba(31, 106, 82, .15); }
+  .field input[aria-invalid="true"] { border-color: var(--loss); }
+  .field .err { display: none; margin-top: 6px; color: var(--loss); font-size: 14px; font-weight: 600; }
+  .field input[aria-invalid="true"] + .err { display: block; }
+  .field input[type="tel"] { direction: ltr; text-align: right; }
+  .consent-check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(11, 46, 36, .75); cursor: pointer; }
+  .consent-check input { width: 18px; height: 18px; margin-top: 2px; flex: none; accent-color: var(--brand-600); }
+  .form-trust { display: flex; justify-content: center; gap: 8px; align-items: center; color: rgba(11, 46, 36, .7); font-size: 14px; text-align: center; }
+  .form-trust svg { width: 16px; height: 16px; flex: none; color: var(--brand-600); }
+  .consent { font-size: 12.5px; color: rgba(11, 46, 36, .55); text-align: center; line-height: 1.55; }
+  .consent a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ועוד בתוכנית + הבסיס */
+  .plan-more { margin-top: 30px; }
+  .pm-head { font-family: var(--font-display); font-weight: 800; font-size: 19px; }
+  .plan-more ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+  .plan-more li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 16px 20px; border-radius: 18px; background: #fff; border: 1px solid rgba(11, 46, 36, .08); font-size: 16.5px; line-height: 1.6; color: rgba(11, 46, 36, .8); }
+  .plan-more li b { color: var(--ink); }
+  .pm-hrs { font-size: 14px; font-weight: 800; color: var(--brand-600); white-space: nowrap; }
+  .plan-base { margin-top: 14px; display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 18px; background: rgba(31, 106, 82, .08); border: 1px dashed rgba(31, 106, 82, .35); font-size: 16.5px; line-height: 1.65; color: rgba(11, 46, 36, .82); }
+  .plan-base b { color: var(--ink); }
+  .pb-ic { width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center; background: var(--brand-900); color: var(--accent); }
+  .pb-ic svg { width: 20px; height: 20px; }
+  .plan-quiz { padding: clamp(24px, 3.5vw, 36px); border-radius: 26px; background: #fff; border: 2px dashed rgba(11, 46, 36, .2); text-align: center; }
+  .plan-quiz p { font-size: 18px; color: rgba(11, 46, 36, .8); }
+  .plan-quiz .btn { margin-top: 18px; }
+
+  /* רצועת הסוכנים */
+  .agents { margin-top: 40px; padding: clamp(24px, 3.5vw, 40px); border-radius: 28px; background: linear-gradient(160deg, var(--brand-700), var(--brand-900) 70%); color: var(--cream); box-shadow: 0 40px 80px -40px rgba(11, 46, 36, .8); }
+  .ag-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(23px, 2.8vw, 32px); line-height: 1.25; text-wrap: balance; }
+  .ag-grid { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .ag-card { padding: 22px; border-radius: 22px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .12); }
+  .ag-head { display: flex; gap: 14px; align-items: flex-start; }
+  .ag-ic { width: 46px; height: 46px; flex: none; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-bright), var(--accent)); color: var(--brand-900); }
+  .ag-ic.wa { background: #25D366; color: #fff; }
+  .ag-ic svg { width: 24px; height: 24px; }
+  .ag-head b { display: block; font-family: var(--font-display); font-size: 19px; }
+  .ag-head span { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.55; color: rgba(248, 244, 234, .72); }
+  .ag-flow { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+  .ag-flow li { display: grid; grid-template-columns: minmax(0, .9fr) auto minmax(0, 1.2fr); gap: 10px; align-items: center; padding: 12px 14px; border-radius: 14px; background: rgba(11, 46, 36, .45); font-size: 14.5px; line-height: 1.5; }
+  .ag-flow li b { font-weight: 700; color: var(--cream); }
+  .ag-flow li i { font-style: normal; font-weight: 900; color: var(--accent); }
+  .ag-flow li span { color: rgba(248, 244, 234, .85); }
+
+  /* הקריאה לפעולה בסוף התוכנית */
+  .plan-cta { margin-top: 40px; text-align: center; max-width: 780px; margin-inline: auto; }
+  .plan-cta h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(25px, 3.2vw, 38px); line-height: 1.25; text-wrap: balance; }
+  .plan-cta p { margin-top: 14px; font-size: 17.5px; color: rgba(11, 46, 36, .8); }
+  .plan-cta ul { list-style: none; margin: 16px auto 0; padding: 0; display: grid; gap: 8px; max-width: 560px; text-align: start; }
+  .plan-cta li { display: flex; gap: 10px; align-items: flex-start; font-size: 16.5px; line-height: 1.6; color: rgba(11, 46, 36, .82); }
+  .plan-cta li::before { content: ""; flex: none; width: 20px; height: 20px; margin-top: 3px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-bright), var(--accent)) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B2E24' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 11px no-repeat; }
+  .plan-cta .btn { margin-top: 22px; }
+  .plan-cta .cta-note { margin-top: 10px; font-size: 14px; color: rgba(11, 46, 36, .6); }
+
+  /* היומן נעול: אותו טופס במקום היומן */
+  .calendar.gated #calBox { display: none; }
+  .cal-gate { padding: clamp(20px, 3.5vw, 36px); text-align: center; color: var(--ink); }
+  .cal-gate[hidden] { display: none; }
+  .cg-ic { width: 54px; height: 54px; margin: 0 auto; border-radius: 16px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-bright), var(--accent)); color: var(--brand-900); }
+  .cg-ic svg { width: 26px; height: 26px; }
+  .cal-gate h3 { margin-top: 14px; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 2.6vw, 28px); }
+  .cal-gate .cg-sub { margin-top: 6px; font-size: 16.5px; color: rgba(11, 46, 36, .72); }
+  .cal-gate .lead-form { max-width: 620px; margin-inline: auto; }
+
+  @media (max-width: 760px) {
+    .howcalc summary { font-size: 15px; }
+    .hc-body { font-size: 14.5px; }
+    .plan-cards { margin-top: 26px; gap: 14px; }
+    .plan-card { padding: 20px; border-radius: 22px; }
+    .pc-title { font-size: 21px; }
+    .pc-short { font-size: 15.5px; }
+    .pc-body { margin-top: 18px; padding-top: 18px; gap: 14px; }
+    .pc-body p, .pc-how li { font-size: 15.5px; }
+    .plan.locked .pc-body { max-height: 210px; }
+    .unlock { padding: 20px; border-radius: 22px; margin-top: 18px; }
+    .lf-row { grid-template-columns: 1fr; }
+    .plan-more li, .plan-base { font-size: 15.5px; padding: 14px 16px; }
+    .agents { margin-top: 28px; padding: 22px 18px; border-radius: 22px; }
+    .ag-grid { grid-template-columns: 1fr; }
+    .ag-card { padding: 16px; }
+    .ag-flow li { grid-template-columns: 1fr; gap: 2px; }
+    .ag-flow li i { display: none; }
+    .ag-flow li span::before { content: "← "; color: var(--accent); font-weight: 900; }
+    .plan-cta { margin-top: 30px; }
+    .plan-cta p, .plan-cta li { font-size: 15.5px; }
+  }
 </style>
 </head>
 <body>
@@ -398,13 +550,13 @@
     <span class="pill reveal"><span class="pill-dot"></span><span id="preHead">התוצאות של המשרד שלך</span></span>
     <p class="gut reveal" id="gutPunch"></p>
 
-    <h1 class="h-display reveal">המשרד שלך יכול להחזיר לעצמו <span id="savedPre">כ-</span><span class="num-hl" id="savedHl"><span data-v="saved">12</span> שעות</span> בכל חודש, <span id="savedVerb">ששוות</span> כ-<span class="num-hl money">₪<span data-v="yearly">36,000</span></span> בשנה.</h1>
+    <h1 class="h-display reveal" id="resH1">המשרד שלך יכול להחזיר לעצמו <span class="num-hl"><span data-v="savedRange">20–36</span> שעות</span> בכל חודש, ששוות לפחות <span class="num-hl money">₪<span data-v="yearly">36,000</span></span> בשנה.</h1>
 
     <div class="hero-book reveal" id="heroCta">
       <span class="hb-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
       <div class="hb-text">
         <b>השלב הבא: שיחת אבחון קצרה</b>
-        <span>30 דקות בווידאו<span class="hide-m"> · נעבור על המספרים האלה ונראה את המערכת על הלקוחות שלך</span> · <strong class="hb-free">ללא עלות</strong></span>
+        <span>30 דקות בווידאו<span class="hide-m"> · נעבור על התוכנית שלך ונראה את המערכת על הלקוחות שלך</span> · <strong class="hb-free">ללא עלות</strong></span>
       </div>
       <button class="btn btn-primary shine" type="button" data-book="hero">בחר שעה ביומן <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
     </div>
@@ -412,41 +564,156 @@
     <div class="stats">
       <div class="stat reveal" style="--c:var(--accent-deep)">
         <div class="stat-label">שעות שחוזרות בחודש</div>
-        <div class="stat-val" data-count="saved">0</div>
-        <div class="stat-note">מתוך כ-<span data-v="hours">17</span> שעות של מעקב ותזכורות</div>
+        <div class="stat-val"><span data-count-range>0</span></div>
+        <div class="stat-note" id="daysNote"></div>
       </div>
       <div class="stat highlight reveal">
         <div class="stat-label">שווי הזמן הזה בשנה</div>
-        <div class="stat-val" data-count="yearly" data-prefix="₪">0</div>
-        <div class="stat-note" id="extraNote">כ-4 לקוחות נוספים, בלי לגייס עובד</div>
+        <div class="stat-val"><small class="sv-cap">לפחות </small><span class="money">₪<span data-count="yearly">0</span></span></div>
+        <div class="stat-note" id="extraNote"></div>
       </div>
       <div class="stat reveal" style="--c:var(--loss)">
         <div class="stat-label">מועדי דיווח בחודש</div>
-        <div class="stat-val" data-count="deadlines">0</div>
+        <div class="stat-val"><span data-count="deadlines">0</span></div>
         <div class="stat-note">מע״מ, 102 ומקדמות, לכל לקוח בתדירות אחרת</div>
       </div>
       <div class="stat reveal" style="--c:var(--loss)">
-        <div class="stat-label">שכר טרחה תקוע</div>
-        <div class="stat-val" data-count="outstanding" data-prefix="₪">0</div>
+        <div class="stat-label">שכר טרחה בחוץ</div>
+        <div class="stat-val"><small id="outPre">כ-</small><span class="money">₪<span data-count="outstanding">0</span></span></div>
         <div class="stat-note">כסף שכבר הרווחת. לא נכלל בחישוב</div>
       </div>
     </div>
 
-    <p class="r-text reveal" id="calcText"></p>
+    <details class="howcalc reveal" id="howCalc">
+      <summary>איך חישבנו?</summary>
+      <div class="hc-body" id="howCalcBody"></div>
+    </details>
 
-    <p class="no-data" id="noData">המספרים שמוצגים כאן הם דוגמה. <a href="index.html">לחישוב המספרים של המשרד שלך, ענה על השאלון (דקה אחת) ←</a></p>
+    <p class="no-data" id="noData">המספרים שמוצגים כאן הם דוגמה. <a href="index.html#start">לחישוב המספרים והתוכנית של המשרד שלך, ענה על השאלון (דקה אחת) ←</a></p>
   </div>
 </section>
 
-<!-- ============================ 1א. יומן — מיד אחרי התוצאות ============================ -->
+<!-- ============================ 2. התוכנית שלך (מטושטשת עד שם וטלפון) ============================ -->
+<section class="section mesh-cream plan locked" id="plan">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">התוכנית שלך</span>
+      <h2 class="h-section" id="planTitle">שני שינויים שיחזירו למשרד שלך <span class="mark">את החודש.</span></h2>
+      <p class="section-sub" id="planSub">לפי מה שענית, אלה שני הדברים שיחזירו למשרד הכי הרבה זמן. ככה הם עובדים, וככה ייראה החודש שלך אחריהם.</p>
+    </div>
+
+    <div class="plan-cards" id="planCards"></div>
+
+    <div class="unlock reveal" id="planUnlock">
+      <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>התוכנית המלאה שלך מוכנה</span>
+      <h3>איך כל פתרון עובד, איך ייראה החודש שלך אחריו, ומה אפשר לעשות כבר השבוע.</h3>
+      <p class="u-sub">השאר שם וטלפון, והתוכנית המלאה נפתחת כאן מיד.</p>
+      <form class="lead-form" data-lead-form="plan" novalidate>
+        <div class="lf-row">
+          <div class="field">
+            <label for="pName">שם מלא</label>
+            <input id="pName" name="name" type="text" autocomplete="name" placeholder="איך קוראים לך?" required aria-describedby="pNameErr">
+            <span class="err" id="pNameErr" role="alert">נא להזין שם</span>
+          </div>
+          <div class="field">
+            <label for="pPhone">טלפון</label>
+            <input id="pPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000" required aria-describedby="pPhoneErr">
+            <span class="err" id="pPhoneErr" role="alert">נא להזין מספר טלפון תקין</span>
+          </div>
+        </div>
+        <label class="consent-check" for="pFollow"><input id="pFollow" name="followup" type="checkbox"><span>אפשר לשלוח לי בוואטסאפ תזכורת לתיאום השיחה, אם לא אספיק לקבוע. אפשר להסיר בכל עת.</span></label>
+        <div class="hp-field" aria-hidden="true"><label>אתר <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit" class="btn btn-primary shine btn-block"><span class="lf-text">פתחו לי את התוכנית המלאה</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+        <p class="form-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>הפרטים נשארים אצלנו. בלי ספאם, ולא נעביר אותם לאף אחד.</p>
+        <p class="consent">בלחיצה על הכפתור אני מאשר/ת לקבל את תוצאות האבחון ופנייה בנושא בטלפון ובוואטסאפ, בהתאם ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.</p>
+      </form>
+    </div>
+
+    <div class="plan-more reveal" id="planMore" hidden>
+      <p class="pm-head">ועוד בתוכנית, כשתרצה להמשיך:</p>
+      <ul id="planMoreList"></ul>
+    </div>
+    <div class="plan-base reveal" id="planBase">
+      <span class="pb-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></span>
+      <p><b>על זה הכול נבנה:</b> <span id="planBaseText"></span></p>
+    </div>
+
+    <div class="agents reveal">
+      <h3 class="ag-title">הסוכנים שעובדים בשבילך, <span class="text-grad">גם כשאתה לא במשרד.</span></h3>
+      <div class="ag-grid">
+        <article class="ag-card">
+          <div class="ag-head">
+            <span class="ag-ic wa" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 012.2 12 9.8 9.8 0 0112 2.2 9.8 9.8 0 0121.8 12 9.8 9.8 0 0112 21.8zM20.5 3.5A11.8 11.8 0 0012 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.7a11.9 11.9 0 005.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4z"/></svg></span>
+            <div><b>סוכן וואטסאפ מול הלקוחות</b><span>מחובר ישירות למערכת שלך. מדבר בשם המשרד, ומעביר אליך רק את מה שצריך אותך.</span></div>
+          </div>
+          <ul class="ag-flow">
+            <li><b>סימנת "הוגש" במערכת</b><i aria-hidden="true">←</i><span>הלקוח מקבל וואטסאפ שהדיווח הוגש, מיד</span></li>
+            <li><b>מועד דיווח מתקרב</b><i aria-hidden="true">←</i><span>הסוכן מבקש מהלקוח את החומרים, בעצמו</span></li>
+            <li><b>שכר טרחה לא שולם בזמן</b><i aria-hidden="true">←</i><span>תזכורת תשלום ללקוח, בזמן ובטון הנכון</span></li>
+          </ul>
+        </article>
+        <article class="ag-card">
+          <div class="ag-head">
+            <span class="ag-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></span>
+            <div><b>מזכיר אישי</b><span>מתעד שיחות, פותח משימות וקובע פגישות. מהודעה קולית אחת.</span></div>
+          </div>
+          <ul class="ag-flow">
+            <li><b>סיימת שיחה עם לקוח</b><i aria-hidden="true">←</i><span>הקלטה של עשר שניות, והסיכום כבר בתיק שלו</span></li>
+            <li><b>"תקבע לי פגישה עם כהן ביום שלישי"</b><i aria-hidden="true">←</i><span>הפגישה ביומן, ומשימת המשך פתוחה</span></li>
+            <li><b>בוקר, לפני שמתחילים</b><i aria-hidden="true">←</i><span>"מה פתוח לי היום?", ותשובה אחת ברורה</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="plan-cta reveal">
+      <h3>בשיחה אחת, התוכנית הזו הופכת <span class="mark">לתוכנית עבודה</span> למשרד שלך.</h3>
+      <p id="ctaIntro">בשיחת אבחון של 30 דקות נועם יעבור איתך על התוכנית, מול הלקוחות והתדירויות של המשרד שלך:</p>
+      <ul>
+        <li id="ctaFirst">תראה איך לוח הדיווחים עובד, ואיך הוא ייראה אצלך.</li>
+        <li>נבין מה כבר עובד אצלך, ומה נכון להוסיף עליו.</li>
+        <li>נקבע יחד מאיפה מתחילים, ותוך כמה זמן זה עובד.</li>
+      </ul>
+      <a class="btn btn-primary shine" href="#calendar" data-book="plan">לבחירת מועד לשיחה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
+      <p class="cta-note">שיחת וידאו · ללא עלות · בלי התחייבות</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 3. יומן — אחרי התוכנית ============================ -->
 <section class="section mesh-deep noise" id="book">
   <div class="container" style="position:relative;z-index:2">
     <div class="book-head reveal" style="margin-top:0">
       <h2 class="h-display">בוא נראה את זה על המשרד שלך.</h2>
-      <p>בחר שעה לשיחת וידאו קצרה. נעבור על התוצאות שלך, ונראה לך בלייב איך לוח הדיווחים והמשימות היה נראה אצלך.</p>
+      <p>בחר שעה לשיחת וידאו קצרה. נעבור על התוכנית שלך, ונראה לך בלייב איך <span data-v="firstRef">לוח הדיווחים</span> ייראה אצלך.</p>
     </div>
 
     <div class="calendar reveal" id="calendar" aria-label="יומן לקביעת שיחת האבחון">
+      <!-- עד שם וטלפון: אותו טופס כמו בתוכנית, במקום היומן. מילוי אחד פותח את שניהם -->
+      <div class="cal-gate" id="calGate" hidden>
+        <span class="cg-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+        <h3>רגע לפני היומן: שם וטלפון.</h3>
+        <p class="cg-sub">היומן ייפתח כאן מיד, והתוכנית המלאה שלך תיפתח גם היא.</p>
+        <form class="lead-form" data-lead-form="calendar" novalidate>
+          <div class="lf-row">
+            <div class="field">
+              <label for="cName">שם מלא</label>
+              <input id="cName" name="name" type="text" autocomplete="name" placeholder="איך קוראים לך?" required aria-describedby="cNameErr">
+              <span class="err" id="cNameErr" role="alert">נא להזין שם</span>
+            </div>
+            <div class="field">
+              <label for="cPhone">טלפון</label>
+              <input id="cPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000" required aria-describedby="cPhoneErr">
+              <span class="err" id="cPhoneErr" role="alert">נא להזין מספר טלפון תקין</span>
+            </div>
+          </div>
+          <label class="consent-check" for="cFollow"><input id="cFollow" name="followup" type="checkbox"><span>אפשר לשלוח לי בוואטסאפ תזכורת לתיאום השיחה, אם לא אספיק לקבוע. אפשר להסיר בכל עת.</span></label>
+          <div class="hp-field" aria-hidden="true"><label>אתר <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+          <button type="submit" class="btn btn-primary shine btn-block"><span class="lf-text">פתחו לי את היומן</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+          <p class="form-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>הפרטים נשארים אצלנו. בלי ספאם, ולא נעביר אותם לאף אחד.</p>
+          <p class="consent">בלחיצה על הכפתור אני מאשר/ת לקבל את תוצאות האבחון ופנייה בנושא בטלפון ובוואטסאפ, בהתאם ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.</p>
+        </form>
+      </div>
       <div id="calBox"></div>
     </div>
     <div class="cta-meta cal-meta">
@@ -455,31 +722,7 @@
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ללא עלות</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ללא התחייבות</span>
     </div>
-    <p class="cal-more reveal"><a href="#diagnosis">עוד לא בטוח? קרא קודם מה השאלון מצא ←</a></p>
-  </div>
-</section>
-
-<!-- ============================ 2. הדליפה + העומס ============================ -->
-<section class="section mesh-cream" id="diagnosis">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">האבחון שלך</span>
-      <h2 class="h-section">איפה <span class="mark">כדאי להתחיל.</span></h2>
-    </div>
-    <div class="leak-grid">
-      <article class="card card-dark leak-card reveal">
-        <span class="pill">כאן הכי כדאי להתחיל</span>
-        <h3 id="leakTitle">איסוף חומרים לדיווח</h3>
-        <p id="leakText" style="color:rgba(248,244,234,.85)"></p>
-        <p id="taxRisk" style="display:none;color:var(--loss-light);font-weight:700">ועוד משהו: ציינת שדוחות נדחים או מוגשים באיחור בגלל חומרים חסרים. זה פוגע באמון של הלקוחות, והנזק הזה בכלל לא נכנס לחישוב שלמעלה.</p>
-      </article>
-      <article class="card goal-card reveal">
-        <span class="icon-tile tile-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-        <h3>מה מחזיק לך את הראש בכל חודש</h3>
-        <p id="loadText"></p>
-        <div class="goal-big"><span data-v="deadlines">38</span> מועדי דיווח<small>בכל חודש, לכל לקוח בתדירות אחרת</small></div>
-      </article>
-    </div>
+    <p class="cal-more reveal"><a href="#how">עוד לא בטוח? ככה זה עובד ←</a></p>
   </div>
 </section>
 
@@ -501,7 +744,7 @@
         <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הפולואפ שהבטחת ללקוח בשיחה, ונזכרת בו רק כשהוא התקשר כועס</li>
         <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>הלקוח ששואל "חזרת אליי לגבי המקדמות?", ואתה לא זוכר שהבטחת</li>
       </ul>
-      <p class="cost-line reveal">לפי החישוב שלמעלה, הזמן הזה שווה כ-<b><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</b>, לפי שכר הטרחה שלך. אפשר לבדוק כל מספר בשורת "איך הגענו לזה".</p>
+      <p class="cost-line reveal">לפי החישוב שלמעלה, הזמן הזה שווה לפחות <b><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</b>, בהערכה שמרנית. כל מספר אפשר לבדוק ב"איך חישבנו?", מתחת למספרים.</p>
     </div>
   </div>
 </section>
@@ -619,7 +862,7 @@
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>פותחים את היום בלוח בוקר.</strong> המשימות החשובות של היום, לפי סדר עדיפויות.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לקוח חדש? קישור אחד.</strong> פרטים, תעודת זהות וייפוי כוח נכנסים לתיק בלי שתקליד שורה.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>כל לקוח במקום אחד.</strong> התיק, ההערות, הפגישות ומה שהובטח לו, בלי לחפש בוואטסאפ.</div></li>
-      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong><span data-v="saved">12</span> שעות חוזרות למשרד בכל חודש</strong>, לעבודה מקצועית, ללקוחות חדשים או לערב בבית.</div></li>
+      <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong><span data-v="savedRange">20–36</span> שעות חוזרות למשרד בכל חודש</strong>, לעבודה מקצועית, ללקוחות חדשים או לערב בבית.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>לא צריך להחליף תוכנת הנהלת חשבונות.</strong> יתרה 0 עובדת לצד מה שכבר עובד אצלך.</div></li>
       <li class="reveal"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><strong>ההקמה עלינו.</strong> מייבאים את הלקוחות מהאקסל שלך, כולל התדירות של כל לקוח.</div></li>
     </ul>
@@ -639,17 +882,16 @@
     <div class="stack-grid">
       <article class="card-glass stack-card vs-card reveal">
         <h3>מה בונים לך</h3>
-        <p class="lead">הכלים והסוכנים, מחוברים זה לזה</p>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span><div><b>קליטת לקוחות ואיסוף חומרים</b><span>לקוח חדש ממלא פרטים, תעודת זהות וייפוי כוח בקישור אחד, והתיק נפתח לבד. לפני כל מועד המערכת מבקשת את החומרים ומסמנת מי שלח.</span></div></div>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></span><div><b>לוח לקוחות במקום אקסל</b><span>כל הלקוחות, התיקים, ההערות והפגישות במקום אחד, מסודר וברור. מחפשים לקוח ורואים הכול: מה הוא מדווח, מה חסר, מה הובטח לו.</span></div></div>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span><div><b>תזכורות למשימות ופולואפים</b><span>כל מה שהבטחת בשיחה הופך למשימה עם תאריך ותזכורת. "חזרת אליי לגבי המקדמות?" כבר לא יתפוס אותך לא מוכן.</span></div></div>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span><div><b>מעקב דיווחים לכל לקוח</b><span>מע״מ חודשי או דו-חודשי, 102, מקדמות ודוח שנתי, לכל לקוח בתדירות שלו. בתחילת כל חודש הלוח מתמלא לבד: מה צריך לצאת, עד מתי ומה כבר הוגש.</span></div></div>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><div><b>לוח בוקר לפי סדר עדיפויות</b><span>כל בוקר מחכה לך מסך אחד: המשימות החשובות של היום, מסודרות לפי דחיפות. פותחים את היום בלי לחפש.</span></div></div>
+        <p class="lead">חמישה פתרונות ושני סוכנים, מחוברים זה לזה</p>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></span><div><b>תיק לקוחות אחד במקום אקסל</b><span>הבסיס: כל לקוח, הקבצים והשיחות במקום אחד. לקוח חדש נקלט בקישור.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span><div><b>לוח דיווחים שמתמלא לבד</b><span>ב-1 לחודש כל המועדים כבר בלוח, לכל לקוח לפי התדירות שלו.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg></span><div><b>איסוף חומרים בלי לרדוף</b><span>קישור העלאה לכל לקוח, ובלוח רואים מי שלח ומי עוד לא.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span><div><b>שום פולואפ לא נופל</b><span>כל הבטחה ללקוח הופכת למשימה עם תאריך ותזכורת ב-08:00.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></span><div><b>שכר טרחה שנגבה בזמן</b><span>יתרה לכל לקוח, וזיהוי תשלומים מדף הבנק.</span></div></div>
 
         <p class="vs-group-title">והסוכנים שעובדים בשבילך:</p>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span><div><b>סוכן וואטסאפ מול הלקוחות</b><span>בקשות חומרים, תזכורות ועדכונים שוטפים ללקוחות, בלי להקליד כל הודעה בעצמך.</span></div></div>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></span><div><b>גבייה ומעקב שכר טרחה</b><span>רואים מי שילם ומי לא, והסוכן שולח ללקוח תזכורת תשלום בזמן ובטון הנכון. אתה לא צריך להיות "הרע" מול הלקוח.</span></div></div>
-        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></span><div><b>סוכן טלגרם שמתעד שיחות</b><span>אחרי שיחה עם לקוח שולחים לו הודעה קולית, והסיכום נכנס לתיק של הלקוח עם משימת המשך. שום פרט לא הולך לאיבוד.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h5"/></svg></span><div><b>סוכן וואטסאפ מול הלקוחות</b><span>מחובר למערכת: מעדכן שהדיווח הוגש, מבקש חומרים ומזכיר תשלומים, בשם המשרד.</span></div></div>
+        <div class="vs-row"><span class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></span><div><b>מזכיר אישי</b><span>הודעה קולית אחרי שיחה הופכת לסיכום בתיק, למשימה ולפגישה ביומן.</span></div></div>
 
         <div class="vs-now">
           <div><b>מותאם אישית, לא מערכת מדף.</b><span>במקום כמה תוכנות ואקסלים, מערכת אחת מסודרת שמחזיקה את המשרד, בלי עבודה שחורה ובלי לקפוץ בין תוכנות.</span></div>
@@ -660,7 +902,7 @@
       <article class="card-glass stack-card reveal" style="border-color:rgba(244,183,64,.3)">
         <h3>הצעד הראשון: שיחת אבחון</h3>
         <p class="lead">30 דקות · שיחת וידאו · ללא עלות</p>
-        <div class="v-row"><div><b>נעבור על התוצאות שלך</b><span>החישוב מהשאלון, שורה אחרי שורה</span></div></div>
+        <div class="v-row"><div><b>נעבור על התוכנית שלך</b><span>הפתרונות, לפי הסדר שמתאים למשרד שלך</span></div></div>
         <div class="v-row"><div><b>נראה את המערכת על הלקוחות שלך</b><span>לוח הדיווחים, המשימות והחומרים, כמו שהם ייראו אצלך</span></div></div>
         <div class="v-row"><div><b>נחליט יחד מאיפה מתחילים</b><span>מה להקים קודם, ומה יכול לחכות</span></div></div>
         <ul class="first-step-notes">
@@ -716,8 +958,8 @@
       </article>
       <article class="card-glass u-item reveal">
         <span class="icon-tile" style="background:rgba(255,155,133,.15);color:var(--loss-light)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <h3>כל חודש: כ-<span class="text-accent"><span data-v="saved">12</span> שעות</span> של מעקב ידני</h3>
-        <p>כל חודש שעובר בלי לוח הוא עוד <span data-v="saved">12</span> שעות שלא חוזרות, ועוד <span data-v="deadlines">38</span> מועדים שאתה מחזיק בראש.</p>
+        <h3>כל חודש: <span class="text-accent"><span data-v="savedRange">20–36</span> שעות</span> של עבודה ידנית</h3>
+        <p>כל חודש שעובר בלי מערכת הוא עוד <span data-v="savedRange">20–36</span> שעות שלא חוזרות, ועוד <span data-v="deadlines">38</span> מועדים שאתה מחזיק בראש.</p>
       </article>
     </div>
 
@@ -731,7 +973,7 @@
 <section class="section mesh-cream">
   <div class="container">
     <div class="ps">
-      <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: לפי השאלון, הזמן שהמשרד שלך יכול להחזיר שווה כ-<strong><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</strong>. בשיחה של 30 דקות נעבור על החישוב, נראה את המערכת על הלקוחות שלך ונחליט יחד מאיפה מתחילים. ללא עלות וללא התחייבות.</p>
+      <p class="reveal"><b class="tag">נ.ב.</b>אם גללת ישר לכאן: לפי השאלון, המשרד שלך יכול להחזיר <span data-v="savedRange">20–36</span> שעות בכל חודש, ששוות לפחות <strong><span class="money">₪<span data-v="yearly">36,000</span></span> בשנה</strong>. בשיחה של 30 דקות נעבור על התוכנית שלך, נראה את המערכת על הלקוחות שלך ונחליט יחד מאיפה מתחילים. ללא עלות וללא התחייבות.</p>
       <p class="reveal" id="psSpots"><b class="tag">נ.ב.ב.</b>נשארו <strong><span data-v="spotsLeft">3</span> מקומות</strong> להטמעה החודש.</p>
       <div class="reveal"><a class="btn btn-dark" href="#calendar" data-book="ps">בחר שעה לשיחה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>
     </div>
@@ -758,105 +1000,430 @@
   </div>
 </div>
 
-<script src="config.js?v=11"></script>
-<script src="tracking.js?v=11"></script>
-<script src="booking.js?v=11"></script>
+<script src="config.js?v=12"></script>
+<script src="tracking.js?v=12"></script>
+<script src="booking.js?v=12"></script>
+<script src="quiz-core.js?v=12"></script>
+<script src="plan-content.js?v=12"></script>
 <script>
 (function () {
   "use strict";
   var CFG = window.FUNNEL_CONFIG || {};
+  var CORE = window.qfCore, S = window.qfPlanContent.SOLUTIONS, fill = window.qfPlanContent.fill;
   var fmt = function (n) { return Math.round(n).toLocaleString("he-IL"); };
-  var money = function (n) { return "\u2066₪" + fmt(n) + "\u2069"; };   /* ₪ משמאל לספרות, מבודד מכיוון המשפט */
+  var fmt1 = function (n) { return (Math.round(n * 10) / 10).toLocaleString("he-IL"); };
+  var money = function (n) { return "⁦₪" + fmt(n) + "⁩"; };   /* ₪ משמאל לספרות, מבודד מכיוון המשפט */
+  /* טווח "20–36": מבודד ומשמאל לימין, כמו "3-5 ימי עסקים" */
+  var span = function (lo, hi, f) { f = f || fmt; return f(lo) === f(hi) ? f(lo) : "⁦" + f(lo) + "–" + f(hi) + "⁩"; };
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   retryPendingLead();
 
   document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CFG.brand || el.textContent; });
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* ---------- נתוני השאלון (נשמרו בדף הקודם) ---------- */
-  var data = null;
-  try { data = JSON.parse(sessionStorage.getItem("qf_result") || "null"); } catch (e) {}
-  var hasData = !!(data && data.result && data.result.saved !== undefined);
-  var r = hasData ? data.result : {
-    // ערכי דוגמה כשנכנסים לדף ישירות — משרד של כ-25 לקוחות
-    clients: 25, fee: 750, trackingHours: 4.2, materialsHours: 9.2, slipsHours: 4, slips: 4,
-    hours: 17, saved: 12, savedYear: 144, extraClients: 4, perClient: 3, hourValue: 250,
-    yearly: 36000, monthlyValue: 3000, deadlines: 38, outstanding: 20000, biggest: "materials", taxRisk: false
-  };
-  if (!hasData) document.getElementById("noData").style.display = "block";
+  /* ============================================================
+     הנתונים: התשובות מהשאלון (sessionStorage), או מקישור עם קוד תשובות (?c=), או ערכי דוגמה.
+     הכול מחושב כאן מחדש מהתשובות, ב-quiz-core.js — אותו חישוב ואותה תוכנית בכל מקום.
+     אחרי שם וטלפון נשמרים כאן גם השם, הטלפון ומזהה הליד (submissionId), והתוכנית והיומן פתוחים.
+     ============================================================ */
+  var SAMPLE = { clients: 1, tracking: 1, materials: 2, switching: 2, slips: 1, outstanding: 1 };   /* משרד של 30–80 לקוחות */
+  function readJSON(store, key) { try { return JSON.parse(store.getItem(key) || "null"); } catch (e) { return null; } }
+  function saveData() { try { sessionStorage.setItem("qf_result", JSON.stringify(data)); } catch (e) {} }
 
-  var name = hasData && data.name ? data.name : "";
+  var data = readJSON(sessionStorage, "qf_result");
+  if (data && !CORE.valid(data.answers)) { data.answers = null; if (!data.submissionId) data = null; }   /* תוצאה מגרסה קודמת של השאלון */
+  var source = data && data.answers ? "quiz" : "sample";
 
+  /* קישור עם קוד התשובות (results.html?c=...), למשל מהוואטסאפ: הדף מחשב ממנו הכול מחדש.
+     מזהה הליד, אם היה בקישור, כבר הוסר מהכתובת בראש הדף (לפני הפיקסל) ונשמר ב-qf_link_sid */
+  var linked = CORE.decode(new URLSearchParams(location.search).get("c") || "");
+  if (linked) {
+    var linkSid = ""; try { linkSid = sessionStorage.getItem("qf_link_sid") || ""; } catch (e) {}
+    if (!data || !data.answers || CORE.encode(data.answers) !== CORE.encode(linked.answers)) data = { answers: linked.answers, at: Date.now() };
+    if (linkSid && !data.submissionId) data.submissionId = linkSid;   /* הליד כבר קיים ב-Gware: התוכנית והיומן פתוחים, והקביעה תשויך אליו */
+    saveData();
+    source = "link";
+  }
+
+  var hasAnswers = !!(data && data.answers);
+  var answers = hasAnswers ? data.answers : SAMPLE;
+  var r = CORE.compute(answers, CFG);
+  var planKeys = CORE.plan(answers, r);
+  var first = planKeys[0];
+  var unlocked = !!(data && data.submissionId);
+  if (!hasAnswers) document.getElementById("noData").style.display = "block";
+
+  /* שכר הטרחה בחוץ: לפי התשובה (בטווח הביניים — הערך שמייצג אותו, כמו במסמך התוכן) */
+  var OUT = [["פחות מ-", 10000], ["כ-", 20000], ["כ-", 55000], ["יותר מ-", 80000]][r.outstandingIdx];
+  var outstandingText = OUT[0] + money(OUT[1]);
+
+  /* ---------- מספרים בטקסט ---------- */
   var values = {
-    hours: r.hours, saved: r.saved, yearly: r.yearly, monthlyValue: r.monthlyValue, deadlines: r.deadlines,
-    outstanding: r.outstanding, bonusDays: CFG.bonusDays || 7, spotsLeft: CFG.spotsLeft, spotsPerMonth: CFG.spotsPerMonth || 8
+    savedRange: span(r.savedLo, r.savedHi), yearly: r.yearly, deadlines: r.deadlines,
+    firstRef: S[first].ref, spotsLeft: CFG.spotsLeft, spotsPerMonth: CFG.spotsPerMonth || 8
   };
   document.querySelectorAll("[data-v]").forEach(function (el) {
     var v = values[el.dataset.v];
-    if (v !== undefined && v !== null) el.textContent = fmt(v);
+    if (v === undefined || v === null) return;
+    el.textContent = typeof v === "number" ? fmt(v) : v;
   });
+  if (r.savedHi < 1) document.getElementById("resH1").textContent = "לפי התשובות שלך, המשרד כבר עובד מסודר. נשאר לחזק את הבסיס.";
 
-  /* ---------- כמה לקוחות נוספים הזמן הזה שווה ---------- */
-  document.getElementById("extraNote").textContent = r.extraClients >= 1
-    ? (r.extraClients === 1 ? "כמו לקוח נוסף אחד, בלי לגייס עובד" : "כמו " + fmt(r.extraClients) + " לקוחות נוספים, בלי לגייס עובד")
-    : "לפי " + "\u2066₪" + fmt(r.hourValue) + "\u2069" + " לשעה במשרד שלך";
-
-  /* ---------- החישוב, בשקיפות מלאה ---------- */
-  function hrs(n) { return n === 1 ? "בערך שעה אחת" : "כ-" + fmt(n) + " שעות"; }
-  if (r.saved === 1) {
-    document.getElementById("savedPre").textContent = "בערך ";
-    document.getElementById("savedHl").textContent = "שעה אחת";
-    document.getElementById("savedVerb").textContent = "ששווה";
+  /* ---------- ימי עבודה, לקוחות נוספים, שכר טרחה בחוץ ---------- */
+  function daysText(d) {
+    var h = Math.round(d * 2) / 2;
+    if (h < 1) return "";
+    if (h === 1) return "כמו יום עבודה שלם בחודש";
+    if (h === 1.5) return "כמו יום וחצי של עבודה בחודש";
+    if (h === 2) return "כמו יומיים של עבודה בחודש";
+    if (h === 2.5) return "כמו יומיים וחצי של עבודה בחודש";
+    return "כמו " + (h % 1 ? h.toLocaleString("he-IL") : h) + " ימי עבודה בחודש";
   }
-  var partsTxt = ["כ-" + r.trackingHours + " שעות בחודש למעקב דיווחים", "כ-" + r.materialsHours + " לאיסוף חומרים"];
-  if (r.slipsHours > 0) partsTxt.push("כ-" + r.slipsHours + " לתיקון דברים שנפלו בין הכיסאות");
-  document.getElementById("calcText").innerHTML =
-    "<strong>איך הגענו לזה:</strong> לפי כ-" + fmt(r.clients) + " לקוחות, המשרד שלך מקדיש " +
-    partsTxt.slice(0, -1).join(", ") + " ו" + partsTxt[partsTxt.length - 1] + ". מתוך " + hrs(r.hours) +
-    ", <strong>" + hrs(r.saved) + "</strong> אפשר להחזיר. לקוח ממוצע אצלך משלם " + money(r.fee) + " בחודש ולוקח כ-" + r.perClient +
-    " שעות, כלומר שעה במשרד שלך שווה כ-" + money(r.hourValue) + ". " + fmt(r.saved) + " × " + money(r.hourValue) + " × 12 חודשים = <strong>" +
-    money(r.yearly) + " בשנה</strong>. שכר הטרחה התקוע לא נכלל בחישוב.";
+  document.getElementById("daysNote").textContent = daysText(r.days) || "בהערכה שמרנית, לפי התשובות שלך";
+  document.getElementById("extraNote").textContent = r.extraClients >= 1
+    ? (r.extraClients === 1 ? "וזה מקום ללקוח נוסף, בלי לגייס עובד" : "וזה מקום לעוד כ-" + fmt(r.extraClients) + " לקוחות, בלי לגייס עובד")
+    : "לפי ⁦₪" + fmt(r.hourValue) + "⁩ לשעה, בהערכה שמרנית";
+  document.getElementById("outPre").textContent = OUT[0];
 
-  /* ---------- אגרוף בבטן: הדליפה הגדולה ---------- */
+  /* ---------- "איך חישבנו?" — סגור, נפתח רק למי שלוחץ. כל מספר אפשר לבדוק ---------- */
+  (function () {
+    var M = CORE.MODEL, c = fmt(r.clients), items = [];
+    function partHours(k) { return span(r.parts[k].lo, r.parts[k].hi, fmt1); }
+    function off(label, why) { items.push('<li class="hc-off"><b>' + label + ':</b> ' + why + ', אז זה לא נכנס לחישוב.</li>'); }
+    var t = M.tracking.minutes[answers.tracking];
+    if (t) items.push("<li><b>מעקב דיווחים:</b> " + c + " לקוחות × " + t[0] + "–" + t[1] + " דקות ללקוח בחודש. המערכת חוסכת " + M.tracking.save * 100 + "%: כ-" + partHours("tracking") + " שעות.</li>");
+    else off("מעקב דיווחים", "ענית שיש לך מערכת שמתמלאת לבד");
+    var m = M.materials.minutes[answers.materials];
+    if (m) items.push("<li><b>איסוף חומרים:</b> " + c + " לקוחות × " + m[0] + "–" + m[1] + " דקות ללקוח בחודש. המערכת חוסכת " + M.materials.save * 100 + "%, כי חלק נשאר אנושי: כ-" + partHours("materials") + " שעות.</li>");
+    else off("איסוף חומרים", "ענית שהלקוחות מעלים הכול בזמן");
+    var w = M.switching.weekly[answers.switching];
+    if (w) items.push("<li><b>קפיצה בין תוכנות:</b> " + fmt1(w) + " שעות בשבוע × " + fmt1(M.switching.weeks) + " שבועות, פחות או יותר רבע. המערכת חוסכת " + M.switching.save * 100 + "%: כ-" + partHours("switching") + " שעות.</li>");
+    else off("קפיצה בין תוכנות", "ענית שהכול אצלך במקום אחד");
+    var n = M.slips.perMonth[answers.slips];
+    if (n) items.push("<li><b>דברים שנופלים בין הכיסאות:</b> " + fmt1(n) + " פעמים בחודש × " + M.slips.fixMinutes[0] + "–" + M.slips.fixMinutes[1] + " דקות של תיקון. המערכת חוסכת " + M.slips.save * 100 + "%: כ-" + partHours("slips") + " שעות.</li>");
+    else off("דברים שנופלים בין הכיסאות", "ענית שכמעט שום דבר לא נופל");
+    document.getElementById("howCalcBody").innerHTML =
+      "<p>הערכה שמרנית, לפי כ-" + c + " לקוחות והתשובות שלך: כמה זמן כל דבר לוקח היום, וכמה ממנו המערכת חוסכת.</p>" +
+      "<ul>" + items.join("") + "</ul>" +
+      "<p><strong>סך הכול: " + span(r.savedLo, r.savedHi) + " שעות בחודש.</strong> השווי לפי הקצה הנמוך: " + fmt(r.savedLo) + " שעות × " + money(r.hourValue) +
+      " לשעה × 12 חודשים = <strong>לפחות " + money(r.yearly) + " בשנה</strong>. שכר הטרחה שבחוץ לא נכלל בחישוב.</p>";
+    document.getElementById("howCalc").addEventListener("toggle", function (e) { if (e.target.open) track("HowCalculated", {}); });
+  })();
+
+  /* ---------- אגרוף בבטן: הכאב שבראש התוכנית ---------- */
   var GUT = {
-    cashflow: "יש לך <b>כ-" + money(r.outstanding) + " שכר טרחה פתוח</b> אצל לקוחות שעברו את מועד התשלום.",
-    tracking: "<b>כ-" + fmt(r.deadlines) + " מועדי דיווח בכל חודש</b> מנוהלים היום בזיכרון ובוואטסאפ.",
+    cashflow: "יש לך <b>" + outstandingText + " שכר טרחה פתוח</b> אצל לקוחות שעברו את מועד התשלום.",
+    tracking: "<b>כ-" + fmt(r.deadlines) + " מועדי דיווח בכל חודש</b> " + ["", "מנוהלים היום באקסל ידני.", "מנוהלים היום בזיכרון ובוואטסאפ.", "ועל חלק מהם אתה מגלה רק כשהלקוח מתקשר."][answers.tracking],
     materials: "לפני כל מועד, חלק גדול מהזמן הולך על <b>\"מה עוד חסר לך?\"</b> ו\"שלחתי לך כבר\".",
-    slips: "<b>כ-" + fmt(r.slips) + " פעמים בחודש</b> משהו נופל בין הכיסאות: פולואפ, מסמך או תשובה ללקוח."
+    base: ["רוב המידע כבר אצלך במקום אחד. עכשיו אפשר לבנות עליו.", "<b>שעה-שעתיים בשבוע</b> הולכות רק על חיפושים בין וואטסאפ, אקסל ומייל.",
+           "<b>3 עד 5 שעות בשבוע</b> הולכות רק על להבין מה קורה עם לקוח.", "<b>יותר מ-5 שעות בשבוע</b> הולכות רק על לחפש מידע על לקוחות."][answers.switching],
+    slips: ["", "<b>פעם-פעמיים בחודש</b>", "<b>3 עד 5 פעמים בחודש</b>", "<b>כמעט כל יום</b>"][answers.slips] + " משהו נופל בין הכיסאות: דיווח, תשלום או תשובה ללקוח."
   };
   var gutEl = document.getElementById("gutPunch");
-  gutEl.innerHTML = GUT[r.biggest] || GUT.materials;   /* הסכום עצמו מופיע מיד מתחת, בכותרת */
-  if (name) gutEl.insertAdjacentText("afterbegin", name + ", ");   /* השם כטקסט בלבד, לא כ-HTML */
+  gutEl.innerHTML = GUT[first];   /* טקסט קבוע ומספרים בלבד; השם נכנס כטקסט, למטה */
 
-  /* ---------- הדליפה הגדולה ביותר ---------- */
-  var LEAKS = {
-    tracking: {
-      title: "מעקב דיווחים מהראש",
-      text: "יש לך כ-" + fmt(r.deadlines) + " מועדי דיווח בחודש, וכל לקוח בתדירות אחרת. כ-" + r.trackingHours + " שעות בחודש הולכות רק על להבין מה צריך לצאת ומה כבר הגיע, ועדיין הכול תלוי בזה שתזכור. זה בדיוק מה שלוח הדיווחים לוקח ממך: הוא מתמלא לבד בתחילת כל חודש."
-    },
-    materials: {
-      title: "איסוף חומרים לדיווח",
-      text: "לפני כל מועד דיווח המשרד נכנס לציד חומרים: קבלות בוואטסאפ, צילומים מטושטשים, מיילים ו\"שלחתי לך כבר\". כ-" + r.materialsHours + " שעות בחודש הולכות רק על זה, ודוחות שמתעכבים עולים לך גם באמון של הלקוחות."
-    },
-    slips: {
-      title: "פולואפים שנופלים בין הכיסאות",
-      text: "לקוח שחיכה לתשובה, מסמך ששכחת לבקש, פולואפ שהבטחת ולא קרה. כ-" + fmt(r.slips) + " פעמים בחודש, וכל אחת עולה שעה של תיקון והתנצלות, ולפעמים גם לקוח. כשכל משימה מחוברת ללקוח ומזכירה את עצמה ב-08:00, הן פשוט לא נופלות."
-    },
-    cashflow: {
-      title: "שכר טרחה שתקוע אצל לקוחות",
-      text: "כ-" + money(r.outstanding) + " שכר טרחה יושבים כרגע אצל לקוחות שעברו את מועד התשלום. זה כסף שכבר הרווחת, על עבודה שכבר עשית, ואינו נמצא בחשבון שלך. כל חודש שהוא לא נגבה מקטין את הסיכוי שהוא ייכנס בכלל. וזה בדיוק מה שהסוכן לוקח ממך: הוא עוקב מי שילם ומי לא, ושולח ללקוח תזכורת תשלום בזמן ובטון הנכון."
+  /* ============================================================
+     התוכנית שלך: שני הפתרונות הראשונים בכרטיס מלא, השאר בשורה, הבסיס, הסוכנים וקריאה לפעולה.
+     עד שם וטלפון גלויים רק השם, הכותרת והשורה הראשונה של כל פתרון; השאר מטושטש.
+     ============================================================ */
+  var planSec = document.getElementById("plan"), planCards = document.getElementById("planCards");
+  var cardKeys = hasAnswers ? planKeys.slice(0, 2) : [];
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+  function answerFor(key) { return key === "base" ? answers.switching : key === "cashflow" ? answers.outstanding : answers[key]; }
+  function ctxFor(key) {
+    var h = CORE.solutionHours(key, r);
+    var lo = h && h.hi > 0 ? Math.max(1, Math.round(h.lo)) : 0, hi = h && h.hi > 0 ? Math.max(lo, Math.round(h.hi)) : 0;
+    return { hours: span(lo, hi), value: money(lo * r.hourValue * 12), deadlines: fmt(r.deadlines), amount: outstandingText, hi: hi };
+  }
+  function block(cls, title, text) {
+    var b = el("div", cls); b.appendChild(el("h4", null, title));
+    if (text) b.appendChild(el("p", null, text));
+    return b;
+  }
+  var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';
+  function renderCard(key, i) {
+    var s = S[key], ctx = ctxFor(key), ans = answerFor(key);
+    var card = el("article", "plan-card reveal" + (i === 0 ? " first" : ""));
+    card.setAttribute("data-solution", key);
+    card.appendChild(el("span", "pc-label", i === 0 ? "מתחילים כאן" : "ומיד אחריו"));
+    card.appendChild(el("p", "pc-name", s.name));
+    card.appendChild(el("h3", "pc-title", s.title));
+    card.appendChild(el("p", "pc-short", s.short));
+    if (key === "cashflow") card.appendChild(el("span", "pc-chip loss", outstandingText + " בחוץ"));
+    else if (ctx.hi > 0) card.appendChild(el("span", "pc-chip", "כ-" + ctx.hours + " שעות בחודש"));
+
+    var body = el("div", "pc-body");
+    var today = block("pc-today", "אצלך היום", fill(s.today[ans] || s.today[1], ctx));
+    if (s.risk && ans === 3) today.appendChild(el("p", "pc-risk", s.risk));
+    body.appendChild(today);
+    var how = block("pc-how", "איך זה עובד"), ul = el("ul");
+    s.how.forEach(function (t) { ul.appendChild(el("li", null, t)); });
+    how.appendChild(ul);
+    if (i === 0 && answers.clients >= 2) how.appendChild(el("p", "pc-team", window.qfPlanContent.TEAM_LINE));
+    body.appendChild(how);
+    body.appendChild(block("pc-after", "החודש שלך אחרי", s.after));
+    body.appendChild(block("pc-returns", "מה זה מחזיר", key !== "cashflow" && ctx.hi < 1 ? "הבסיס שעליו נבנה כל השאר, כשתרצה להמשיך." : fill(s.returns, ctx)));
+    if (i === 0) body.appendChild(block("pc-week", "רוצה להתחיל כבר השבוע?", s.week));
+    card.appendChild(body);
+    /* הכפתור על הטשטוש מוביל לטופס */
+    var lock = el("div", "pc-lock");
+    lock.innerHTML = '<button type="button" aria-label="לטופס שפותח את התוכנית המלאה">' + LOCK_SVG + "נפתח עם שם וטלפון</button>";
+    lock.firstChild.addEventListener("click", function () { scrollToEl(document.getElementById("planUnlock")); });
+    card.appendChild(lock);
+    return card;
+  }
+  if (hasAnswers) {
+    cardKeys.forEach(function (k, i) { planCards.appendChild(renderCard(k, i)); });
+    if (cardKeys.length === 1) {
+      document.getElementById("planTitle").innerHTML = 'הצעד שיחזיר למשרד שלך <span class="mark">הכי הרבה זמן.</span>';
+      document.getElementById("planSub").textContent = "לפי מה שענית, זה הדבר שיחזיר למשרד הכי הרבה זמן. ככה הוא עובד, וככה ייראה החודש שלך אחריו.";
     }
-  };
-  var leak = LEAKS[r.biggest] || LEAKS.materials;
-  document.getElementById("leakTitle").textContent = leak.title;
-  document.getElementById("leakText").textContent = leak.text;
-  if (r.taxRisk) document.getElementById("taxRisk").style.display = "block";
+    var more = planKeys.slice(2).filter(function (k) { return k !== "base"; });
+    if (more.length) {
+      var list = document.getElementById("planMoreList");
+      more.forEach(function (k) {
+        var li = el("li"), ctx = ctxFor(k);
+        li.appendChild(el("b", null, S[k].name + "."));
+        li.appendChild(document.createTextNode(" " + S[k].short + " "));
+        li.appendChild(el("span", "pm-hrs", k === "cashflow" ? outstandingText + " בחוץ" : "כ-" + ctx.hours + " שעות בחודש"));
+        list.appendChild(li);
+      });
+      document.getElementById("planMore").hidden = false;
+    }
+  } else {
+    /* בלי תשובות (נכנסו לדף ישירות): במקום תוכנית לדוגמה — הזמנה לשאלון */
+    planCards.innerHTML = '<div class="plan-quiz reveal"><p>התוכנית האישית שלך נבנית מהתשובות בשאלון: מה הכי כדאי לתקן קודם, ואיך.</p>' +
+      '<a class="btn btn-dark" href="index.html#start">לשאלון, דקה אחת <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a></div>';
+    document.getElementById("planTitle").innerHTML = 'התוכנית שלך <span class="mark">מחכה לשש שאלות.</span>';
+    document.getElementById("planSub").textContent = "ענה על השאלון, ותקבל כמה שעות אפשר להחזיר, ואת הפתרונות שיחזירו אותן, לפי הסדר שמתאים למשרד שלך.";
+    document.getElementById("planUnlock").hidden = true;
+  }
+  if (cardKeys.indexOf("base") === -1) document.getElementById("planBaseText").textContent = S.base.line;
+  else document.getElementById("planBase").hidden = true;
+  document.getElementById("ctaFirst").textContent = hasAnswers
+    ? "תראה איך " + S[first].ref + " עובד, ואיך הוא ייראה אצלך."
+    : "תראה איך המערכת תיראה אצלך, על הלקוחות שלך.";
 
-  /* ---------- העומס: מה מחזיק לך את הראש ---------- */
-  document.getElementById("loadText").textContent =
-    "כ-" + fmt(r.deadlines) + " מועדי דיווח (מע״מ, 102, מקדמות) על פני כ-" + fmt(r.clients) + " לקוחות" +
-    (r.slips > 0 ? ", ובחודש האחרון משהו נפל בין הכיסאות כ-" + fmt(r.slips) + " פעמים." : ".") +
-    " גם אם שום דבר עוד לא התפספס, זה נשען על הזיכרון שלך ושל הצוות.";
+  /* ---------- נעול / פתוח ---------- */
+  var calWrap = document.getElementById("calendar"), calGate = document.getElementById("calGate");
+  function setLocked(locked) {
+    planSec.classList.toggle("locked", locked);
+    planCards.querySelectorAll(".pc-body").forEach(function (b) {
+      if (locked) { b.setAttribute("aria-hidden", "true"); b.setAttribute("inert", ""); }
+      else { b.removeAttribute("aria-hidden"); b.removeAttribute("inert"); }
+    });
+    calWrap.classList.toggle("gated", locked);
+    calGate.hidden = !locked;
+  }
+  function personalize() {
+    var nm = data && data.name;
+    if (!nm) return;
+    gutEl.innerHTML = GUT[first];
+    gutEl.insertAdjacentText("afterbegin", nm + ", ");   /* השם כטקסט בלבד, לא כ-HTML */
+    if (hasAnswers) document.getElementById("planSub").textContent = nm + ", התוכנית המלאה שלך פתוחה. ככה כל פתרון עובד, וככה ייראה החודש שלך אחריו.";
+    document.getElementById("ctaIntro").textContent = nm + ", בשיחת אבחון של 30 דקות נועם יעבור איתך על התוכנית, מול הלקוחות והתדירויות של המשרד שלך:";
+  }
+  setLocked(!unlocked);
+  if (unlocked) personalize();
+
+  /* ============================================================
+     הטופס (בתוכנית וגם במקום היומן): שם וטלפון בלבד. מילוי אחד פותח את התוכנית ואת היומן,
+     ושולח את הליד ל-Gware עם התשובות, החישוב והתוכנית. בלי מעבר דף.
+     ============================================================ */
+  var PHONE_RE = /^(0\d{8,9}|972\d{8,9})$/;
+  function field(form, n) { return form.elements.namedItem(n); }
+  function setErr(input, bad) { input.setAttribute("aria-invalid", bad ? "true" : "false"); return !bad; }
+  document.querySelectorAll("form[data-lead-form]").forEach(function (form) {
+    ["name", "phone"].forEach(function (n) { field(form, n).addEventListener("input", function () { setErr(field(form, n), false); }); });
+    form.addEventListener("focusin", function () { track("LeadFormStart", { form: form.getAttribute("data-lead-form") }); });
+    form.addEventListener("submit", onLeadSubmit);
+  });
+
+  function onLeadSubmit(e) {
+    e.preventDefault();
+    var form = e.currentTarget, variant = form.getAttribute("data-lead-form");
+    if (unlocked) return;
+    var nameIn = field(form, "name"), phoneIn = field(form, "phone");
+    var name = nameIn.value.trim().replace(/\s+/g, " "), phone = phoneIn.value.trim();
+    var ok = setErr(nameIn, name.length < 2);
+    ok = setErr(phoneIn, !PHONE_RE.test(phone.replace(/\D/g, ""))) && ok;
+    if (!ok) { var bad = form.querySelector('[aria-invalid="true"]'); if (bad) bad.focus(); return; }
+
+    form.querySelector('button[type="submit"]').disabled = true;
+    data = data || { answers: null, at: Date.now() };
+    data.name = name.split(" ")[0]; data.fullName = name; data.phone = phone; data.leadForm = variant;
+    /* מזהה קבוע לליד הזה: נשלח עם הליד, ומשמש את היומן כדי לשייך את הפגישה בדיוק לליד הזה ב-Gware */
+    data.submissionId = submissionId();
+    saveData();
+    var bot = field(form, "website"), followup = field(form, "followup");
+    if (!(bot && bot.value.trim())) {   /* מלכודת: בני אדם לא רואים את השדה */
+      track("Lead", { content_name: variant }, true);
+      sendLead(buildPayload(variant, !!(followup && followup.checked)));
+    }
+    unlock(variant);
+  }
+
+  function unlock(variant) {
+    unlocked = true;
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();   /* סוגר את המקלדת בטלפון */
+    var before = calWrap.getBoundingClientRect().top;
+    setLocked(false);
+    personalize();
+    startCalendar();
+    if (variant === "calendar") {
+      /* התוכנית שמעל היומן נפתחה והתארכה — מתקנים את הגלילה, כדי שהיומן יישאר בדיוק מול העיניים */
+      window.scrollBy(0, calWrap.getBoundingClientRect().top - before);
+    } else {
+      scrollToEl(planCards.firstElementChild || planSec);
+    }
+  }
+
+  /* המיקום לפי offsetTop ולא getBoundingClientRect: אלמנטים באנימציית כניסה (translateY) מזיזים את המדידה */
+  function scrollToEl(target) {
+    var y = 0;
+    for (var n = target; n; n = n.offsetParent) y += n.offsetTop;
+    window.scrollTo({ top: Math.max(0, y - 84), behavior: reduce ? "auto" : "smooth" });
+  }
+
+  /* ---------- הליד שנשלח ל-Gware (receiveWebsiteLead) — JSON שטוח, ראו README ---------- */
+  var Q_LABELS = ["לקוחות פעילים במשרד", "איך יודע מה כל לקוח צריך לדווח החודש", "איסוף חומרים לפני מועד דיווח",
+                  "זמן בשבוע על קפיצה בין וואטסאפ, אקסל, מייל ותוכנות", "כמה פעמים בחודש משהו נופל בין הכיסאות", "שכר טרחה פתוח שעבר את מועד התשלום"];
+  function buildPayload(variant, followup) {
+    var utm = (data && data.utm) || utmParams();
+    var p = {
+      event: "quiz_lead",
+      source: "yitra0_loss_quiz",
+      /* מזהה קבוע לליד הזה: נשמר עם הליד הממתין ונשלח שוב באותו ערך, כך ש-Gware לא קולטת אותו פעמיים */
+      submission_id: data.submissionId,
+      submitted_at: new Date().toISOString(),
+      name: data.fullName,
+      first_name: data.name,
+      email: "",            /* הטופס לא אוסף אימייל; המפתח נשאר כדי שהמיפוי בצד המקבל לא יישבר */
+      phone: data.phone,
+      phone_intl: phoneIntl(data.phone),
+      lead_form: variant,   /* איפה השאיר פרטים: "plan" (לפתיחת התוכנית) או "calendar" (לפני היומן) */
+      quiz_completed: hasAnswers
+    };
+    if (hasAnswers) {
+      CORE.IDS.forEach(function (id, i) {
+        p["q" + (i + 1) + "_question"] = Q_LABELS[i];
+        p["q" + (i + 1) + "_answer"] = CORE.answerText(id, answers[id]);
+      });
+      p.hours_per_month = Math.round((r.spentLo + r.spentHi) / 2);   /* כמה שעות הולכות היום (אמצע הטווח) */
+      p.hours_saved_per_month = r.savedLo;                            /* הקצה הנמוך — מה שמוצג כ"לפחות" */
+      p.hours_saved_max = r.savedHi;
+      p.hours_saved_range = r.savedLo + "–" + r.savedHi;
+      p.yearly_value = r.yearly;
+      p.hour_value = r.hourValue;
+      p.extra_clients = r.extraClients;
+      p.deadlines_per_month = r.deadlines;
+      p.outstanding_fees = r.outstanding;
+      p.biggest_leak = first;
+      p.biggest_leak_label = S[first].name;
+      p.plan = planKeys.slice();                                      /* מפתחות הקטלוג לפי הסדר — חוזה עם Gware ו-G */
+      p.plan_labels = planKeys.map(function (k) { return S[k].name; });
+      p.plan_code = CORE.encode(answers, data.submissionId);         /* לקישור results.html?c=<plan_code> */
+    }
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) { p[k] = utm[k] || ""; });
+    if (!p.utm_source || (source === "link" && p.utm_source === "direct")) p.utm_source = source === "link" ? "plan_link" : "direct";
+    p.page_url = (data && data.pageUrl) || location.href.split(/[?#]/)[0];
+    if (CFG.leadFormId) p.form_id = CFG.leadFormId;          /* אימות מול Gware */
+    if (CFG.leadSecretKey) p.secret_key = CFG.leadSecretKey;
+    p.followup_consent = !!followup;                         /* תזכורת לתיאום בוואטסאפ — רק אם סימן */
+    p.notes = leadNotes(p);                                  /* סיכום קריא לשדה ההערות של הליד */
+    return p;
+  }
+
+  /* סיכום בעברית — נכנס להערות של הליד ב-Gware */
+  function leadNotes(p) {
+    var lines = ["ליד ממחשבון המשרד (יתרה 0)"];
+    if (p.quiz_completed) {
+      lines.push("שעות שאפשר להחזיר בחודש: " + p.hours_saved_range + " · שווי בשנה: לפחות ₪" + fmt(p.yearly_value) + " (₪" + p.hour_value + " לשעה)");
+      lines.push("מועדי דיווח בחודש: " + p.deadlines_per_month + " · שכר טרחה בחוץ: " + CORE.option("outstanding", answers.outstanding).main);
+      lines.push("התוכנית: " + p.plan_labels.map(function (l, i) { return (i + 1) + ". " + l; }).join(" · "));
+      for (var i = 1; i <= 6; i++) lines.push(i + ". " + p["q" + i + "_question"] + ": " + p["q" + i + "_answer"]);
+    } else {
+      lines.push("השאיר פרטים בדף התוצאות, בלי שאלון");
+    }
+    lines.push("השאיר פרטים: " + (p.lead_form === "calendar" ? "בטופס שלפני היומן" : "לפתיחת התוכנית המלאה"));
+    lines.push("מאשר/ת תזכורת לתיאום בוואטסאפ: " + (p.followup_consent ? "כן" : "לא"));
+    lines.push("מקור: " + p.utm_source + (p.utm_campaign ? " / " + p.utm_campaign : ""));
+    return lines.join("\n");
+  }
+
+  function submissionId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+  }
+
+  /* 972XXXXXXXXX — פורמט שמתאים לוואטסאפ ול-CRM */
+  function phoneIntl(raw) {
+    var d = String(raw || "").replace(/\D/g, "");
+    if (d.indexOf("972") === 0) return d;
+    return d.charAt(0) === "0" ? "972" + d.slice(1) : d;
+  }
+
+  function utmParams() {
+    var p = new URLSearchParams(location.search), out = {};
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) { out[k] = p.get(k) || ""; });
+    if (!out.utm_source) out.utm_source = "direct";
+    return out;
+  }
+
+  /**
+   * שליחה ל-Gware — בלי לאבד לידים בשקט:
+   * ניסיון 1: JSON רגיל. אם השרת תומך ב-CORS מקבלים תשובה אמיתית ובודקים שהיא תקינה.
+   * ניסיון 2 (אם הראשון נכשל או החזיר שגיאה): text/plain במצב no-cors — עובר בלי preflight,
+   *   ו-Gware יודעת לפרסר JSON מגוף טקסט. התשובה אטומה, אז מניחים שהגיע.
+   * אם גם זה נכשל (אין רשת), הליד נשמר ב-localStorage ונשלח שוב בטעינה הבאה של דף התוצאות או דף התודה.
+   */
+  var PENDING_KEY = "qf_pending_lead";
+  function postLead(payload) {
+    var url = CFG.leadWebhookUrl, body = JSON.stringify(payload);
+    return fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true })
+      .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return true; })
+      .catch(function () {
+        return fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body, keepalive: true })
+          .then(function () { return true; });
+      });
+  }
+  function sendLead(payload) {
+    if (!CFG.leadWebhookUrl) return Promise.resolve();
+    try { localStorage.setItem(PENDING_KEY, JSON.stringify({ payload: payload, attempts: 0 })); } catch (e) {}
+    return postLead(payload)
+      .then(function () { try { localStorage.removeItem(PENDING_KEY); } catch (e) {} })
+      .catch(function () {});
+  }
+
+  /* ---------- מדידה: צפייה בתוכנית ---------- */
+  if (hasAnswers) {
+    var pio = new IntersectionObserver(function (en) {
+      if (!en[0].isIntersecting) return;
+      track("PlanView", { source: source, first: first, unlocked: unlocked ? 1 : 0 });
+      pio.disconnect();
+    }, { threshold: .15 });
+    pio.observe(planSec);
+  }
+
+  /* ---------- ספירה מונפשת של המספרים ---------- */
+  var countValues = { yearly: r.yearly, deadlines: r.deadlines, outstanding: OUT[1] };
+  function countUp(el) {
+    var range = el.hasAttribute("data-count-range");
+    var lo = range ? r.savedLo : (countValues[el.dataset.count] || 0), hi = range ? r.savedHi : 0;
+    function render(t) { el.textContent = range ? span(lo * t, hi * t) : fmt(lo * t); }
+    if (reduce) { render(1); return; }
+    var start = performance.now(), dur = 1400;
+    (function step(now) {
+      var t = Math.min(1, (now - start) / dur);
+      render(1 - Math.pow(1 - t, 3));
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  var cio = new IntersectionObserver(function (en) {
+    en.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); cio.unobserve(e.target); } });
+  }, { threshold: .4 });
+  document.querySelectorAll("[data-count], [data-count-range]").forEach(function (el) { cio.observe(el); });
 
   /* ---------- מחסור ---------- */
   if (CFG.spotsLeft === null || CFG.spotsLeft === undefined) {
@@ -868,38 +1435,27 @@
     for (var i = 0; i < total; i++) { var d = document.createElement("i"); if (i < CFG.spotsLeft) d.className = "open"; spots.appendChild(d); }
   }
 
-  /* ---------- ספירה מונפשת של המספרים ---------- */
-  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function countUp(el) {
-    var target = values[el.dataset.count] || 0, prefix = el.dataset.prefix || "";
-    if (reduce) { el.textContent = prefix + fmt(target); return; }
-    var start = performance.now(), dur = 1400;
-    (function step(now) {
-      var t = Math.min(1, (now - start) / dur), eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = prefix + fmt(target * eased);
-      if (t < 1) requestAnimationFrame(step);
-    })(start);
-  }
-  var cio = new IntersectionObserver(function (en) {
-    en.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); cio.unobserve(e.target); } });
-  }, { threshold: .4 });
-  document.querySelectorAll("[data-count]").forEach(function (el) { cio.observe(el); });
-
   /* ---------- יומן Cal.com ----------
-     ההטמעה הרשמית של Cal.com (booking.js). השפה נקבעת לפי הדפדפן של הגולש: עברית מימין לשמאל
-     למי שהדפדפן שלו בעברית. השם מהשאלון ממולא מראש, והטלפון נכנס לשדה מוסתר בטופס ההזמנה.
+     ההטמעה הרשמית של Cal.com (booking.js). נטען רק אחרי שם וטלפון (או מקישור של ליד קיים):
+     עד אז במקומו אותו טופס כמו בתוכנית. השם ממולא מראש, הטלפון נכנס לשדה מוסתר בטופס ההזמנה,
+     ומזהה הליד נשמר בהזמנה כ-metadata — כך שהפגישה משויכת בדיוק לליד הזה ב-Gware.
      עד שהיומן מוכן מוצגת הודעת טעינה, ואם הוא לא נטען תוך 9 שניות מופיע קישור לפתוח אותו בחלון חדש. */
   var box = document.getElementById("calBox");
   var CAL_NS = "diagnosis";
-  var calConfig = {};
-  if (window.qfCal && window.qfCal.load()) {
-    var calData = hasData ? data : null;
+  var calStarted = false;
+  function startCalendar() {
+    if (calStarted) return;
+    calStarted = true;
+    if (!(window.qfCal && window.qfCal.load())) {
+      box.innerHTML = '<div class="cal-placeholder"><div><b>כאן יופיע היומן לקביעת הפגישה</b>יש להגדיר את האירוע ב-Cal.com בקובץ <code>config.js</code> בשדה <code>calLink</code><br><br><a class="btn btn-dark" href="thank-you.html" style="width:auto">תצוגה מקדימה: דף התודה</a></div></div>';
+      return;
+    }
     box.insertAdjacentHTML("beforeend",
       '<div class="cal-loading" id="calLoading"><div><div class="cal-spin" aria-hidden="true"></div>' +
       '<span id="calLoadingText">טוען את היומן…</span>' +
       '<div class="cal-fallback" id="calFallback"><span id="calFallbackLead">לוקח יותר מדי זמן? </span><a target="_blank" rel="noopener" href="' +
-      window.qfCal.directUrl(calData).replace(/"/g, "&quot;") + '">פתח את היומן בחלון חדש ←</a></div></div></div>');
-    calConfig = window.qfCal.prefill(calData);
+      window.qfCal.directUrl(data).replace(/"/g, "&quot;") + '">פתח את היומן בחלון חדש ←</a></div></div></div>');
+    var calConfig = window.qfCal.prefill(data);
     calConfig.layout = "month_view";
     calConfig.theme = "light";   /* בהיר, כמו המסגרת בדף */
     /* אחרי קביעה: מדידה, דיווח ל-Gware (הליד עובר ל"אבחון נקבע") ודף התודה.
@@ -909,10 +1465,10 @@
       if (booked) return;
       booked = true;
       if (window.qfTrackOnce) window.qfTrackOnce("Schedule", {}, true);
-      var data = (e && e.detail && e.detail.data) || {};
+      var bk = (e && e.detail && e.detail.data) || {};
       /* המועד שנקבע — לדף התודה ("הפגישה נקבעה ליום ... בשעה ..."), כי בטופס של Cal.com הוא לא מוצג */
-      try { sessionStorage.setItem("qf_booked", JSON.stringify({ start: data.startTime || "", end: data.endTime || "" })); } catch (err) {}
-      var report = window.qfCal.reportBooking(data).catch(function () {});
+      try { sessionStorage.setItem("qf_booked", JSON.stringify({ start: bk.startTime || "", end: bk.endTime || "" })); } catch (err) {}
+      var report = window.qfCal.reportBooking(bk).catch(function () {});
       var atMost = new Promise(function (res) { setTimeout(res, 2000); });
       var atLeast = new Promise(function (res) { setTimeout(res, 600); });
       Promise.all([Promise.race([report, atMost]), atLeast]).then(function () { location.href = "thank-you.html"; });
@@ -992,26 +1548,20 @@
       if (now - calStart > 9000) document.getElementById("calFallback").classList.add("show");
       if (now - calStart > 120000) clearInterval(calPoll);
     }, 250);
-  } else {
-    box.innerHTML = '<div class="cal-placeholder"><div><b>כאן יופיע היומן לקביעת הפגישה</b>יש להגדיר את האירוע ב-Cal.com בקובץ <code>config.js</code> בשדה <code>calLink</code><br><br><a class="btn btn-dark" href="thank-you.html" style="width:auto">תצוגה מקדימה: דף התודה</a></div></div>';
   }
+  if (unlocked) startCalendar();
 
 
-  /* ---------- כפתורי "בחר שעה": גלילה של הדף ליומן שכבר נטען בו ----------
+  /* ---------- כפתורי "בחר שעה": גלילה של הדף ליומן (או לטופס שבמקומו, עד שם וטלפון) ----------
      ⚠️ לא לעטוף את היומן בחלון צף, בשכבה עם אזור גלילה משלה או בנעילת גלילה של הדף.
      ב-12/10/2026 זה הקפיא את המסך באייפון (ספארי וגם כרום, ששניהם WebKit): היומן של Cal.com הוא iframe,
      וב-WebKit של אייפון גלילת אצבע שמתחילה על iframe לא עוברת לאזור גלילה שעוטף אותו — רק לגלילה של הדף עצמו.
      החלון כיסה את כל המסך, הדף מאחור היה נעול, ולכן שום דבר לא זז. גלילה של הדף עובדת בכל מכשיר.
      (בכרום של אנדרואיד ובאמולציית נייד במחשב זה עבד — לכן בדיקה באייפון אמיתי היא חובה לפני main, ראו README.) */
-  var calWrap = document.getElementById("calendar");
   function goToCal(src) {
-    if (window.qfTrackOnce) window.qfTrackOnce("CalendarOpen", { source: src || "page" });
+    track("CalendarOpen", { source: src || "page" });
     calWrap.classList.add("in");
-    /* המיקום לפי offsetTop ולא getBoundingClientRect: היומן אולי עוד באנימציית הכניסה (translateY), שמזיזה את המדידה */
-    var y = 0;
-    for (var el = calWrap; el; el = el.offsetParent) y += el.offsetTop;
-    y -= 84;   /* מתחת לכותרת הקבועה */
-    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" });
+    scrollToEl(calWrap);
     calWrap.classList.remove("flash");
     void calWrap.offsetWidth;   /* מאפשר להבזק לרוץ שוב בלחיצה נוספת */
     calWrap.classList.add("flash");
@@ -1023,7 +1573,7 @@
     });
   });
   /* מיד אחרי השאלון: הכפתור "מהבהב" פעמיים אחרי שהמספרים נספרו, כדי שלא יתפספס */
-  if (hasData) setTimeout(function () { var hb = document.getElementById("heroCta"); if (hb) hb.classList.add("nudge"); }, 1900);
+  if (source === "quiz") setTimeout(function () { var hb = document.getElementById("heroCta"); if (hb) hb.classList.add("nudge"); }, 1900);
 
   /* ---------- וואטסאפ ---------- */
   document.getElementById("waFloat").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, מילאתי את מחשבון המשרד ויש לי שאלה");
@@ -1040,11 +1590,10 @@
   document.querySelectorAll(".reveal").forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el); });
 
   var sticky = document.getElementById("sticky");
-  var cal = document.getElementById("calendar");
   var heroVisible = true, calVisible = false;
   function updSticky() { sticky.classList.toggle("show", !heroVisible && !calVisible); }
   new IntersectionObserver(function (en) { heroVisible = en[0].isIntersecting; updSticky(); }).observe(document.getElementById("heroCta"));
-  new IntersectionObserver(function (en) { calVisible = en[0].isIntersecting; updSticky(); }).observe(cal);
+  new IntersectionObserver(function (en) { calVisible = en[0].isIntersecting; updSticky(); }).observe(calWrap);
 
   var header = document.getElementById("siteHeader"), bar = document.getElementById("scrollProgress");
   function onScroll() {
@@ -1055,8 +1604,13 @@
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  /* ליד שלא הצליח להישלח מהשאלון (למשל נפילת רשת) נשלח שוב מכאן, עד 3 ניסיונות.
-     Gware מאחד כפילויות לפי טלפון (9 ספרות אחרונות), אז ניסיון חוזר לא יוצר ליד כפול. */
+  /* מדידה — דרך tracking.js. כל אירוע נשלח פעם אחת לטעינת דף */
+  function track(ev, params, standard) {
+    if (window.qfTrackOnce) window.qfTrackOnce(ev, params, standard);
+  }
+
+  /* ליד שלא הצליח להישלח (למשל נפילת רשת) נשלח שוב בטעינה הבאה, עד 3 ניסיונות.
+     Gware מאחד כפילויות לפי מזהה השליחה והטלפון, אז ניסיון חוזר לא יוצר ליד כפול. */
   function retryPendingLead() {
     var url = CFG.leadWebhookUrl; if (!url) return;
     var rec = null;

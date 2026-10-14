@@ -8,11 +8,11 @@
 <meta name="theme-color" content="#0B2E24">
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=11">
+<link rel="stylesheet" href="fonts.css?v=12">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles.css?v=12">
 <style>
   .ty-hero { padding-block: 130px 90px; text-align: center; }
   .ty-hero .container { position: relative; z-index: 2; }
@@ -140,7 +140,7 @@
       <h2 class="h-section">מה הולך לקרות בשיחה שלנו?</h2>
     </div>
     <div class="agenda">
-      <div class="a-step reveal"><span class="a-num">1</span><div><h3>נעבור על התוצאות של השאלון שלך</h3><p>ועל צווארי הבקבוק שעולים למשרד זמן וכסף היום<span id="agendaNums"></span>.</p></div></div>
+      <div class="a-step reveal"><span class="a-num">1</span><div><h3>נעבור על התוכנית שלך</h3><p>ועל צווארי הבקבוק שעולים למשרד זמן וכסף היום<span id="agendaNums"></span>.</p></div></div>
       <div class="a-step reveal"><span class="a-num">2</span><div><h3>נראה לך את המערכת בלייב</h3><p>איך לוח הדיווחים מתמלא לבד בתחילת החודש, איך כל משימה ופולואפ מחוברים ללקוח ומזכירים את עצמם, איך לקוח חדש נקלט בקישור אחד, ואיך עוקבים אחרי שכר הטרחה, בלי להחליף את התוכנה שאתה עובד איתה.</p></div></div>
       <div class="a-step reveal"><span class="a-num">3</span><div><h3>נבדוק אם יש התאמה</h3><p>ואיך אפשר להטמיע את זה במשרד שלך. אם אין התאמה, נגיד לך את זה ישר, ועדיין תצא עם תוכנית ל-30 יום.</p></div></div>
     </div>
@@ -181,9 +181,10 @@
   </div>
 </footer>
 
-<script src="config.js?v=11"></script>
-<script src="tracking.js?v=11"></script>
-<script src="booking.js?v=11"></script>
+<script src="config.js?v=12"></script>
+<script src="tracking.js?v=12"></script>
+<script src="booking.js?v=12"></script>
+<script src="quiz-core.js?v=12"></script>
 <script>
 (function () {
   "use strict";
@@ -215,7 +216,9 @@
     wt.appendChild(dEl); wt.appendChild(tEl);
     document.getElementById("tyWhen").hidden = false;
   }
-  if (data && data.result && data.result.saved !== undefined) document.getElementById("agendaNums").textContent = " (לפי השאלון: כ-" + fmt(data.result.saved) + " שעות בחודש שאפשר להחזיר, ששוות כ-" + money(data.result.yearly) + " בשנה)";
+  /* המספרים מהשאלון — מחושבים מהתשובות באותה ליבה כמו בדף התוצאות */
+  var r = data && window.qfCore ? window.qfCore.compute(data.answers, CFG) : null;
+  if (r && r.savedHi > 0) document.getElementById("agendaNums").textContent = " (לפי השאלון: \u2066" + fmt(r.savedLo) + "–" + fmt(r.savedHi) + "\u2069 שעות בחודש שאפשר להחזיר, ששוות לפחות " + money(r.yearly) + " בשנה)";
 
   document.getElementById("waBtn").href = "https://wa.me/" + (CFG.whatsapp || "") + "?text=" + encodeURIComponent("היי, קבעתי פגישת הדגמה ויש לי שאלה");
 

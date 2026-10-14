@@ -8,7 +8,7 @@ const BASE = process.env.BASE || 'http://localhost:8531';
 const N = +(process.env.N || 10);
 let fails = 0;
 const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
-const SEED = { name: 'בדיקה', fullName: 'בדיקה מקומית', phone: '0500000003', submissionId: 'reliability-0000', result: { clients: 55, fee: 750, saved: 22, yearly: 66000, deadlines: 83, outstanding: 20000, biggest: 'materials', trackingHours: 9, materialsHours: 20, slipsHours: 1, slips: 1, hours: 31, savedYear: 264, extraClients: 7, perClient: 3, hourValue: 250, monthlyValue: 5500 } };
+const SEED = { name: 'בדיקה', fullName: 'בדיקה מקומית', phone: '0500000003', submissionId: 'reliability-0000', answers: { clients: 1, tracking: 1, materials: 2, switching: 2, slips: 1, outstanding: 1 } };   // אחרי שם וטלפון: היומן פתוח
 
 async function newCtx(b) {
   const ctx = await b.newContext({ ...devices['Pixel 7'], locale: 'he-IL' });
