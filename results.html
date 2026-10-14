@@ -23,11 +23,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=12">
+<link rel="stylesheet" href="fonts.css?v=13">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=12">
+<link rel="stylesheet" href="styles.css?v=13">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -459,10 +459,8 @@
   .plan-more li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 16px 20px; border-radius: 18px; background: #fff; border: 1px solid rgba(11, 46, 36, .08); font-size: 16.5px; line-height: 1.6; color: rgba(11, 46, 36, .8); }
   .plan-more li b { color: var(--ink); }
   .pm-hrs { font-size: 14px; font-weight: 800; color: var(--brand-600); white-space: nowrap; }
-  .plan-base { margin-top: 14px; display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 18px; background: rgba(31, 106, 82, .08); border: 1px dashed rgba(31, 106, 82, .35); font-size: 16.5px; line-height: 1.65; color: rgba(11, 46, 36, .82); }
-  .plan-base b { color: var(--ink); }
-  .pb-ic { width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center; background: var(--brand-900); color: var(--accent); }
-  .pb-ic svg { width: 20px; height: 20px; }
+  .pm-tag { font-size: 13px; font-weight: 800; padding: 2px 10px; border-radius: 999px; background: rgba(11, 46, 36, .08); color: var(--brand-600); white-space: nowrap; }
+  .plan [hidden] { display: none !important; }   /* אלמנט מוסתר נשאר מוסתר גם כשיש לו display בעיצוב */
   .plan-quiz { padding: clamp(24px, 3.5vw, 36px); border-radius: 26px; background: #fff; border: 2px dashed rgba(11, 46, 36, .2); text-align: center; }
   .plan-quiz p { font-size: 18px; color: rgba(11, 46, 36, .8); }
   .plan-quiz .btn { margin-top: 18px; }
@@ -472,12 +470,12 @@
   .ag-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(23px, 2.8vw, 32px); line-height: 1.25; text-wrap: balance; }
   .ag-grid { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .ag-card { padding: 22px; border-radius: 22px; background: rgba(248, 244, 234, .05); border: 1px solid rgba(248, 244, 234, .12); }
-  .ag-head { display: flex; gap: 14px; align-items: flex-start; }
+  .ag-head { display: flex; gap: 14px; align-items: center; }
   .ag-ic { width: 46px; height: 46px; flex: none; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-bright), var(--accent)); color: var(--brand-900); }
   .ag-ic.wa { background: #25D366; color: #fff; }
   .ag-ic svg { width: 24px; height: 24px; }
   .ag-head b { display: block; font-family: var(--font-display); font-size: 19px; }
-  .ag-head span { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.55; color: rgba(248, 244, 234, .72); }
+  .ag-head div > span { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.55; color: rgba(248, 244, 234, .72); }
   .ag-flow { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
   .ag-flow li { display: grid; grid-template-columns: minmax(0, .9fr) auto minmax(0, 1.2fr); gap: 10px; align-items: center; padding: 12px 14px; border-radius: 14px; background: rgba(11, 46, 36, .45); font-size: 14.5px; line-height: 1.5; }
   .ag-flow li b { font-weight: 700; color: var(--cream); }
@@ -488,9 +486,9 @@
   .plan-cta { margin-top: 40px; text-align: center; max-width: 780px; margin-inline: auto; }
   .plan-cta h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(25px, 3.2vw, 38px); line-height: 1.25; text-wrap: balance; }
   .plan-cta p { margin-top: 14px; font-size: 17.5px; color: rgba(11, 46, 36, .8); }
-  .plan-cta ul { list-style: none; margin: 16px auto 0; padding: 0; display: grid; gap: 8px; max-width: 560px; text-align: start; }
-  .plan-cta li { display: flex; gap: 10px; align-items: flex-start; font-size: 16.5px; line-height: 1.6; color: rgba(11, 46, 36, .82); }
-  .plan-cta li::before { content: ""; flex: none; width: 20px; height: 20px; margin-top: 3px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-bright), var(--accent)) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B2E24' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 11px no-repeat; }
+  .plan-cta ul { list-style: none; margin: 16px auto 0; padding: 0; display: grid; gap: 8px; max-width: 620px; }
+  .plan-cta li { display: flex; justify-content: center; gap: 10px; align-items: flex-start; font-size: 16.5px; line-height: 1.6; color: rgba(11, 46, 36, .82); }
+  .plan-cta li::before { content: ""; flex: none; width: 20px; height: 20px; margin-top: 3px; border-radius: 50%; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B2E24' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 11px no-repeat, linear-gradient(135deg, var(--accent-bright), var(--accent)); }
   .plan-cta .btn { margin-top: 22px; }
   .plan-cta .cta-note { margin-top: 10px; font-size: 14px; color: rgba(11, 46, 36, .6); }
 
@@ -516,7 +514,7 @@
     .plan.locked .pc-body { max-height: 210px; }
     .unlock { padding: 20px; border-radius: 22px; margin-top: 18px; }
     .lf-row { grid-template-columns: 1fr; }
-    .plan-more li, .plan-base { font-size: 15.5px; padding: 14px 16px; }
+    .plan-more li { font-size: 15.5px; padding: 14px 16px; }
     .agents { margin-top: 28px; padding: 22px 18px; border-radius: 22px; }
     .ag-grid { grid-template-columns: 1fr; }
     .ag-card { padding: 16px; }
@@ -555,8 +553,8 @@
     <div class="hero-book reveal" id="heroCta">
       <span class="hb-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
       <div class="hb-text">
-        <b>השלב הבא: שיחת אבחון קצרה</b>
-        <span>30 דקות בווידאו<span class="hide-m"> · נעבור על התוכנית שלך ונראה את המערכת על הלקוחות שלך</span> · <strong class="hb-free">ללא עלות</strong></span>
+        <b>השלב הבא: נראה איך פותרים את זה אצלך במשרד</b>
+        <span>שיחת אבחון של 30 דקות בווידאו · <strong class="hb-free">ללא עלות</strong></span>
       </div>
       <button class="btn btn-primary shine" type="button" data-book="hero">בחר שעה ביומן <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
     </div>
@@ -623,7 +621,7 @@
         </div>
         <label class="consent-check" for="pFollow"><input id="pFollow" name="followup" type="checkbox"><span>אפשר לשלוח לי בוואטסאפ תזכורת לתיאום השיחה, אם לא אספיק לקבוע. אפשר להסיר בכל עת.</span></label>
         <div class="hp-field" aria-hidden="true"><label>אתר <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit" class="btn btn-primary shine btn-block"><span class="lf-text">פתחו לי את התוכנית המלאה</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+        <button type="submit" class="btn btn-primary shine btn-block"><span class="lf-text">לצפייה בתוכנית המלאה</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
         <p class="form-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>הפרטים נשארים אצלנו. בלי ספאם, ולא נעביר אותם לאף אחד.</p>
         <p class="consent">בלחיצה על הכפתור אני מאשר/ת לקבל את תוצאות האבחון ופנייה בנושא בטלפון ובוואטסאפ, בהתאם ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.</p>
       </form>
@@ -632,10 +630,6 @@
     <div class="plan-more reveal" id="planMore" hidden>
       <p class="pm-head">ועוד בתוכנית, כשתרצה להמשיך:</p>
       <ul id="planMoreList"></ul>
-    </div>
-    <div class="plan-base reveal" id="planBase">
-      <span class="pb-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></span>
-      <p><b>על זה הכול נבנה:</b> <span id="planBaseText"></span></p>
     </div>
 
     <div class="agents reveal">
@@ -709,7 +703,7 @@
           </div>
           <label class="consent-check" for="cFollow"><input id="cFollow" name="followup" type="checkbox"><span>אפשר לשלוח לי בוואטסאפ תזכורת לתיאום השיחה, אם לא אספיק לקבוע. אפשר להסיר בכל עת.</span></label>
           <div class="hp-field" aria-hidden="true"><label>אתר <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
-          <button type="submit" class="btn btn-primary shine btn-block"><span class="lf-text">פתחו לי את היומן</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+          <button type="submit" class="btn btn-primary shine btn-block"><span class="lf-text">לבחירת שעה ביומן</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
           <p class="form-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>הפרטים נשארים אצלנו. בלי ספאם, ולא נעביר אותם לאף אחד.</p>
           <p class="consent">בלחיצה על הכפתור אני מאשר/ת לקבל את תוצאות האבחון ופנייה בנושא בטלפון ובוואטסאפ, בהתאם ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.</p>
         </form>
@@ -1000,11 +994,11 @@
   </div>
 </div>
 
-<script src="config.js?v=12"></script>
-<script src="tracking.js?v=12"></script>
-<script src="booking.js?v=12"></script>
-<script src="quiz-core.js?v=12"></script>
-<script src="plan-content.js?v=12"></script>
+<script src="config.js?v=13"></script>
+<script src="tracking.js?v=13"></script>
+<script src="booking.js?v=13"></script>
+<script src="quiz-core.js?v=13"></script>
+<script src="plan-content.js?v=13"></script>
 <script>
 (function () {
   "use strict";
@@ -1179,18 +1173,19 @@
       document.getElementById("planTitle").innerHTML = 'הצעד שיחזיר למשרד שלך <span class="mark">הכי הרבה זמן.</span>';
       document.getElementById("planSub").textContent = "לפי מה שענית, זה הדבר שיחזיר למשרד הכי הרבה זמן. ככה הוא עובד, וככה ייראה החודש שלך אחריו.";
     }
+    /* ועוד בתוכנית: שאר הפתרונות בשורה, והבסיס (תיק לקוחות) כפריט אחרון — אלא אם הוא כבר אחד הכרטיסים */
     var more = planKeys.slice(2).filter(function (k) { return k !== "base"; });
-    if (more.length) {
-      var list = document.getElementById("planMoreList");
-      more.forEach(function (k) {
-        var li = el("li"), ctx = ctxFor(k);
-        li.appendChild(el("b", null, S[k].name + "."));
-        li.appendChild(document.createTextNode(" " + S[k].short + " "));
-        li.appendChild(el("span", "pm-hrs", k === "cashflow" ? outstandingText + " בחוץ" : "כ-" + ctx.hours + " שעות בחודש"));
-        list.appendChild(li);
-      });
-      document.getElementById("planMore").hidden = false;
-    }
+    if (cardKeys.indexOf("base") === -1) more.push("base");
+    var list = document.getElementById("planMoreList");
+    more.forEach(function (k) {
+      var li = el("li"), ctx = ctxFor(k);
+      li.appendChild(el("b", null, S[k].name + "."));
+      li.appendChild(document.createTextNode(" " + (k === "base" ? S.base.line : S[k].short) + " "));
+      li.appendChild(k === "base" ? el("span", "pm-tag", "על זה הכול נבנה")
+        : el("span", "pm-hrs", k === "cashflow" ? outstandingText + " בחוץ" : "כ-" + ctx.hours + " שעות בחודש"));
+      list.appendChild(li);
+    });
+    document.getElementById("planMore").hidden = !more.length;
   } else {
     /* בלי תשובות (נכנסו לדף ישירות): במקום תוכנית לדוגמה — הזמנה לשאלון */
     planCards.innerHTML = '<div class="plan-quiz reveal"><p>התוכנית האישית שלך נבנית מהתשובות בשאלון: מה הכי כדאי לתקן קודם, ואיך.</p>' +
@@ -1199,8 +1194,6 @@
     document.getElementById("planSub").textContent = "ענה על השאלון, ותקבל כמה שעות אפשר להחזיר, ואת הפתרונות שיחזירו אותן, לפי הסדר שמתאים למשרד שלך.";
     document.getElementById("planUnlock").hidden = true;
   }
-  if (cardKeys.indexOf("base") === -1) document.getElementById("planBaseText").textContent = S.base.line;
-  else document.getElementById("planBase").hidden = true;
   document.getElementById("ctaFirst").textContent = hasAnswers
     ? "תראה איך " + S[first].ref + " עובד, ואיך הוא ייראה אצלך."
     : "תראה איך המערכת תיראה אצלך, על הלקוחות שלך.";

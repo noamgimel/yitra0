@@ -79,7 +79,9 @@ async function waitCalDone(p, ms = 30000) {
       locked: document.getElementById('plan').classList.contains('locked'),
       cards: [...document.querySelectorAll('.plan-card')].map(c => c.dataset.solution),
       more: [...document.querySelectorAll('#planMoreList li b')].map(e => e.textContent),
-      baseHidden: document.getElementById('planBase').hidden,
+      hiddenShown: [...document.querySelectorAll('#plan [hidden]')].filter(e => getComputedStyle(e).display !== 'none').length,
+      agIcon: getComputedStyle(document.querySelector('.ag-ic')).display, ctaCheck: getComputedStyle(document.querySelector('.plan-cta li'), '::before').backgroundImage,
+      ctaJustify: getComputedStyle(document.querySelector('.plan-cta li')).justifyContent,
       blur: getComputedStyle(document.querySelector('.pc-body')).filter,
       gated: document.getElementById('calendar').classList.contains('gated'), gate: !document.getElementById('calGate').hidden,
       cal: !!document.querySelector('cal-inline'),
@@ -90,7 +92,10 @@ async function waitCalDone(p, ms = 30000) {
     ok(top.locked && /blur/.test(top.blur), 'plan is locked and blurred before the form');
     ok(JSON.stringify(top.cards) === '["base","materials"]', `two full cards by hours: ${JSON.stringify(top.cards)}`);
     ok(JSON.stringify(top.more) === '["לוח דיווחים שמתמלא לבד.","שום פולואפ לא נופל.","שכר טרחה שנגבה בזמן."]', `the rest in one line each: ${JSON.stringify(top.more)}`);
-    ok(top.baseHidden, 'base line hidden when the base is a full card');
+    ok(!top.more.some(t => /תיק לקוחות/.test(t)), 'the base is not repeated in the list when it is a full card');
+    ok(top.hiddenShown === 0, `hidden elements in the plan stay hidden (${top.hiddenShown} shown)`);
+    ok(top.agIcon === 'grid', `agent icons are centered in their tiles (display ${top.agIcon})`);
+    ok(/url\(/.test(top.ctaCheck) && top.ctaJustify === 'center', 'call-to-action lines are centered, with check marks');
     ok(top.gated && top.gate && !top.cal, 'calendar is behind the form (no Cal.com embed yet)');
     await p.click('#howCalc summary');
     const hc = await p.textContent('#howCalcBody');
@@ -189,8 +194,8 @@ async function waitCalDone(p, ms = 30000) {
     const p = await ctx.newPage(); const errors = []; watch(p, errors);
     await p.goto(BASE + '/results.html?c=3000010', { waitUntil: 'domcontentloaded' });
     await p.waitForTimeout(1200);
-    const st = await p.evaluate(() => ({ locked: document.getElementById('plan').classList.contains('locked'), cards: document.querySelectorAll('.plan-card').length, title: document.getElementById('planTitle').textContent, base: !document.getElementById('planBase').hidden, h1: document.getElementById('resH1').textContent.replace(/[⁦⁩]/g, '') }));
-    ok(st.locked && st.cards === 1 && /הצעד/.test(st.title) && st.base, `one-solution plan: locked, one card, base line (${st.h1})`);
+    const st = await p.evaluate(() => ({ locked: document.getElementById('plan').classList.contains('locked'), cards: document.querySelectorAll('.plan-card').length, title: document.getElementById('planTitle').textContent, base: [...document.querySelectorAll('#planMoreList li')].some(li => /תיק לקוחות אחד במקום אקסל\./.test(li.textContent) && /על זה הכול נבנה/.test(li.textContent)), h1: document.getElementById('resH1').textContent.replace(/[⁦⁩]/g, '') }));
+    ok(st.locked && st.cards === 1 && /הצעד/.test(st.title) && st.base, `one-solution plan: locked, one card, base as the last list item (${st.h1})`);
     ok(errors.length === 0, `no page errors ${errors.length ? JSON.stringify(errors.slice(0, 3)) : ''}`);
     await ctx.close();
   }
