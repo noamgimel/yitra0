@@ -48,7 +48,7 @@ async function waitCalDone(p, ms = 30000) {
     await p.waitForTimeout(1200);
     const r = await p.evaluate(() => { const btn = document.querySelector('#heroCta .btn').getBoundingClientRect(); return { bottom: Math.round(btn.bottom), vh: innerHeight, h1: document.querySelector('.hero h1').textContent }; });
     ok(r.bottom <= r.vh, `${dev}: the start button is on the first screen (bottom ${r.bottom} of ${r.vh})`);
-    ok(/כמה שעות בחודש אפשר להוריד ממך במשרד\?/.test(r.h1) && /לרואי חשבון · בדיקה של דקה/.test(r.h1), `${dev}: new headline and top line`);
+    ok(/גלה תוך דקה כמה עבודה שחורה אפשר להוריד ממך בעזרת AI\./.test(r.h1) && /^לרואי חשבון/.test(r.h1), `${dev}: headline and top line`);
     await p.screenshot({ path: `${OUT}/1-landing-${dev.replace(' ', '')}.png` });
     await ctx.close();
   }
