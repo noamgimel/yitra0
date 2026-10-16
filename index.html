@@ -22,11 +22,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=13">
+<link rel="stylesheet" href="fonts.css?v=14">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=13">
+<link rel="stylesheet" href="styles.css?v=14">
 <style>
   /* ---------- Hero ---------- */
   .hero { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 72px; }
@@ -384,10 +384,10 @@
   </div>
 </div>
 
-<script src="config.js?v=13"></script>
-<script src="tracking.js?v=13"></script>
-<script src="booking.js?v=13"></script>
-<script src="quiz-core.js?v=13"></script>
+<script src="config.js?v=14"></script>
+<script src="tracking.js?v=14"></script>
+<script src="booking.js?v=14"></script>
+<script src="quiz-core.js?v=14"></script>
 <script>
 (function () {
   "use strict";
@@ -559,7 +559,7 @@
     track("QuizComplete");   /* כבר כאן, ולא ברגע המעבר, כדי שהאירוע יספיק לצאת לפני שהדף מתחלף */
     var saved = false;
     try {
-      sessionStorage.setItem("qf_result", JSON.stringify({ answers: answers, utm: utmParams(), pageUrl: location.href.split(/[?#]/)[0], at: Date.now() }));
+      sessionStorage.setItem("qf_result", JSON.stringify({ answers: answers, utm: window.qfAttribution ? window.qfAttribution() : utmParams(), pageUrl: location.href.split(/[?#]/)[0], at: Date.now() }));
       saved = true;
     } catch (err) {}
     var items = calcScreen.querySelectorAll(".calc-list li");

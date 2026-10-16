@@ -23,11 +23,11 @@
 <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://app.cal.com" crossorigin>
-<link rel="stylesheet" href="fonts.css?v=13">
+<link rel="stylesheet" href="fonts.css?v=14">
 <link rel="icon" href="logo/favicon-g.svg" type="image/svg+xml">
 <link rel="icon" href="logo/favicon-g-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="logo/favicon-g-180.png">
-<link rel="stylesheet" href="styles.css?v=13">
+<link rel="stylesheet" href="styles.css?v=14">
 <style>
   /* ---------- Hero תוצאות ---------- */
   .r-hero { padding-block: 128px 96px; }
@@ -994,11 +994,11 @@
   </div>
 </div>
 
-<script src="config.js?v=13"></script>
-<script src="tracking.js?v=13"></script>
-<script src="booking.js?v=13"></script>
-<script src="quiz-core.js?v=13"></script>
-<script src="plan-content.js?v=13"></script>
+<script src="config.js?v=14"></script>
+<script src="tracking.js?v=14"></script>
+<script src="booking.js?v=14"></script>
+<script src="quiz-core.js?v=14"></script>
+<script src="plan-content.js?v=14"></script>
 <script>
 (function () {
   "use strict";
@@ -1283,7 +1283,7 @@
   var Q_LABELS = ["לקוחות פעילים במשרד", "איך יודע מה כל לקוח צריך לדווח החודש", "איסוף חומרים לפני מועד דיווח",
                   "זמן בשבוע על קפיצה בין וואטסאפ, אקסל, מייל ותוכנות", "כמה פעמים בחודש משהו נופל בין הכיסאות", "שכר טרחה פתוח שעבר את מועד התשלום"];
   function buildPayload(variant, followup) {
-    var utm = (data && data.utm) || utmParams();
+    var utm = (data && data.utm) || (window.qfAttribution ? window.qfAttribution() : utmParams());
     var p = {
       event: "quiz_lead",
       source: "yitra0_loss_quiz",
@@ -1320,6 +1320,16 @@
     }
     ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) { p[k] = utm[k] || ""; });
     if (!p.utm_source || (source === "link" && p.utm_source === "direct")) p.utm_source = source === "link" ? "plan_link" : "direct";
+    /* המקור האמיתי (qfAttribution ב-tracking.js), ומצב בדיקה: ליד בדיקה לא נספר בקמפיין, ו-Gware מסמנת אותו ומוציאה מהסטטיסטיקות */
+    var ts = utm.traffic_source || (/^(fb|ig|meta)$|facebook|instagram/i.test(p.utm_source) ? "meta_ad" : p.utm_source !== "direct" && p.utm_source !== "plan_link" ? "utm" : "direct");
+    var tl = utm.traffic_source_label || ({ meta_ad: "קמפיין מטא", utm: "קמפיין: " + p.utm_source, direct: "ישיר" })[ts];
+    if (source === "link" && ts === "direct") { ts = "plan_link"; tl = "קישור התוכנית"; }
+    p.is_test = !!window.qfIsTest;
+    if (p.is_test) { ts = "test"; tl = "בדיקה"; }
+    p.traffic_source = ts;
+    p.traffic_source_label = tl;
+    if (utm.fbclid) p.fbclid = utm.fbclid;
+    if (utm.referrer_host) p.referrer_host = utm.referrer_host;
     p.page_url = (data && data.pageUrl) || location.href.split(/[?#]/)[0];
     if (CFG.leadFormId) p.form_id = CFG.leadFormId;          /* אימות מול Gware */
     if (CFG.leadSecretKey) p.secret_key = CFG.leadSecretKey;
@@ -1330,7 +1340,7 @@
 
   /* סיכום בעברית — נכנס להערות של הליד ב-Gware */
   function leadNotes(p) {
-    var lines = ["ליד ממחשבון המשרד (יתרה 0)"];
+    var lines = [p.is_test ? "ליד בדיקה (מצב בדיקה: לא נספר בקמפיין)" : "ליד ממחשבון המשרד (יתרה 0)"];
     if (p.quiz_completed) {
       lines.push("שעות שאפשר להחזיר בחודש: " + p.hours_saved_range + " · שווי בשנה: לפחות ₪" + fmt(p.yearly_value) + " (₪" + p.hour_value + " לשעה)");
       lines.push("מועדי דיווח בחודש: " + p.deadlines_per_month + " · שכר טרחה בחוץ: " + CORE.option("outstanding", answers.outstanding).main);
@@ -1341,7 +1351,7 @@
     }
     lines.push("השאיר פרטים: " + (p.lead_form === "calendar" ? "בטופס שלפני היומן" : "לפתיחת התוכנית המלאה"));
     lines.push("מאשר/ת תזכורת לתיאום בוואטסאפ: " + (p.followup_consent ? "כן" : "לא"));
-    lines.push("מקור: " + p.utm_source + (p.utm_campaign ? " / " + p.utm_campaign : ""));
+    lines.push("מקור: " + p.traffic_source_label + (p.utm_campaign ? " / " + p.utm_campaign : "") + (p.utm_content ? " / " + p.utm_content : ""));
     return lines.join("\n");
   }
 

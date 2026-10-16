@@ -134,6 +134,8 @@ async function waitCalDone(p, ms = 30000) {
     ok(/3 עד 5 שעות/.test(lead.q4_answer || '') && /פעם-פעמיים/.test(lead.q5_answer || '') && /10,000/.test(lead.q6_answer || ''), 'question answers in the lead');
     ok(lead.phone_intl === '972501234567' && lead.form_id && lead.secret_key && /התוכנית: 1\. תיק לקוחות/.test(lead.notes || ''), 'phone, auth and readable notes');
     ok(/\/$/.test(lead.page_url || ''), `page_url is the landing page (${lead.page_url})`);
+    const live = !/localhost|127\.0\.0\.1|vercel\.app/.test(BASE);   /* מחוץ לאתר החי — מצב בדיקה אוטומטי */
+    ok(live ? lead.is_test === false && lead.traffic_source === 'utm' : lead.is_test === true && lead.traffic_source === 'test', `lead source (${lead.traffic_source}, test: ${lead.is_test})`);
     const e1 = await ev(p);
     for (const n of ['PlanView', 'LeadFormStart', 'Lead', 'CalendarOpen', 'HowCalculated']) ok(e1.some(x => x.startsWith(n)), `event ${n}`);
     const src = await p.waitForFunction(() => { const f = document.querySelector('#calBox iframe'); return f && f.src; }, null, { timeout: 15000 }).then(h => h.jsonValue(), () => '');

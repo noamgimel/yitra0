@@ -32,6 +32,10 @@ window.FUNNEL_CONFIG = {
       האירועים שהמשפך שולח מפורטים ב-README. */
   metaPixelId: "2202476460340750",
 
+  /** הכתובת של האתר החי. בכל כתובת אחרת (גרסאות הבדיקה של ורסל, localhost) המשפך במצב בדיקה:
+      הפיקסל לא נטען, ולידים מסומנים כבדיקה (is_test). במכשיר שבודק את האתר החי: ?test=1, ולכיבוי ?test=0. */
+  liveHost: "yitra0.noamg.co.il",
+
   /** מזהה מדידה של Google Analytics 4 (מתחיל ב-G-). ריק = בלי GA. */
   gaMeasurementId: "",
 
